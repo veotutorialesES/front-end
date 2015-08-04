@@ -1,10 +1,11 @@
 <div ng-controller="loginController">
 
-    <h1>This is Login</h1>
     <div class="container">
+        <h1>Iniciar Sesión</h1>
+
         <div class="" ng-init="email='geodracs@gmail.com';pass='123456'">
-            <input ng-model="email" class="form-control" type="text" placeholder="Email" value="123123">
-            <input ng-model="pass" class="form-control" type="password" placeholder="Contrase�a" value="asdfasdf">
+            <input ng-model="email" class="form-control" type="text" placeholder="Email">
+            <input ng-model="pass" class="form-control" type="password" placeholder="Contraseña">
             <button ng-click="send(email,pass)" class="btn btn-default btn-sm" type="submit">Entrar YA</button>
         </div>
     </div>

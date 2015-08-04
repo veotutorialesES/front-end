@@ -12,13 +12,51 @@
 
     <style type="text/css">
 
+        .menu{
+            list-style: none;
+            margin:0;
+            padding: 0;
+        }
+        .menu li{
+            float: left;
+            padding: 10px;
+        }
+        .menu li:hover{
+            background-color: #bababa;
+            color: black;
+        }
     </style>
-
 </head>
 <body>
+<div ng-controller="headerController" style="position: fixed;left: 0;width: 100%;background-color: #495f69;z-index: 99;">
 
+    <div class="container">
+        <ul class="menu pull-left">
+            <li ui-sref="home" style="font-weight: bold;color: white;">VEOTUTORIALES</li>
+            <li style="padding: 6px"><input type="text"></li>
+            <li ui-sref="search">Explorar</li>
+        </ul>
+        <ul ng-hide="loged" class="menu pull-right">
+            <li ng-controller="loginController"  ng-init="email='geodracs@gmail.com';pass='123456'">
+                <input ng-model="email"  type="text" placeholder="Email">
+                <input ng-model="pass"  type="password" placeholder="Contraseña">
+                <button ng-click="send(email,pass)" class="btn btn-default btn-xs" type="submit">Entrar YA</button>
+            </li>
+            <li ui-sref="register">Registrarme</li>
 
+        </ul>
+        <ul ng-show="loged" class="menu pull-right">
+            <li ui-sref="account" style="background-color: #e76b46">Avisos</li>
+
+            <li ui-sref="account">Mi cuenta</li>
+            <li ng-click="logout()">Cerrar sesión</li>
+
+        </ul>
+    </div>
+</div>
+    <div style="padding-top: 40px;">
     <div data-ui-view></div>
+    </div>
     <script src="//localhost:35729/livereload.js"></script>
 </body>
 </html>

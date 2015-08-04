@@ -19,14 +19,20 @@ angular.module("app.data", [])
     });;
 var app = angular.module("vts", ['ui.router','app.data']);
 
-app.controller("headerController",function($rootScope){
-    console.log(localStorage.getItem("token"));
-    $rootScope.loged = false;
+app.controller("headerController",function($rootScope,$scope){
+
     $rootScope.token = localStorage.getItem("token");
     if ($rootScope.token){
         $rootScope.loged = true;
     }
 
+
+
+    $scope.logout = function(){
+        $rootScope.loged = false;
+        $rootScope.token = null;
+        localStorage.removeItem("token");
+    }
 
 });
 
@@ -50,18 +56,42 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/login",
             templateUrl: "app/components/login/loginView.html"
         })
+        .state('reminder', {
+            url: "/reminder",
+            templateUrl: "app/components/login/reminderView.html"
+        })
         .state('register', {
             url: "/register",
             templateUrl: "app/components/register/registerView.html"
         })
         .state('home', {
-            url: "/home",
+            url: "/",
             templateUrl: "app/components/home/homeView.html"
         })
         .state('course', {
             url: "/course",
             templateUrl: "app/components/course/courseView.html"
         })
+        .state('account', {
+            url: "/account",
+            templateUrl: "app/components/account/accountView.html"
+        })
+
+        .state('welcome', {
+            url: "/welcome",
+            templateUrl: "app/components/account/welcomeView.html"
+        })
+        .state('search', {
+            url: "/search",
+            templateUrl: "app/components/search/searchView.html"
+        })
+});;
+app.controller("accountController", function($scope,$data){
+    $scope.data = "Dataaaaaaaaaaaa";
+
+
+
+
 });;
 app.controller("courseController", function($scope){
     $scope.data = "Dataaaaaaaaaaaa";
@@ -77,7 +107,7 @@ app.controller("homeController", function($scope,$data){
 app.controller("loginController", function($scope,$http,$state,$rootScope){
     $scope.data = "Dataaaaaaaaaaaa";
 
-    localStorage.removeItem("token");
+
 
 
 
@@ -96,7 +126,10 @@ app.controller("loginController", function($scope,$http,$state,$rootScope){
             console.log("Iniciando sesion...");
             console.log(res);
             localStorage.setItem("token",res.token);
-            $state.go("home");
+            $rootScope.loged = true;
+            $rootScope.token = res.token;
+           // $state.go("home");
+
             // TODO recargar pagina
 
         }).error(function(data){
@@ -137,5 +170,13 @@ app.controller("registerController", function($scope,$http){
         });
 
     }
+
+});;
+app.controller("searchController", function($scope,$data){
+    $scope.data = "Dataaaaaaaaaaaa";
+
+
+
+
 
 });

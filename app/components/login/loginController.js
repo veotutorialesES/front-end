@@ -1,7 +1,7 @@
 app.controller("loginController", function($scope,$http,$state,$rootScope){
     $scope.data = "Dataaaaaaaaaaaa";
 
-    localStorage.removeItem("token");
+
 
 
 
@@ -20,7 +20,10 @@ app.controller("loginController", function($scope,$http,$state,$rootScope){
             console.log("Iniciando sesion...");
             console.log(res);
             localStorage.setItem("token",res.token);
-            $state.go("home");
+            $rootScope.loged = true;
+            $rootScope.token = res.token;
+           // $state.go("home");
+
             // TODO recargar pagina
 
         }).error(function(data){

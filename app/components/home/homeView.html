@@ -1,43 +1,94 @@
 <style type="text/css">
-    .menu{
-        list-style: none;
-        margin:0;
-        padding: 0;
-    }
-    .menu li{
+    .home-slider-item{
         float: left;
-        padding: 10px;
+        margin-right: 20px;;
     }
-    .menu li:hover{
-        background-color: #bababa;
-        color: black;
+    .home-slider-item img{
+        width: 100%;
+    }
+    .home-slider-item p{
+        margin: 0;
+        text-align: center;
     }
 </style>
 <div ng-controller="homeController">
 
-    <div ng-controller="headerController" style="position: fixed;left: 0;width: 100%;background-color: #00b3ee">
+    <div style="height: 230px;background-color: #e8e8e8">
+        <div class="container" style="padding: 10px;">
 
+            <h4 style="margin: 0;padding: 10px;padding-bottom: 5px;color: #455362"> <span class="glyphicon glyphicon-alert"></span> Pendientes de ver / Ultimos tutoriales</h4>
+        </div>
         <div class="container">
-        <ul class="menu pull-left">
-            <li>VEOTUTORIALES</li>
-            <li>BUSCAR</li>
-        </ul>
-        <ul ng-hide="loged" class="menu pull-right">
-            <li ui-sref="login">Iniciar sesion</li>
-            <li ui-sref="register">Registrarme</li>
+            <div ui-sref="course" class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
+                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
+                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
+                <p style="font-size: 12px;">Introducción a JAVA</p>
+            </div>
 
-        </ul>
-            <ul ng-show="loged" class="menu pull-right">
-                
-                <li ui-sref="login">Cerrar sesión</li>
 
-            </ul>
+            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
+                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
+                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
+                <p style="font-size: 12px;">Introducción a JAVA</p>
+            </div>
+            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
+                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
+                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
+                <p style="font-size: 12px;">Introducción a JAVA</p>
+            </div>
+            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
+                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
+                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
+                <p style="font-size: 12px;">Introducción a JAVA</p>
+            </div>
+            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
+                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
+                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
+                <p style="font-size: 12px;">Introducción a JAVA</p>
+            </div>
+
         </div>
     </div>
-    <div class="container" style="padding-top: 80px;">
-        <button ui-sref="course">La HOME</button>
+
+    <div class="container" style="height: 400px;">
+        <div class="col-xs-6">Nose</div>
+
+        <div class="col-xs-6">
+
+            <div class="row" style="border-bottom: 1px black solid;padding-bottom: 10px;margin-top:20px;">
+                <div class="col-xs-9">
+                    <div style="font-weight: bold;">yii2 Route does not work with procent encoding</div>
+                    <div style="font-size: 10pt;color: gray">Herecia multiple (Introducción a JAVAS)</div>
+                </div>
+                <div class="col-xs-3">OK</div>
+            </div>
+
+
+
+
+            <div class="row" style="border-bottom: 1px black solid;padding-bottom: 10px;margin-top:20px;">
+                <div class="col-xs-9">
+                    <div style="font-weight: bold;">yii2 Route does not work with procent encoding</div>
+                    <div style="font-size: 10pt;color: gray">Herecia multiple (Introducción a JAVAS)</div>
+                </div>
+                <div class="col-xs-3">OK</div>
+            </div>
+
+
+
+        </div>
 
     </div>
 
+    <div class="" style="margin-top: 20px;height: 200px;background-color: #e7e7e7">
+        <div class="container">
+        Calendario
+        </div>
+    </div>
 
+    <div class="" style="margin-top: 20px;height: 200px">
+        <div class="container">
+            Recomendaciones
+        </div>
+    </div>
 </div>
