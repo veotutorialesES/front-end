@@ -22,8 +22,11 @@ app.controller("loginController", function($scope,$http){
             $http({
                 method: 'POST',
                 url: 'http://localhost:8000/api/v1/register',
-                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-                data: {_token: token}
+                headers: {
+                    'Content-Type' : 'application/x-www-form-urlencoded',
+                    'X-XSRF-TOKEN' : token
+                },
+                data: {}
             }).success(function(response) {
                 console.log(response);
             });
