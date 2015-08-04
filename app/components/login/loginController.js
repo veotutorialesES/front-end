@@ -23,7 +23,7 @@ app.controller("loginController", function($scope,$http){
             method: 'POST',
             url: 'http://localhost:8000/api/v1/register',
             headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-            data: $.param(Udata)
+            data: Udata
         });
 
 
