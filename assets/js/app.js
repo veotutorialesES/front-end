@@ -1,6 +1,6 @@
 angular.module("app.data", [])
 
-    .service("$data", function(){
+    .service("$data", function($http){
 
         console.log("Service called");
 
@@ -8,10 +8,27 @@ angular.module("app.data", [])
             console.log("You are login");
         }
 
+
+        this.getCourses = function(){
+            $http.get("http://localhost:8000/api/v1/test",{token:"askdjfh"}).then(function(res){
+                console.log(res.data);
+            });
+        }
+
+
     });;
-var app = angular.module("vts", ['ui.router']);
+var app = angular.module("vts", ['ui.router','app.data']);
+
+app.controller("headerController",function($rootScope){
+    console.log(localStorage.getItem("token"));
+    $rootScope.loged = false;
+    $rootScope.token = localStorage.getItem("token");
+    if ($rootScope.token){
+        $rootScope.loged = true;
+    }
 
 
+});
 
 app.controller("playlist", function($scope){
 
@@ -33,6 +50,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/login",
             templateUrl: "app/components/login/loginView.html"
         })
+        .state('register', {
+            url: "/register",
+            templateUrl: "app/components/register/registerView.html"
+        })
         .state('home', {
             url: "/home",
             templateUrl: "app/components/home/homeView.html"
@@ -45,42 +66,74 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.controller("courseController", function($scope){
     $scope.data = "Dataaaaaaaaaaaa";
 });;
-app.controller("homeController", function($scope){
+app.controller("homeController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";
+
+
+    $data.getCourses();
+
 
 });;
-app.controller("loginController", function($scope,$http){
+app.controller("loginController", function($scope,$http,$state,$rootScope){
     $scope.data = "Dataaaaaaaaaaaa";
 
-    var token = localStorage.getItem("csfr");
-    console.log(token);
+    localStorage.removeItem("token");
 
 
 
-    $scope.send = function() {
+    $scope.send = function(email,pass) {
 
 
-        $http.get("http://localhost:8000/api/v1/csfr", {
-        }).then(function (res) {
+        var postData = 'email='+email+'&pass='+pass;
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8000/api/v1/login',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("Iniciando sesion...");
             console.log(res);
-            localStorage.setItem("csfr",res.data.token);
-            token = res.data.token;
+            localStorage.setItem("token",res.token);
+            $state.go("home");
+            // TODO recargar pagina
 
+        }).error(function(data){
+            console.log("Error");
+            console.log(data);
 
-            console.log(token);
+        });
+    }
 
+});;
+app.controller("registerController", function($scope,$http){
+    $scope.data = "Dataaaaaaaaaaaa";
 
-            $http({
-                method: 'POST',
-                url: 'http://localhost:8000/api/v1/register',
-                headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded',
-                    'X-XSRF-TOKEN' : token
-                },
-                data: {}
-            }).success(function(response) {
-                console.log(response);
-            });
+    $scope.user = "";
+    $scope.pass = "";
+    $scope.email = "";
+
+    $scope.send = function(user,email,pass,check) {
+        console.log(check);
+
+        // TODO validate first
+
+        var postData = 'user='+$scope.user+'&pass='+ $scope.pass+'&email='+$scope.email;
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8000/api/v1/register',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("OK");
+            console.log(res);
+        }).error(function(data){
+            console.log("Error");
+            console.log(data);
+
         });
 
     }

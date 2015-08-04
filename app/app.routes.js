@@ -9,6 +9,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/login",
             templateUrl: "app/components/login/loginView.html"
         })
+        .state('register', {
+            url: "/register",
+            templateUrl: "app/components/register/registerView.html"
+        })
         .state('home', {
             url: "/home",
             templateUrl: "app/components/home/homeView.html"

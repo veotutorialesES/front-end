@@ -1,6 +1,15 @@
-var app = angular.module("vts", ['ui.router']);
+var app = angular.module("vts", ['ui.router','app.data']);
+
+app.controller("headerController",function($rootScope){
+    console.log(localStorage.getItem("token"));
+    $rootScope.loged = false;
+    $rootScope.token = localStorage.getItem("token");
+    if ($rootScope.token){
+        $rootScope.loged = true;
+    }
 
 
+});
 
 app.controller("playlist", function($scope){
 

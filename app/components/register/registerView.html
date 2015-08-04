@@ -1,0 +1,14 @@
+<div ng-controller="registerController">
+
+    <h1>This is Login</h1>
+    <div class="container">
+        <div class="">
+            <input ng-model="user" type="text" class="form-control" placeholder="Nombre">
+            <input ng-model="email" class="form-control" type="text" placeholder="Email">
+            <input ng-model="pass" class="form-control" type="password" placeholder="Contraseña">
+            <label><input type="checkbox" ng-model="checkbox">Acepto lo terminos legales</label>
+            <button ng-click="send(checkbox)" class="btn btn-default btn-sm" type="submit">Registrarme</button>
+        </div>
+    </div>
+
+</div>

@@ -1,37 +1,33 @@
-app.controller("loginController", function($scope,$http){
+app.controller("loginController", function($scope,$http,$state,$rootScope){
     $scope.data = "Dataaaaaaaaaaaa";
 
-    var token = localStorage.getItem("csfr");
-    console.log(token);
+    localStorage.removeItem("token");
 
 
 
-    $scope.send = function() {
+    $scope.send = function(email,pass) {
 
 
-        $http.get("http://localhost:8000/api/v1/csfr", {
-        }).then(function (res) {
+        var postData = 'email='+email+'&pass='+pass;
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8000/api/v1/login',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("Iniciando sesion...");
             console.log(res);
-            localStorage.setItem("csfr",res.data.token);
-            token = res.data.token;
+            localStorage.setItem("token",res.token);
+            $state.go("home");
+            // TODO recargar pagina
 
+        }).error(function(data){
+            console.log("Error");
+            console.log(data);
 
-            console.log(token);
-
-
-            $http({
-                method: 'POST',
-                url: 'http://localhost:8000/api/v1/register',
-                headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded',
-                    'X-XSRF-TOKEN' : token
-                },
-                data: {}
-            }).success(function(response) {
-                console.log(response);
-            });
         });
-
     }
 
 });

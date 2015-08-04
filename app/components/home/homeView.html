@@ -1,10 +1,42 @@
+<style type="text/css">
+    .menu{
+        list-style: none;
+        margin:0;
+        padding: 0;
+    }
+    .menu li{
+        float: left;
+        padding: 10px;
+    }
+    .menu li:hover{
+        background-color: #bababa;
+        color: black;
+    }
+</style>
 <div ng-controller="homeController">
 
-    <div style="position: fixed;height: 50px;left: 0;width: 100%;background-color: #00b3ee">
+    <div ng-controller="headerController" style="position: fixed;left: 0;width: 100%;background-color: #00b3ee">
+
+        <div class="container">
+        <ul class="menu pull-left">
+            <li>VEOTUTORIALES</li>
+            <li>BUSCAR</li>
+        </ul>
+        <ul ng-hide="loged" class="menu pull-right">
+            <li ui-sref="login">Iniciar sesion</li>
+            <li ui-sref="register">Registrarme</li>
+
+        </ul>
+            <ul ng-show="loged" class="menu pull-right">
+                
+                <li ui-sref="login">Cerrar sesión</li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 80px;">
         <button ui-sref="course">La HOME</button>
 
-    </div>
-    <div class="container">
     </div>
 
 

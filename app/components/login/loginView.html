@@ -2,12 +2,11 @@
 
     <h1>This is Login</h1>
     <div class="container">
-        <form class="">
-            <input class="form-control" type="email" placeholder="Email">
-            <input class="form-control" type="password" placeholder="Contraseña">
-            <button ui-sref="home" class="btn btn-default btn-sm" type="submit">Entrar YA</button>
-        </form>
-        <button ng-click="send()">Enviar</button>
+        <div class="" ng-init="email='geodracs@gmail.com';pass='123456'">
+            <input ng-model="email" class="form-control" type="text" placeholder="Email" value="123123">
+            <input ng-model="pass" class="form-control" type="password" placeholder="Contraseña" value="asdfasdf">
+            <button ng-click="send(email,pass)" class="btn btn-default btn-sm" type="submit">Entrar YA</button>
+        </div>
     </div>
 
 </div>
