@@ -1,0 +1,30 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {
+    "angular": "^1.4.1",
+    "angular-ui-router": "^0.2.15",
+    "bootstrap": "^3.3.5"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-less": "^1.0.1",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/veotutorialesES/front-end.git"
+  },
+  "author": "Salvador Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/veotutorialesES/front-end/issues"
+  },
+  "homepage": "https://github.com/veotutorialesES/front-end"
+}
