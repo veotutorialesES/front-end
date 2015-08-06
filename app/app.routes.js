@@ -38,4 +38,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/search",
             templateUrl: "app/components/search/searchView.html"
         })
+        .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
+        .state('account.courses',       {url: '/courses',views: {'account': { templateUrl: 'app/components/account/accountCoursesView.html'}}})
+        .state('account.email',       {url: '/email',views: {'account': { templateUrl: 'app/components/account/accountEmailView.html'}}})
+        .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
+        .state('account.social',       {url: '/social',views: {'account': { templateUrl: 'app/components/account/accountSocialView.html'}}})
+        .state('account.config',       {url: '/config',views: {'account': { templateUrl: 'app/components/account/accountConfigView.html'}}})
 });

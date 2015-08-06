@@ -15,8 +15,25 @@
     .account-box > div{
         height: 100px;
     }
+
+
+    .account-menu{
+        background-color: whitesmoke;
+        list-style: none;
+        padding: 0;
+    margin: 0;
+    }
+    .account-menu li{
+        padding: 10px;
+    }
+    .account-menu li:hover{
+        background-color: #d5d5d5;
+    }
+    .account-menu .selected{
+        background-color: #d5d5d5;
+    }
 </style>
-<div ng-controller="accountController">
+<div ng-controller="accountController" style="min-height: 400px">
 
 
 
@@ -24,38 +41,19 @@
         <div class="col-xs-3">
 
             <div style="background-color: white">
-                <ul>
-                    <li>Información personal</li>
-                    <li>Mis cursos</li>
-                    <li>Mi Email</li>
-                    <li>Notificaciones</li>
-                    <li>Redes Sociales</li>
-                    <li>Configuración</li>
+                <ul class="account-menu">
+                    <li class="selected" ui-sref="account.info">Información personal</li>
+                    <li ui-sref="account.courses">Mis cursos</li>
+                    <li ui-sref="account.email">Mi Email</li>
+                    <li ui-sref="account.notifications">Notificaciones</li>
+                    <li ui-sref="account.social">Redes Sociales</li>
+                    <li ui-sref="account.config">Configuración</li>
                 </ul>
             </div>
 
         </div>
         <div class="col-xs-6">
-            <div class="account-box">
-                <h2>Cambiar contraseña</h2>
-                <div>
-
-                </div>
-            </div>
-
-
-            <div class="account-box">
-                <h2>Cambiar email</h2>
-                <div>
-
-                </div>
-            </div>
-
-
-            <div class="account-box">
-                <h2>Eliminar mi cuenta</h2>
-
-            </div>
+                <div ui-view="account"></div>
         </div>
     </div>
 

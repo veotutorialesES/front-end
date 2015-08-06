@@ -13,68 +13,31 @@
 </style>
 <div ng-controller="homeController">
 
-    <div style="height: 230px;background-color: #e8e8e8">
+    <div style="background-color: #e8e8e8;padding-bottom: 20px;">
         <div class="container" style="padding: 10px;">
 
             <h4 style="margin: 0;padding: 10px;padding-bottom: 5px;color: #455362"> <span class="glyphicon glyphicon-alert"></span> Pendientes de ver / Ultimos tutoriales</h4>
         </div>
         <div class="container">
-            <div ui-sref="course" class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
-                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
-                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
-                <p style="font-size: 12px;">Introducción a JAVA</p>
-            </div>
 
-
-            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
-                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
-                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
-                <p style="font-size: 12px;">Introducción a JAVA</p>
-            </div>
-            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
-                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
-                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
-                <p style="font-size: 12px;">Introducción a JAVA</p>
-            </div>
-            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
-                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
-                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
-                <p style="font-size: 12px;">Introducción a JAVA</p>
-            </div>
-            <div class="home-slider-item" style="width: 190px;height: 150px;border: 1px silver solid">
-                <img src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
-                <p style="font-size: 15px;">Tx12 Herencias multiples</p>
-                <p style="font-size: 12px;">Introducción a JAVA</p>
-            </div>
+            <tutorial-card></tutorial-card>
+            <tutorial-card></tutorial-card>
+            <tutorial-card></tutorial-card>
+            <tutorial-card></tutorial-card>
+            <tutorial-card></tutorial-card>
 
         </div>
     </div>
 
-    <div class="container" style="height: 400px;">
-        <div class="col-xs-6">Nose</div>
+    <div class="container" style="">
+        <div class="col-xs-6">Cursos</div>
 
-        <div class="col-xs-6">
+        <div class="col-xs-6" ng-init="test = {a:'uno'}">
 
-            <div class="row" style="border-bottom: 1px black solid;padding-bottom: 10px;margin-top:20px;">
-                <div class="col-xs-9">
-                    <div style="font-weight: bold;">yii2 Route does not work with procent encoding</div>
-                    <div style="font-size: 10pt;color: gray">Herecia multiple (Introducción a JAVAS)</div>
-                </div>
-                <div class="col-xs-3">OK</div>
-            </div>
-
-
-
-
-            <div class="row" style="border-bottom: 1px black solid;padding-bottom: 10px;margin-top:20px;">
-                <div class="col-xs-9">
-                    <div style="font-weight: bold;">yii2 Route does not work with procent encoding</div>
-                    <div style="font-size: 10pt;color: gray">Herecia multiple (Introducción a JAVAS)</div>
-                </div>
-                <div class="col-xs-3">OK</div>
-            </div>
-
-
+            <dudas-card info="test"></dudas-card>
+            <dudas-card info="test"></dudas-card>
+            <dudas-card info="test"></dudas-card>
+            <dudas-card info="test"></dudas-card>
 
         </div>
 

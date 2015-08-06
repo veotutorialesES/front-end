@@ -20,36 +20,50 @@
         .menu li{
             float: left;
             padding: 10px;
+            color: #2c343d;
         }
         .menu li:hover{
-            background-color: #bababa;
+            background-color: #959697;
             color: black;
+        }
+        .menu input{
+            background-color: #a8a9aa;border: 1px silver solid;padding: 5px;
         }
     </style>
 </head>
 <body>
-<div ng-controller="headerController" style="position: fixed;left: 0;width: 100%;background-color: #495f69;z-index: 99;">
+<div ng-init="showLogin = false" ng-controller="headerController" style="position: fixed;left: 0;width: 100%;background-color: #b5b6b7;z-index: 99;height: 40px;">
 
     <div class="container">
         <ul class="menu pull-left">
-            <li ui-sref="home" style="font-weight: bold;color: white;">VEOTUTORIALES</li>
-            <li style="padding: 6px"><input type="text"></li>
+            <li ui-sref="home" style="font-weight: bold;color:#3567f5;font-size: 14pt;padding: 7px;">VEO<span style="color: white">TUTORIALES</span></li>
+            <li style="padding: 4px"><input style="" type="text"></li>
             <li ui-sref="search">Explorar</li>
         </ul>
         <ul ng-hide="loged" class="menu pull-right">
-            <li ng-controller="loginController"  ng-init="email='geodracs@gmail.com';pass='123456'">
-                <input ng-model="email"  type="text" placeholder="Email">
-                <input ng-model="pass"  type="password" placeholder="Contraseña">
-                <button ng-click="send(email,pass)" class="btn btn-default btn-xs" type="submit">Entrar YA</button>
+            <li ng-controller="loginController" ng-mouseover="showLogin = true" ng-mouseleave="showLogin = false"  ng-init="email='geodracs@gmail.com';pass='123456'">
+                Iniciar Sesión
+                <div ng-show="showLogin" style="position: absolute;top: 40px;padding: 10px;background-color: #959697;width: 200px;margin-left: -70px;">
+                    <input style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
+                    <input style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
+                    <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">Entrar YA</button>
+                </div>
             </li>
+
             <li ui-sref="register">Registrarme</li>
 
         </ul>
-        <ul ng-show="loged" class="menu pull-right">
-            <li ui-sref="account" style="background-color: #e76b46">Avisos</li>
+        <ul ng-show="loged" class="menu pull-right" >
+            <li class="section" style="background-color: #fc5833;color: white;">Avisos</li>
 
-            <li ui-sref="account">Mi cuenta</li>
-            <li ng-click="logout()">Cerrar sesión</li>
+            <li class="section"  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
+                Mi cuenta
+                <ul ng-show="showAccount" style="position: absolute;top: 40px;padding: 10px;background-color: #959697;width: 200px;margin-left: -70px;list-style: none">
+                   <li ui-sref="account">Configuracion</li>
+                   <li ng-click="logout()">Cerrar Sesión</li>
+                </ul>
+
+            </li>
 
         </ul>
     </div>

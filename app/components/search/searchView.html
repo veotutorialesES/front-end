@@ -1,9 +1,44 @@
+<style type="text/css">
+    .search-menu{
+        list-style: none;
+        padding: 0;;
+    }
+    .search-menu li{
+        float: left;padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .search-menu li:hover{
+        border-bottom:3px silver solid;
 
+    }
+    .search-menu li.selected{
+        border-bottom:3px silver solid;
+    }
+</style>
 <div ng-controller="searchController">
 
 
-    <div class="container" style="padding-top: 80px;">
-            Buscador
+    <div class="container" style="padding-top: 50px;">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <div style="height: auto !important;overflow: hidden">
+                <ul class="pull-left search-menu">
+                    <li class="selected">Cursos</li>
+                    <li>Tutoriales</li>
+                    <li>Dudas</li>
+                </ul>
+                <div class="pull-right" style="padding: 5px;">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+
+            </div>
+
+
+            <div style="height: 400px;">
+                Resultado de la busqueda
+            </div>
+        </div>
     </div>
 
 

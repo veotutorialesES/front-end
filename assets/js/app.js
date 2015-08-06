@@ -85,6 +85,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/search",
             templateUrl: "app/components/search/searchView.html"
         })
+        .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
+        .state('account.courses',       {url: '/courses',views: {'account': { templateUrl: 'app/components/account/accountCoursesView.html'}}})
+        .state('account.email',       {url: '/email',views: {'account': { templateUrl: 'app/components/account/accountEmailView.html'}}})
+        .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
+        .state('account.social',       {url: '/social',views: {'account': { templateUrl: 'app/components/account/accountSocialView.html'}}})
+        .state('account.config',       {url: '/config',views: {'account': { templateUrl: 'app/components/account/accountConfigView.html'}}})
 });;
 app.controller("accountController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";
@@ -178,5 +184,43 @@ app.controller("searchController", function($scope,$data){
 
 
 
+
+});;
+app.directive("dudasCard", function(){
+
+    return {
+        restrict: 'E',
+        scope: {
+          section: '=info'
+        },
+        templateUrl: 'app/shared/dudas/dudas-card.html',
+        controller: function($scope){
+            console.log($scope.section);
+            $scope.customer = {
+                name:"Salvador",
+                address:"paseo de mons"
+            }
+
+        }
+    };
+
+});;
+app.directive("tutorialCard", function(){
+
+    return {
+        restrict: 'E',
+        scope: {
+          section: '=info'
+        },
+        templateUrl: 'app/shared/tutoriales/tutoriales-card.html',
+        controller: function($scope){
+            console.log($scope.section);
+            $scope.customer = {
+                name:"Salvador",
+                address:"paseo de mons"
+            }
+
+        }
+    };
 
 });
