@@ -9,119 +9,78 @@
     <script src="node_modules/angular/angular.js"></script>
     <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="assets/js/app.js"></script>
+    <link rel="stylesheet" href="assets/css/vts.css">
 
-    <style type="text/css">
-        @font-face {
-            font-family: 'Bree Serif';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Bree Serif'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v5/0daoUMW28nkWOnFz2G4AAiEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
-            unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-        }
-        /* latin */
-        @font-face {
-            font-family: 'Bree Serif';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Bree Serif'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v5/LQ7WLTaITDg4OSRuOZCps_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
-            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-        }
-        body{
-            font-family: 'Lato', Calibri, Arial, sans-serif;
-        }
-        .bree{
-            font-family: 'Bree Serif', serif;
-        }
-        .menu{
-            list-style: none;
-            margin:0;
-            padding: 0;
-        }
-        .menu li{
-            float: left;
-            padding: 10px;
-            color: #2c343d;
-        }
-        .menu li:hover{
-            background-color: #959697;
-            color: black;
-        }
-        .menu input{
-            background-color: #a8a9aa;border: 1px silver solid;padding: 5px;
-        }
-
-
-        footer{
-            color: gray;
-        }
-        footer > div > div > div{
-            padding: 5px;;
-        }
-    </style>
 </head>
 <body>
-<div ng-init="showLogin = false" ng-controller="headerController" style="position: fixed;left: 0;width: 100%;background-color: #b5b6b7;z-index: 99;height: 40px;">
+<!-- header -->
+    <header ng-init="showLogin = false" ng-controller="headerController">
 
-    <div class="container">
-        <ul class="menu pull-left">
-            <li ui-sref="home" class="bree" style="font-weight: bold;color:#3567f5;font-size: 12pt;padding: 3px;">
-                <span style="display: inline-block;padding: 3px;padding-bottom: 6px;padding-top: 6px;border-radius: 5px;background-color: #ca181e">
-                    <span style="background-color: #cb181e;padding: 3px;border-radius: 5px;border:1px white solid;">VEO</span>
-                </span>
-                <span style="color: white">TUTORIALES</span></li>
-            <li style="padding: 4px"><input style="" type="text"></li>
-            <li ui-sref="search">Explorar</li>
-        </ul>
-        <ul ng-hide="loged" class="menu pull-right">
-            <li ng-controller="loginController" ng-mouseover="showLogin = true" ng-mouseleave="showLogin = false"  ng-init="email='geodracs@gmail.com';pass='123456'">
-                Iniciar Sesión
-                <div ng-show="showLogin" style="position: absolute;top: 40px;padding: 10px;background-color: #959697;width: 200px;margin-left: -70px;">
-                    <input style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
-                    <input style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
-                    <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">Entrar YA</button>
-                </div>
-            </li>
+        <div class="container">
+            <ul class="default float padding-10 pull-left">
+                <li ui-sref="home" class="bree" style="">
+                    VEOTUTORIALES
+                </li>
+                <li class="search" style="padding: 2px;">
+                    <span class="glyphicon glyphicon-search"></span>
 
-            <li ui-sref="register">Registrarme</li>
+                    <input type="text">
+                </li>
+                <li class="hover-default" ui-sref="search">Explorar</li>
+            </ul>
+            <ul ng-hide="loged" class="menu pull-right">
+                <li ng-controller="loginController" ng-mouseover="showLogin = true" ng-mouseleave="showLogin = false"  ng-init="email='geodracs@gmail.com';pass='123456'">
+                    Iniciar Sesión
+                    <div ng-show="showLogin" style="position: absolute;top: 40px;padding: 10px;background-color: #959697;width: 200px;margin-left: -70px;">
+                        <input style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
+                        <input style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
+                        <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">Entrar YA</button>
+                    </div>
+                </li>
 
-        </ul>
-        <ul ng-show="loged" class="menu pull-right" >
-            <li class="section" style="background-color: #fc5833;color: white;">Avisos</li>
+                <li ui-sref="register">Registrarme</li>
 
-            <li class="section"  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
-                Mi cuenta
-                <ul ng-show="showAccount" style="position: absolute;top: 40px;padding: 10px;background-color: #959697;width: 200px;margin-left: -70px;list-style: none">
-                   <li ui-sref="account">Configuracion</li>
-                   <li ng-click="logout()">Cerrar Sesión</li>
-                </ul>
+            </ul>
+            <ul ng-show="loged" class="default hover-default float padding-10 pull-right" >
+                <li class="section" style="background-color: #fc5833;color: white;">Avisos</li>
 
-            </li>
+                <li class="section"  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
+                    Mi cuenta
+                    <ul ng-show="showAccount" style="position: absolute;top: 40px;background-color: #959697;width: 135px;margin-left: -65px;">
+                       <li ui-sref="account">Configuracion</li>
+                       <li ng-click="logout()">Cerrar Sesión</li>
+                    </ul>
 
-        </ul>
-    </div>
-</div>
+                </li>
+
+            </ul>
+        </div>
+    </header><!-- .header -->
+
+
+
+<!-- content -->
     <div style="padding-top: 40px;">
-    <div data-ui-view></div>
-    </div>
+        <div data-ui-view></div>
+    </div><!-- .content -->
 
 <!-- footer -->
-
-<footer class="container" ui-sref="help">
-    <div class="row" style="border-top: 1px #dfdfdf solid;padding: 5px;">
-        <div class="col-xs-4">
-            <div class="pull-left">Terminos y condiciones</div>
-            <div class="pull-left">Cookies</div>
+    <footer class="container" >
+        <div class="row" style="border-top: 1px #dfdfdf solid;padding: 5px;">
+            <div class="col-xs-4">
+                <div class="pull-left" ui-sref="help.tos">Terminos y condiciones</div>
+                <div class="pull-left" ui-sref="help.cookies">Cookies</div>
+            </div>
+            <div class="col-xs-4" style="text-align: center">2015 Copyright</div>
+            <div class="col-xs-4">
+                <div class="pull-right">v0.0.1</div>
+                <div class="pull-right">Facebook</div>
+                <div class="pull-right">Twitter</div>
+                <div class="pull-right" ui-sref="help.faq">FAQ</div>
+                <div class="pull-right" ui-sref="help.sobre">Sobre nosotros</div>
+            </div>
         </div>
-        <div class="col-xs-4" style="text-align: center">2015 Copyright</div>
-        <div class="col-xs-4">
-            <div class="pull-right">v0.0.1</div>
-            <div class="pull-right">Facebook</div>
-            <div class="pull-right">Twitter</div>
-            <div class="pull-right">FAQ</div>
-            <div class="pull-right">Sobre nosotros</div>
-        </div>
-    </div>
-</footer><!-- .footer -->
+    </footer><!-- .footer -->
 
     <script src="//localhost:35729/livereload.js"></script>
 </body>

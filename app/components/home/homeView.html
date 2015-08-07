@@ -10,16 +10,9 @@
         margin: 0;
         text-align: center;
     }
-    h2{
-    margin: 0;padding: 10px;padding-bottom: 5px;color: #455362;
-        font-size: 15pt;
-    }
 
-    .calendario ul{
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+
+
     .calendario ul li{
         border-top: 1px silver solid;
         padding: 5px;
@@ -35,11 +28,12 @@
         </div>
         <div class="container">
 
-            <tutorial-card></tutorial-card>
-            <tutorial-card></tutorial-card>
-            <tutorial-card></tutorial-card>
-            <tutorial-card></tutorial-card>
-            <tutorial-card></tutorial-card>
+            <tutorial-card class="home-slider-item"></tutorial-card>
+            <tutorial-card class="home-slider-item"></tutorial-card>
+            <tutorial-card class="home-slider-item"></tutorial-card>
+            <tutorial-card class="home-slider-item"></tutorial-card>
+            <tutorial-card class="home-slider-item"></tutorial-card>
+
 
         </div>
     </div>
@@ -54,13 +48,7 @@
             <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
 
             </div>
-            <!--
-            <div class="row" style="height: auto !important;overflow: hidden;padding: 3px;">
-                <div class="pull-left" style="background-color: silver;padding: 5px;">Anterior</div>
-                <div class="pull-right" style="background-color: silver;padding: 5px;">Siguiente</div>
 
-            </div>
-            -->
 
         </div>
         <div class="col-xs-7" ng-init="test = {a:'uno'}">
@@ -74,52 +62,39 @@
 
     </div>
 
+
+
+    <!-- calendario -->
     <div class="" style="margin-top: 20px;min-height: 200px;background-color: #e7e7e7">
         <div class="container">
             <h2>Calendario</h2>
+
             <div class="row calendario">
-                <div class="col-xs-2">
-                    <label>Lunes</label>
+                <div class="col-xs-2" ng-repeat="(i,k) in calendar">
+                <label>{{i}}</label>
                     <ul>
-                        <li>Introduccion a JAVA (T02)</li>
-                        <li>Introduccion a JAVA (T03)</li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <label>Martes</label>
-                    <ul>
-                        <li>Introduccion a JAVA (T04)</li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <label>Miercoles</label>
-                    <ul>
+                        <li ng-repeat="tutorial in k">{{tutorial.name}}</li>
 
                     </ul>
                 </div>
                 <div class="col-xs-2">
-                    <label>Jueves</label>
-                </div>
-                <div class="col-xs-2">
-                    <label>Viernes</label>
-                    <ul>
-                        <li>Introduccion a JAVA (T05)</li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <div style="background-color: grey;height: 100px;">
-                    <label>Fin de Semana</label>
-                        <div>Los findes de semana son para descansar</div>
+                    <div style="">
+                        <div><label>Sabado</label></div>
+                        <div><label>Domingo</label></div>
+
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
+
+        </div>
+    </div><!-- .calendario -->
+
+<!-- boletin -->
     <div class="" style="margin-top: 20px;height: 200px">
         <div class="container">
-            <h2>Boletin</h2>
-            <div>¿Quieres recivir el calendario semanal en tu cuenta?</div>
+            <h2>Boletin semanal</h2>
+            <div>¿Quieres recibir el calendario semanal en tu cuenta?</div>
             <div class="row">
                 <div class="col-xs-4">
                     <ul>
@@ -137,4 +112,4 @@
             </div>
         </div>
     </div>
-</div>
+</div><!-- .boletin -->

@@ -101,6 +101,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/help",
             templateUrl: "app/components/help/helpView.html"
         })
+        .state('help.sobre',       {url: '/sobre',views: {'help': { templateUrl: 'app/components/help/aboutView.html'}}})
+        .state('help.faq',       {url: '/faq',views: {'help': { templateUrl: 'app/components/help/faqView.html'}}})
+        .state('help.tos',       {url: '/tos',views: {'help': { templateUrl: 'app/components/help/tosView.html'}}})
+        .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
 
 });;
 app.controller("accountController", function($scope,$data){
@@ -129,6 +133,48 @@ app.controller("homeController", function($scope,$data){
 
     $data.getCourses();
 
+
+    $scope.calendar = {
+        lunes:[
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            },
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            }
+        ],
+        martes:[
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            }
+        ],
+        miercoles:[
+
+        ],
+        jueves:[
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            }
+        ],
+        viernes:[
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            },
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            },
+            {
+                name: "Introducción a JAVA (T01)",
+                id: "12"
+            }
+        ]
+    }
 
 });;
 app.controller("loginController", function($scope,$http,$state,$rootScope){
