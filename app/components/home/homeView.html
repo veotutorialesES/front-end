@@ -10,13 +10,28 @@
         margin: 0;
         text-align: center;
     }
+    h2{
+    margin: 0;padding: 10px;padding-bottom: 5px;color: #455362;
+        font-size: 15pt;
+    }
+
+    .calendario ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .calendario ul li{
+        border-top: 1px silver solid;
+        padding: 5px;
+    }
 </style>
 <div ng-controller="homeController">
 
     <div style="background-color: #e8e8e8;padding-bottom: 20px;">
         <div class="container" style="padding: 10px;">
 
-            <h4 style="margin: 0;padding: 10px;padding-bottom: 5px;color: #455362"> <span class="glyphicon glyphicon-alert"></span> Pendientes de ver / Ultimos tutoriales</h4>
+            <h2> Pendientes de ver / Ultimos tutoriales <span class="pull-right" style="color:red">Ver más</span></h2>
+
         </div>
         <div class="container">
 
@@ -29,11 +44,27 @@
         </div>
     </div>
 
-    <div class="container" style="">
-        <div class="col-xs-6">Cursos</div>
+    <div class="container" style="padding-top: 20px;padding-bottom: 20px;">
+        <div class="col-xs-5" style="" >
+            <h2>Cursos más vistos</h2>
+            <div class="row">
+            <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
+            <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
+            <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
+            <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
 
-        <div class="col-xs-6" ng-init="test = {a:'uno'}">
+            </div>
+            <!--
+            <div class="row" style="height: auto !important;overflow: hidden;padding: 3px;">
+                <div class="pull-left" style="background-color: silver;padding: 5px;">Anterior</div>
+                <div class="pull-right" style="background-color: silver;padding: 5px;">Siguiente</div>
 
+            </div>
+            -->
+
+        </div>
+        <div class="col-xs-7" ng-init="test = {a:'uno'}">
+            <h2>Ultimás dudas</h2>
             <dudas-card info="test"></dudas-card>
             <dudas-card info="test"></dudas-card>
             <dudas-card info="test"></dudas-card>
@@ -43,15 +74,67 @@
 
     </div>
 
-    <div class="" style="margin-top: 20px;height: 200px;background-color: #e7e7e7">
+    <div class="" style="margin-top: 20px;min-height: 200px;background-color: #e7e7e7">
         <div class="container">
-        Calendario
+            <h2>Calendario</h2>
+            <div class="row calendario">
+                <div class="col-xs-2">
+                    <label>Lunes</label>
+                    <ul>
+                        <li>Introduccion a JAVA (T02)</li>
+                        <li>Introduccion a JAVA (T03)</li>
+                    </ul>
+                </div>
+                <div class="col-xs-2">
+                    <label>Martes</label>
+                    <ul>
+                        <li>Introduccion a JAVA (T04)</li>
+                    </ul>
+                </div>
+                <div class="col-xs-2">
+                    <label>Miercoles</label>
+                    <ul>
+
+                    </ul>
+                </div>
+                <div class="col-xs-2">
+                    <label>Jueves</label>
+                </div>
+                <div class="col-xs-2">
+                    <label>Viernes</label>
+                    <ul>
+                        <li>Introduccion a JAVA (T05)</li>
+                    </ul>
+                </div>
+                <div class="col-xs-2">
+                    <div style="background-color: grey;height: 100px;">
+                    <label>Fin de Semana</label>
+                        <div>Los findes de semana son para descansar</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="" style="margin-top: 20px;height: 200px">
         <div class="container">
-            Recomendaciones
+            <h2>Boletin</h2>
+            <div>¿Quieres recivir el calendario semanal en tu cuenta?</div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <ul>
+                        <li>Recivir novedades de la web</li>
+                        <li>Recivir calendario semanal</li>
+                        <li>Nuevos cursos</li>
+                    </ul>
+                </div>
+                <div class="col-xs-8">
+                    <form style="width: 260px;">
+                        <input style="" type="text" class="form-control" placeholder="introduce tu email">
+                        <button class="btn btn-primary">Suscribirme</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -68,13 +68,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/",
             templateUrl: "app/components/home/homeView.html"
         })
+        .state('dudas', {
+            url: "/dudas",
+            templateUrl: "app/components/dudas/dudasView.html"
+        })
         .state('course', {
             url: "/course",
             templateUrl: "app/components/course/courseView.html"
-        })
-        .state('account', {
-            url: "/account",
-            templateUrl: "app/components/account/accountView.html"
         })
 
         .state('welcome', {
@@ -85,12 +85,23 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/search",
             templateUrl: "app/components/search/searchView.html"
         })
+        .state('account', {
+            url: "/account",
+            templateUrl: "app/components/account/accountView.html"
+        })
+
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
         .state('account.courses',       {url: '/courses',views: {'account': { templateUrl: 'app/components/account/accountCoursesView.html'}}})
         .state('account.email',       {url: '/email',views: {'account': { templateUrl: 'app/components/account/accountEmailView.html'}}})
         .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
         .state('account.social',       {url: '/social',views: {'account': { templateUrl: 'app/components/account/accountSocialView.html'}}})
         .state('account.config',       {url: '/config',views: {'account': { templateUrl: 'app/components/account/accountConfigView.html'}}})
+
+        .state('help', {
+            url: "/help",
+            templateUrl: "app/components/help/helpView.html"
+        })
+
 });;
 app.controller("accountController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";
@@ -101,6 +112,16 @@ app.controller("accountController", function($scope,$data){
 });;
 app.controller("courseController", function($scope){
     $scope.data = "Dataaaaaaaaaaaa";
+});;
+app.controller("dudasController", function($scope){
+    $scope.data = "Dataaaaaaaaaaaa";
+});;
+app.controller("helpController", function($scope,$data){
+    $scope.data = "Dataaaaaaaaaaaa";
+
+
+
+
 });;
 app.controller("homeController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";

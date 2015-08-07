@@ -11,7 +11,27 @@
     <script src="assets/js/app.js"></script>
 
     <style type="text/css">
-
+        @font-face {
+            font-family: 'Bree Serif';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Bree Serif'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v5/0daoUMW28nkWOnFz2G4AAiEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Bree Serif';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Bree Serif'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v5/LQ7WLTaITDg4OSRuOZCps_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+        body{
+            font-family: 'Lato', Calibri, Arial, sans-serif;
+        }
+        .bree{
+            font-family: 'Bree Serif', serif;
+        }
         .menu{
             list-style: none;
             margin:0;
@@ -29,6 +49,14 @@
         .menu input{
             background-color: #a8a9aa;border: 1px silver solid;padding: 5px;
         }
+
+
+        footer{
+            color: gray;
+        }
+        footer > div > div > div{
+            padding: 5px;;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +64,11 @@
 
     <div class="container">
         <ul class="menu pull-left">
-            <li ui-sref="home" style="font-weight: bold;color:#3567f5;font-size: 14pt;padding: 7px;">VEO<span style="color: white">TUTORIALES</span></li>
+            <li ui-sref="home" class="bree" style="font-weight: bold;color:#3567f5;font-size: 12pt;padding: 3px;">
+                <span style="display: inline-block;padding: 3px;padding-bottom: 6px;padding-top: 6px;border-radius: 5px;background-color: #ca181e">
+                    <span style="background-color: #cb181e;padding: 3px;border-radius: 5px;border:1px white solid;">VEO</span>
+                </span>
+                <span style="color: white">TUTORIALES</span></li>
             <li style="padding: 4px"><input style="" type="text"></li>
             <li ui-sref="search">Explorar</li>
         </ul>
@@ -73,27 +105,23 @@
     </div>
 
 <!-- footer -->
-    <footer style="background-color: #000011;">
-    <div class="container" style="color: white">
-        <div class="row">
-            <ul class="col-xs-4">
-                <li>FAQ</li>
-                <li>Sobre Veotutoriales</li>
-                <li>FeedBack</li>
-            </ul>
-            <ul class="col-xs-4">
-                <li>Copyright</li>
-                <li>Terminos y condiciones</li>
-            </ul>
-            <ul class="col-xs-4">
-                <li>Colabora</li>
-                <li>Changelog</li>
-                <li>Roadmap</li>
-                <li>Facebook, Twitter</li>
-            </ul>
+
+<footer class="container" ui-sref="help">
+    <div class="row" style="border-top: 1px #dfdfdf solid;padding: 5px;">
+        <div class="col-xs-4">
+            <div class="pull-left">Terminos y condiciones</div>
+            <div class="pull-left">Cookies</div>
+        </div>
+        <div class="col-xs-4" style="text-align: center">2015 Copyright</div>
+        <div class="col-xs-4">
+            <div class="pull-right">v0.0.1</div>
+            <div class="pull-right">Facebook</div>
+            <div class="pull-right">Twitter</div>
+            <div class="pull-right">FAQ</div>
+            <div class="pull-right">Sobre nosotros</div>
         </div>
     </div>
-    </footer><!-- .footer -->
+</footer><!-- .footer -->
 
     <script src="//localhost:35729/livereload.js"></script>
 </body>

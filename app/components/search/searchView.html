@@ -1,12 +1,12 @@
 <style type="text/css">
     .search-menu{
         list-style: none;
-        padding: 0;;
+        padding: 0;
+        margin: 0;
     }
     .search-menu li{
-        float: left;padding: 5px;
-        padding-left: 15px;
-        padding-right: 15px;
+        float: left;padding: 10px;
+
     }
     .search-menu li:hover{
         border-bottom:3px silver solid;
@@ -17,29 +17,54 @@
     }
 </style>
 <div ng-controller="searchController">
-
-
-    <div class="container" style="padding-top: 50px;">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8">
+    <div style="border-bottom:1px #e6e6e6 solid;padding-top: 30px;background-color: #f4f6f7">
+    <div class="container" style="">
             <div style="height: auto !important;overflow: hidden">
                 <ul class="pull-left search-menu">
-                    <li class="selected">Cursos</li>
+                    <li class="selected">Todo</li>
+                    <li>Cursos</li>
                     <li>Tutoriales</li>
                     <li>Dudas</li>
                 </ul>
                 <div class="pull-right" style="padding: 5px;">
-                    <input type="text" placeholder="Buscar...">
+                    <span style="font-size: 16pt;" class="glyphicon glyphicon-search"></span>
+                    <input style="padding: 5px;width: 400px;border: 1px #f1f1f1 solid" type="text" placeholder="Buscar...">
+
                 </div>
 
             </div>
 
+    </div>
+    </div>
 
-            <div style="height: 400px;">
-                Resultado de la busqueda
+
+    <div style="height: 400px;padding-top: 20px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-3">
+                    <div>Resultado de la busqueda</div>
+
+                    <div style="background-color: silver;height: 200px;">
+                        <label>Filtros</label>
+                        <div>Ordenar por</div>
+                        <div>Tags</div>
+                    </div>
+                    <div style="background-color: silver;height: 100px;margin-top: 20px;">Filtros / Filtros de la seccion</div>
+
+                </div>
+                <div class="col-xs-9">
+                    <div class="row" style="border: 1px silver solid;margin-top: 10px;height: 100px;">
+                        <div class="col-xs-3">Imgaen</div>
+                        <div class="col-xs-9">Descipcion</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container">
+            <div class="col-xs-8">
             </div>
         </div>
     </div>
-
 
 </div>
