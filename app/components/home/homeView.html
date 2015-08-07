@@ -14,7 +14,7 @@
 
 
     .calendario ul li{
-        border-top: 1px silver solid;
+        border-bottom: 1px silver solid;
         padding: 5px;
     }
 </style>
@@ -38,9 +38,11 @@
         </div>
     </div>
 
-    <div class="container" style="padding-top: 20px;padding-bottom: 20px;">
+    <div class="container" style="padding:10px;">
+
+
         <div class="col-xs-5" style="" >
-            <h2>Cursos más vistos</h2>
+            <h2 style="margin-left: -20px;">Cursos más vistos</h2>
             <div class="row">
             <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
             <div class="col-xs-6" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
@@ -52,7 +54,7 @@
 
         </div>
         <div class="col-xs-7" ng-init="test = {a:'uno'}">
-            <h2>Ultimás dudas</h2>
+            <h2  style="margin-left: -10px;">Ultimás dudas</h2>
             <dudas-card info="test"></dudas-card>
             <dudas-card info="test"></dudas-card>
             <dudas-card info="test"></dudas-card>
@@ -65,24 +67,23 @@
 
 
     <!-- calendario -->
-    <div class="" style="margin-top: 20px;min-height: 200px;background-color: #e7e7e7">
+    <div class="" style="padding-top: 10px;min-height: 200px;background-color: #e7e7e7">
         <div class="container">
-            <h2>Calendario</h2>
+            <h2 style="margin-left: -10px;">Calendario</h2>
 
-            <div class="row calendario">
+            <div class="row calendario" style="margin-top: 10px;">
                 <div class="col-xs-2" ng-repeat="(i,k) in calendar">
-                <label>{{i}}</label>
+                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{i}}</div>
                     <ul>
                         <li ng-repeat="tutorial in k">{{tutorial.name}}</li>
 
                     </ul>
                 </div>
-                <div class="col-xs-2">
-                    <div style="">
-                        <div><label>Sabado</label></div>
-                        <div><label>Domingo</label></div>
-
-                    </div>
+                <div class="col-xs-1">
+                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">sabado</div>
+                </div>
+                <div class="col-xs-1">
+                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">domingo</div>
                 </div>
             </div>
 
@@ -104,7 +105,7 @@
                     </ul>
                 </div>
                 <div class="col-xs-8">
-                    <form style="width: 260px;">
+                    <form class="" style="width: 260px;">
                         <input style="" type="text" class="form-control" placeholder="introduce tu email">
                         <button class="btn btn-primary">Suscribirme</button>
                     </form>

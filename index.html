@@ -41,12 +41,12 @@
                 <li ui-sref="register">Registrarme</li>
 
             </ul>
-            <ul ng-show="loged" class="default hover-default float padding-10 pull-right" >
+            <ul ng-show="loged" class="default float padding-10 pull-right" >
                 <li class="section" style="background-color: #fc5833;color: white;">Avisos</li>
 
                 <li class="section"  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
                     Mi cuenta
-                    <ul ng-show="showAccount" style="position: absolute;top: 40px;background-color: #959697;width: 135px;margin-left: -65px;">
+                    <ul ng-show="showAccount" style="position: absolute;top: 40px;background-color: silver;width: 135px;margin-left: -65px;">
                        <li ui-sref="account">Configuracion</li>
                        <li ng-click="logout()">Cerrar Sesión</li>
                     </ul>
