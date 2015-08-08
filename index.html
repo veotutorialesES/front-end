@@ -28,12 +28,12 @@
                 </li>
                 <li class="hover-default" ui-sref="search">Explorar</li>
             </ul>
-            <ul ng-hide="loged" class="menu pull-right">
+            <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
                 <li ng-controller="loginController" ng-mouseover="showLogin = true" ng-mouseleave="showLogin = false"  ng-init="email='geodracs@gmail.com';pass='123456'">
                     Iniciar Sesión
                     <div ng-show="showLogin" style="position: absolute;top: 40px;padding: 10px;background-color: #959697;width: 200px;margin-left: -70px;">
-                        <input style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
-                        <input style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
+                        <input class="form-control" style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
+                        <input class="form-control" style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
                         <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">Entrar YA</button>
                     </div>
                 </li>
@@ -74,6 +74,7 @@
             <div class="col-xs-4" style="text-align: center">2015 Copyright</div>
             <div class="col-xs-4">
                 <div class="pull-right">v0.0.1</div>
+                <div class="pull-right">Youtube</div>
                 <div class="pull-right">Facebook</div>
                 <div class="pull-right">Twitter</div>
                 <div class="pull-right" ui-sref="help.faq">FAQ</div>
@@ -81,6 +82,87 @@
             </div>
         </div>
     </footer><!-- .footer -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--//BLOQUE COOKIES-->
+<div id="barraaceptacion" style="display: block;">
+    <div class="inner">
+        Solicitamos su permiso para obtener datos estadísticos de su navegación en esta web, en cumplimiento del Real 
+        Decreto-ley 13/2012. Si continúa navegando consideramos que acepta el uso de cookies.
+        <a href="javascript:void(0);" class="ok" onclick="PonerCookie();"><b>OK</b></a> | 
+        <a href="" ui-sref="help.cookies" target="_blank" class="info">Más información</a>
+    </div>
+</div>
+ 
+<script>
+function getCookie(c_name){
+    var c_value = document.cookie;
+    var c_start = c_value.indexOf(" " + c_name + "=");
+    if (c_start == -1){
+        c_start = c_value.indexOf(c_name + "=");
+    }
+    if (c_start == -1){
+        c_value = null;
+    }else{
+        c_start = c_value.indexOf("=", c_start) + 1;
+        var c_end = c_value.indexOf(";", c_start);
+        if (c_end == -1){
+            c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start,c_end));
+    }
+    return c_value;
+}
+ 
+function setCookie(c_name,value,exdays){
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+    document.cookie=c_name + "=" + c_value;
+}
+ 
+if(getCookie('tiendaaviso')!="1"){
+    document.getElementById("barraaceptacion").style.display="block";
+}
+function PonerCookie(){
+    setCookie('tiendaaviso','1',365);
+    document.getElementById("barraaceptacion").style.display="none";
+}
+</script>
+<!--//FIN BLOQUE COOKIES-->
+
+
+
+
+
+
 
     <script src="//localhost:35729/livereload.js"></script>
 </body>
