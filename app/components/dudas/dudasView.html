@@ -9,25 +9,103 @@
     <div class="row" style="margin-top: 10px;">
 
         <div class="col-xs-8">
-            <div>
-            <div style="border: 1px silver solid;height: 300px;"></div>
+            <div class="box">
+                <div style="padding: 10px;border-bottom: 1px silver solid"><h1>Titulo de la duda que quieres plantear en el videotutorial visto</h1></div>
+            <div style="padding: 20px;">
+                <p>If a resource is located on my server (say /js/somefile.js), I sometimes do things like <script src="/js/somefile.js?v=3" type="text/javascript"></script> and update v whenever changes are made to ensure a user's client doesn't use the old cached version.
+
+                    What should be done if using a CDN resource?</p>
+            </div>
             </div>
             <div style="padding-left: 80px;margin-top: 20px;">
-                <div style="border: 1px #16a01d solid;height: 200px;">
-                    <div style="padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> SOLUCIÓN</div>
+                <div class="box" style="border: 1px #16a01d solid;">
+                    <div style="border:1px #16a01d solid;background-color: #17b21e;color: white;height: auto !important;overflow: hidden">
+                        <div class="pull-left" style="padding: 5px;"><span class="glyphicon glyphicon-ok"></span> SOLUCIÓN</div>
+                        <ul class="pull-right float padding-5">
+                            <li><span class="glyphicon glyphicon-thumbs-up"></span> FUNCIONA  </li>
+                            <li><span class="glyphicon glyphicon-thumbs-down"></span> NO FUNCIONA</li>
+                        </ul>
+                    </div>
+                    <div style="padding: 20px;">
+
+                            Your problem is confusing the functionality intent of the classes. The QAbstractListModel is intended as a wrapper around a container, yes, you could put the container inside the QAbstractListModel derived class, but you don't really have to, the container can be just about any C++ class, not necessarily even QObject derived, it can be ju that you can reach from the model via a pointer. Which is good for cases where you have many objects, and not all need to have models at all the time, since those models are pretty heavy.
+
+                            You don't really need to concern yourself with the ownership, leave that at the C++ side, the same goes for the actual object creation, have a slot called that adds the new object to the container while also using the model's beginInsertRows and endInsertRows so that any views will be notified to update efficiently, the new object should also be created in that slot, you can pass any data needed for it from QML, just make sure all data is registered with the Qt meta system so it can work with QVariant for QML-C++ interop.
+
+
+                    </div>
+
+                    <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;border-top: 1px silver solid">
+
+                        <div class="pull-left">
+                            hace 23 minutos por Salvador
+
+                        </div>
+
+                        <div class="pull-right">
+                            <span class="glyphicon glyphicon-comment"></span> RESPONDER
+                        </div>
+
+                    </div>
 
                 </div>
-                <div style="border: 1px silver solid;height: 100px;background-color: silver"></div>
+                <div class="box" style="padding: 5px;">
+                    <textarea class="form-control" style="height: 70px;resize: none"></textarea>
+                    <div style="padding-top: 5px;text-align: right">
+                        <button class="btn btn-default btn-xs" style="">ENVIAR</button>
+                    </div>
+                </div>
+                <div class="box" style="border: 1px silver solid;background-color: #e3e3e3">
+
+                    <div style="">
+
+                        <div style="padding: 5px;border-bottom: 1px silver solid">Comentario 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
+                        <div style="padding: 5px;border-bottom: 1px silver solid">Comentario 2</div>
+                        <div style="padding: 5px;">Comentario 3</div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="box" style="margin-top: 20px;padding: 5px;">
+                    <textarea class="form-control" style="height: 200px;"></textarea>
+                    <div style="padding-top: 5px;text-align: right">
+                        <button class="btn btn-default" style="">ENVIAR</button>
+                    </div>
+                </div>
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
         </div>
         <div class="col-xs-4" style="">
             <iframe style="border: 0;width: 100%;height: 200px" class="embed-responsive-item" src="https://www.youtube.com/embed/_eVNU59Q_MU"></iframe>
             <div style="margin-top: 20px;">
-                <div style="padding: 10px;border:1px silver solid">Salvador</div>
+                <div style="padding: 10px;border:1px silver solid">Salvador hace 3 días</div>
             </div>
-
+            <div style="margin-top: 20px;">
+                <div style="padding: 10px;border:1px silver solid">Tags</div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div style="padding: 10px;border:1px silver solid">Compartir</div>
+            </div>
             <div style="margin-top: 20px;font-weight: bold;">
                 <div style="padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> Solucionado</div>
+                <div style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Suscribirme</div>
             </div>
         </div>
     </div>
