@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>VEOTutoriales</title>
-
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/angular/angular.js"></script>
@@ -17,8 +17,9 @@
     <header ng-init="showLogin = false" ng-controller="headerController">
 
         <div class="container">
+            <div class="row">
             <ul class="default float padding-10 pull-left">
-                <li ui-sref="home" class="bree" style="color: gainsboro">
+                <li ui-sref="home" class="bree" style="color: gainsboro;cursor: pointer">
                     VEOTUTORIALES
                 </li>
                 <li class="search" style="padding: 2px;">
@@ -26,7 +27,7 @@
 
                     <input type="text">
                 </li>
-                <li class="hover-default" ui-sref="search" style="background-color: #6a8296;color: gainsboro;">Explorar</li>
+                <li class="hover-default" ui-sref="search" style="color: gainsboro;">Explorar</li>
             </ul>
             <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
                 <li ng-controller="loginController" ng-mouseover="showLogin = true" ng-mouseleave="showLogin = false"  ng-init="email='geodracs@gmail.com';pass='123456'">
@@ -42,9 +43,9 @@
 
             </ul>
             <ul ng-show="loged" class="default float padding-10 pull-right" style="color: gainsboro">
-                <li class="" style="background-color: #6a8195;color: gainsboro;">Avisos</li>
+                <li class="" style="background-color: #f6614b;color: white;cursor: default">Avisos</li>
 
-                <li class=""  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
+                <li class=""  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false" style="cursor: default;">
                     Mi cuenta
                     <ul ng-show="showAccount" class="hover-default " style="position: absolute;top: 40px;background-color: #536378;width: 135px;margin-left: -65px;box-shadow: 0 1px 2px rgba(0,0,0,.4);">
                        <li ui-sref="account" style="width: 100%">Configuracion</li>
@@ -54,6 +55,7 @@
                 </li>
 
             </ul>
+            </div>
         </div>
     </header><!-- .header -->
 
