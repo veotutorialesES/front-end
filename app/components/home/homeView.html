@@ -21,24 +21,28 @@
 <div ng-controller="homeController">
 
     <div style="background-color: #e8e8e8;padding-bottom: 20px;">
-        <div class="container" style="padding: 10px;">
+        <div class="container" style="padding: 5px;padding-top: 10px;">
 
-            <h2> Pendientes de ver / Ultimos tutoriales <span class="pull-right" style="color:red">Ver más</span></h2>
+            <h2> Pendientes de ver / Ultimos tutoriales <span ui-sref="search" class="pull-right" style="color:#d1171e">Ver más</span></h2>
 
         </div>
         <div class="container">
+            <div class="row" style="">
+            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
+            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
+            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
+            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
+            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
+            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
 
-            <tutorial-card class="home-slider-item"></tutorial-card>
-            <tutorial-card class="home-slider-item"></tutorial-card>
-            <tutorial-card class="home-slider-item"></tutorial-card>
-            <tutorial-card class="home-slider-item"></tutorial-card>
-            <tutorial-card class="home-slider-item"></tutorial-card>
 
+
+            </div>
 
         </div>
     </div>
 
-    <div class="container" style="padding:10px;">
+    <div class="container">
 
 
         <div class="col-xs-5" style="" >
@@ -69,7 +73,7 @@
     <!-- calendario -->
     <div class="" style="padding-top: 10px;min-height: 200px;background-color: #e7e7e7">
         <div class="container">
-            <h2 style="margin-left: -10px;">Calendario</h2>
+            <h2 style="">Calendario</h2>
 
             <div class="row calendario" style="margin-top: 10px;">
                 <div class="col-xs-2" ng-repeat="(i,k) in calendar">

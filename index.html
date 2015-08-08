@@ -18,7 +18,7 @@
 
         <div class="container">
             <ul class="default float padding-10 pull-left">
-                <li ui-sref="home" class="bree" style="">
+                <li ui-sref="home" class="bree" style="color: gainsboro">
                     VEOTUTORIALES
                 </li>
                 <li class="search" style="padding: 2px;">
@@ -26,7 +26,7 @@
 
                     <input type="text">
                 </li>
-                <li class="hover-default" ui-sref="search">Explorar</li>
+                <li class="hover-default" ui-sref="search" style="background-color: #6a8296;color: gainsboro;">Explorar</li>
             </ul>
             <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
                 <li ng-controller="loginController" ng-mouseover="showLogin = true" ng-mouseleave="showLogin = false"  ng-init="email='geodracs@gmail.com';pass='123456'">
@@ -41,14 +41,14 @@
                 <li ui-sref="register">Registrarme</li>
 
             </ul>
-            <ul ng-show="loged" class="default float padding-10 pull-right" >
-                <li class="section" style="background-color: #fc5833;color: white;">Avisos</li>
+            <ul ng-show="loged" class="default float padding-10 pull-right" style="color: gainsboro">
+                <li class="" style="background-color: #6a8195;color: gainsboro;">Avisos</li>
 
-                <li class="section"  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
+                <li class=""  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false">
                     Mi cuenta
-                    <ul ng-show="showAccount" style="position: absolute;top: 40px;background-color: silver;width: 135px;margin-left: -65px;">
-                       <li ui-sref="account">Configuracion</li>
-                       <li ng-click="logout()">Cerrar Sesión</li>
+                    <ul ng-show="showAccount" class="hover-default " style="position: absolute;top: 40px;background-color: #536378;width: 135px;margin-left: -65px;box-shadow: 0 1px 2px rgba(0,0,0,.4);">
+                       <li ui-sref="account" style="width: 100%">Configuracion</li>
+                       <li ng-click="logout()" style="width: 100%">Cerrar Sesión</li>
                     </ul>
 
                 </li>

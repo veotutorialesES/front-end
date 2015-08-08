@@ -1,17 +1,23 @@
 <div ng-controller="registerController">
 
     <div class="container">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-6 box" style="margin-top: 20px;padding: 20px;">
         <h1>Crear una cuenta nueva</h1>
-        <div class="">
-            <input ng-model="user" type="text" class="form-control" placeholder="Nombre">
-            <input ng-model="email" class="form-control" type="text" placeholder="Email">
-            <input ng-model="pass" class="form-control" type="password" placeholder="Contraseña">
-            <label><input type="checkbox" ng-model="checkbox">Acepto lo terminos legales</label>
-            <button ng-click="send(checkbox)" class="btn btn-default btn-sm" type="submit">Registrarme</button>
+        <div class="" style="padding: 10px;">
+            <input style="margin-top: 10px;" ng-model="user" type="text" class="form-control" placeholder="Nombre">
+            <input style="margin-top: 10px;" ng-model="email" class="form-control" type="text" placeholder="Email">
+            <input style="margin-top: 10px;" ng-model="pass" class="form-control" type="password" placeholder="ContraseÃ±a">
+            <div style="margin-top:10px;">
+            <label><input type="checkbox" ng-model="checkbox"></label> Acepto lo terminos legales
+            <button ng-click="send(checkbox)" class="btn btn-default btn-sm pull-right" type="submit">REGISTRARME</button>
+            </div>
         </div>
+        </div>
+
+
     </div>
     <div class="container" style="padding-top: 10px;">
-        Actualizar informacion, darme de abaja etc
         <ul>
             <li ui-sref="welcome">Welcome</li>
             <li ui-sref="reminder">Recordar Pass</li>

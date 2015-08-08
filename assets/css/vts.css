@@ -56,23 +56,26 @@ ul.padding-10 li {
   padding: 10px;
 }
 ul.hover-default li:hover {
-  background-color: #959697;
-  color: black;
+  background-color: #6a8094;
+  color: gainsboro;
   cursor: pointer;
 }
 ul li.hover-default:hover {
-  background-color: #959697;
-  color: black;
+  background-color: #6a8094;
+  color: gainsboro;
   cursor: pointer;
 }
 .search input {
   background-color: transparent;
   border: 0;
-  border-bottom: 1px white solid;
   padding-top: 6px;
   padding-bottom: 4px;
   padding-left: 25px;
-  color: white;
+  color: gainsboro;
+  width: 160px;
+  border-bottom: 1px #536378 solid;
+  margin-right: 10px;
+  border-bottom: 1px #6a8296 solid;
 }
 input:focus {
   outline: 0;
@@ -81,7 +84,12 @@ input:focus {
   position: absolute;
   top: 10px;
   margin-left: 5px;
-  color: white;
+  color: gainsboro;
+}
+.search input:focus {
+  width: 200px;
+  transition: 1s;
+  border-bottom: 1px gainsboro solid;
 }
 h1 {
   font-size: 20pt;
@@ -93,7 +101,7 @@ h2 {
   padding-bottom: 5px;
   color: #455362;
   font-size: 13pt;
-  border-bottom: 1px rgba(106, 131, 151, 0.87) solid;
+  /*border-bottom:1px rgba(106, 131, 151, 0.87) solid;*/
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -119,9 +127,11 @@ header {
   position: fixed;
   left: 0;
   width: 100%;
-  background-color: #b5b6b7;
+  background-color: #536378;
   z-index: 99;
   height: 40px;
+  color: gainsboro;
+  box-shadow: 0 1px 2px rgba(83, 99, 120, 0.4);
 }
 footer {
   color: gray;

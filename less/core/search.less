@@ -1,11 +1,14 @@
 .search input{
   background-color: transparent;
   border:0;
-  border-bottom: 1px white solid;
   padding-top: 6px;
   padding-bottom: 4px;
   padding-left: 25px;
-  color:white;
+  color:gainsboro;
+  width: 160px;
+  border-bottom: 1px #536378 solid;
+  margin-right: 10px;
+  border-bottom: 1px #6a8296 solid;
 
 }
 input:focus{
@@ -15,7 +18,13 @@ input:focus{
   position: absolute;
   top:10px;
   margin-left: 5px;
-  color:white;
+  color:gainsboro;
 }
 
 
+.search input:focus{
+  width: 200px;
+  transition:1s;
+  border-bottom: 1px gainsboro solid;
+
+}
