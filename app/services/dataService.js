@@ -14,6 +14,15 @@ angular.module("app.data", [])
                 console.log(res.data);
             });
         }
+        
+        
+        // 2 data ways
+        
+        // Download all user no sensible data (tutoriales vistos,)
+        
+        // Download web data (courses, tutorials) from cache
+        
+        // Download dudas from cache (renew every X)
 
 
     });
