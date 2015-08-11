@@ -28,7 +28,7 @@
 <div ng-controller="courseController" style="padding-bottom: 20px;">
 
 
-    <div style="height: auto !important;overflow: hidden;box-shadow: inset 0px 1px 15px 0px rgba(50, 50, 50, 0.75);background-color: #2c343d">
+    <div style="height: auto !important;overflow: hidden;box-shadow: inset 0px 1px 15px 0px rgba(50, 50, 50, 0.75);background-color: #2c343d;margin-bottom: 20px;">
         <!-- 16:9 aspect ratio -->
 
         <div class="hidden-xs col-sm-3">
@@ -55,42 +55,7 @@
 
 
     </div>
-<!--
-    <div>
-        <div class="container">
-            <ul class="pull-left course-menu">
-                <li>Compartir</li>
 
-            </ul>
-
-            <ul class="pull-right course-menu">
-                <li>Añadir a mis cursos</li>
-            </ul>
-        </div>
-    </div>
-
--->
-
-
-
-
-
-
-
-
-<!--
-
-    <div style="background-color: #e8e8e8;height: auto !important;overflow:hidden;">
-
-        <div   class="container" style="padding: 20px;">
-            <tutorial-card ng-repeat="tutorial in list" ui-sref="course" class="home-slider-item"></tutorial-card>
-
-
-
-        </div>
-    </div>
-
--->
 
 
 
@@ -99,29 +64,41 @@
         <div class="row">
 
             <div class="col-xs-4" style="padding: 10px;">
-                <div class="box" style="padding: 5px;background-color: orangered;color: white">Suscribirme <span class="glyphicon glyphicon-star pull-right" ></span> </div>
+                <div class="box" style="">
+                    <button class="btn btn-block subscribe">Suscribirme al curso <span class="glyphicon glyphicon-star pull-right" ></span></button>
+                </div>
+
                 <div class="box" style="margin-top:20px;">
-                    <table ng-controller="playlist" style="width: 100%" class="player">
-                        <tr ng-repeat="tutorial in list">
-                            <td style="width: 20px;"><span style="color: green" class="glyphicon glyphicon-play-circle"></span> </td>
-                            <td>{{tutorial.title}}</td>
-                            <td style="text-align: right"><span class="glyphicon glyphicon-eye-open"></span> </td>
-                        </tr>
-                    </table>
+                    <ul ng-controller="playlist" style="width: 100%" class="player">
+                        <li ng-repeat="(k,v) in list">
+                            <div style="border-bottom: 1px #f1f1f1 solid;border-top: 1px #f2f2f2 solid;padding:5px">{{k}}
+                            <span class="pull-right caret" style="margin: 7px;"></span>
+                            </div>
+
+                            <table style="width: 100%" class="player">
+                                <tr ng-repeat="tutorial in v">
+                                    <td style="width: 20px;"><span style="color: green" class="glyphicon glyphicon-play-circle"></span> </td>
+                                    <td>{{tutorial.title}}</td>
+                                    <td style="text-align: right"><span class="glyphicon glyphicon-eye-open"></span> </td>
+                                </tr>
+                            </table>
+
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             <div class="col-xs-8" style="">
 
-                <h2>Información y descagas</h2>
-                <div class="box">
+                <h2><span class="glyphicon glyphicon-info-sign"></span> Información y descagas</h2>
+                <div class="box" style="padding: 10px;">
                     No hay información en este tutorial
                 </div>
 
 
 
-                <h2>Dudas</h2>
-                <div style="">
+                <h2 style="margin-top: 10px;"><span class="glyphicon glyphicon-question-sign"></span> Dudas</h2>
+                <div style="margin-top:10px;">
                     <dudas-card info="test"></dudas-card>
                     <dudas-card info="test"></dudas-card>
                     <dudas-card info="test"></dudas-card>
@@ -132,9 +109,9 @@
 
                 </div>
 
-                <h2>Tienes alguna duda?</h2>
+                <h2 style="margin-top:10px;"><span class="glyphicon glyphicon-pencil"></span> Tienes alguna duda?</h2>
 
-                <div class="box" style="padding: 5px;">
+                <div class="box" style="padding: 5px;margin-top:10px;">
                     <div>Antes de enviar tu duda asegurate de que no esté ya resuelta.</div>
                     <input style="margin-top: 5px;border-radius: 0" type="text" class="form-control" placeholder="Un titulo para tu duda">
                     <textarea style="margin-top: 5px;border-radius: 0" class="form-control"></textarea>

@@ -33,7 +33,7 @@
         background-color: #d5d5d5;
     }
 </style>
-<div ng-controller="accountController" style="min-height: 400px">
+<div ng-controller="suscripcionController" style="min-height: 400px">
 
 
 
@@ -42,22 +42,15 @@
 
             <div class="box">
                 <ul class="hover-default padding-10">
+                    <li ui-sref="suscripcion.courses">Cursos</li>
+                    <li ui-sref="suscripcion.dudas">Dudas</li>
 
-                    <li class="selected" ui-sref="account.info">Información personal</li>
-                    <li ui-sref="account.email">Cambiar Email</li>
-                    <li ui-sref="account.pass">Cambiar Contraseña</li>
-
-                    <li ui-sref="account.notifications">Notificaciones</li>
-                    <!--
-                    <li ui-sref="account.social">Redes Sociales</li>
-                    -->
-                    <li ui-sref="account.config">Configuración</li>
                 </ul>
             </div>
 
         </div>
         <div class="col-xs-6">
-                <div ui-view="account"></div>
+                <div ui-view="suscripcion"></div>
         </div>
     </div>
 

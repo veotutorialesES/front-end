@@ -34,6 +34,10 @@ button {
   -moz-border-radius: 0 !important;
   border-radius: 0 !important;
 }
+button.subscribe {
+  background-color: #f5614b;
+  color: white;
+}
 .box {
   background-color: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -171,4 +175,21 @@ footer > div > div > div {
   padding-left: 5px;
   text-decoration: none;
   color: #faff00;
+}
+.search-head {
+  border-bottom: 1px gainsboro solid;
+  padding-top: 5px;
+  background-color: #6a8296;
+  color: gainsboro;
+}
+.search-head li {
+  float: left;
+  color: gainsboro;
+}
+.search-head li:hover {
+  border-bottom: 3px gainsboro solid;
+  cursor: pointer;
+}
+.search-head li.selected {
+  border-bottom: 3px gainsboro solid;
 }

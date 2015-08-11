@@ -23,7 +23,7 @@
     <div style="background-color: #e8e8e8;padding-bottom: 20px;">
         <div class="container" style="padding: 5px;padding-top: 10px;">
 
-            <h2> Pendientes de ver / Ultimos tutoriales <span ui-sref="search" class="pull-right" style="color:#d1171e">Ver más</span></h2>
+            <h2><span class="glyphicon glyphicon-fire"></span> Ultimos tutoriales <span ui-sref="search" class="pull-right" style="color:#d1171e">Ver más</span></h2>
 
         </div>
         <div class="container">
@@ -42,40 +42,12 @@
         </div>
     </div>
 
-    <div class="container">
-
-
-        <div class="col-xs-5" style="padding: 20px;" >
-            <div class="row box">
-            <div class="col-xs-4" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
-            <div class="col-xs-8">Titulo y medio resumen, valoracion... nose</div>
-            </div>
-            <div class="row box">
-                <div class="col-xs-4" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
-                <div class="col-xs-8">Titulo y medio resumen, valoracion... nose</div>
-            </div>
-            <div class="row box">
-                <div class="col-xs-4" style="padding: 3px;"><img style="width: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></div>
-                <div class="col-xs-8">Titulo y medio resumen, valoracion... nose</div>
-            </div>
-
-        </div>
-        <div class="col-xs-7" ng-init="test = {a:'uno'}" style="padding: 20px;  ">
-            <dudas-card info="test"></dudas-card>
-            <dudas-card info="test"></dudas-card>
-            <dudas-card info="test"></dudas-card>
-            <dudas-card info="test"></dudas-card>
-
-        </div>
-
-    </div>
-
 
 
     <!-- calendario -->
-    <div class="" style="padding-top: 10px;min-height: 200px;background-color: #e7e7e7">
+    <div class="" style="padding-top: 10px;min-height: 200px;">
         <div class="container">
-            <h2 style="">Calendario</h2>
+            <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
 
             <div class="row calendario" style="margin-top: 10px;">
                 <div class="col-xs-2" ng-repeat="(i,k) in calendar">
@@ -97,22 +69,46 @@
         </div>
     </div><!-- .calendario -->
 
+
+<div style="background-color: #e7e7e7">
+
+    <div class="container" style="">
+
+
+        <div class="col-xs-5" style="padding: 20px;" >
+            <div>Ayuda a otros usuarios resolviendo sus dudas, ellos lo harían por ti.</div>
+
+        </div>
+        <div class="col-xs-7" ng-init="test = {a:'uno'}" style="padding: 20px;  ">
+            <dudas-card info="test"></dudas-card>
+            <dudas-card info="test"></dudas-card>
+            <dudas-card info="test"></dudas-card>
+            <dudas-card info="test"></dudas-card>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 <!-- boletin -->
     <div class="" style="margin-top: 20px;height: 200px">
         <div class="container">
-            <h2>Boletin semanal</h2>
-            <div>¿Quieres recibir el calendario semanal en tu cuenta?</div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <ul>
-                        <li>Recivir novedades de la web</li>
-                        <li>Recivir calendario semanal</li>
-                        <li>Nuevos cursos</li>
+            <h2><span class="glyphicon glyphicon-envelope"></span> Boletin semanal</h2>
+            <div>Nuestro boletin actualmente recoge las siguientes posibilidades:</div>
+            <div class="row" style="padding: 20px;">
+                <div class="col-xs-6">
+                    <ul style="list-style: circle;padding-left: 40px;">
+                        <li><label><input type="checkbox" checked> Conocer las novedades de la web</label></li>
+                        <li><label><input type="checkbox" checked> Recibir calendario semanal</label></li>
+                        <li><label><input type="checkbox" checked> Avisarme de nuevos cursos</label></li>
                     </ul>
                 </div>
-                <div class="col-xs-8">
-                    <form class="" style="width: 260px;">
-                        <input style="" type="text" class="form-control" placeholder="introduce tu email">
+                <div class="col-xs-6">
+                    <form class="form-inline" style="padding-top: 20px;">
+                        <input style="width: 300px;" type="text" class="form-control" placeholder="introduce tu email">
                         <button class="btn btn-primary">Suscribirme</button>
                     </form>
                 </div>

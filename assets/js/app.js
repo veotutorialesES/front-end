@@ -47,13 +47,23 @@ app.controller("headerController",function($rootScope,$scope){
 
 app.controller("playlist", function($scope){
 
-    $scope.list = [
-        {id:1,title:"Introduccion"},
-        {id:1,title:"Variables"},
-        {id:1,title:"Tipos de datos"},
-        {id:1,title:"Orientado a objetos"}
-    ];
-});
+    $scope.list = {
+        "Modulo1": [
+            {id: 1, title: "Introduccion"},
+            {id: 1, title: "Variables"},
+            {id: 1, title: "Tipos de datos"},
+            {id: 1, title: "Orientado a objetos"}
+        ],
+        "Modulo2": [
+            {id: 1, title: "Introduccion"},
+            {id: 1, title: "Variables"},
+            {id: 1, title: "Tipos de datos"},
+            {id: 1, title: "Orientado a objetos"}
+        ]
+
+
+    }
+});;
 app.config(function($stateProvider, $urlRouterProvider) {
     //
     // For any unmatched url, redirect to /state1
@@ -81,6 +91,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/dudas",
             templateUrl: "app/components/dudas/dudasView.html"
         })
+        .state('avisos', {
+            url: "/avisos",
+            templateUrl: "app/components/avisos/avisosView.html"
+        })
         .state('course', {
             url: "/course",
             templateUrl: "app/components/course/courseView.html"
@@ -94,14 +108,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/search",
             templateUrl: "app/components/search/searchView.html"
         })
+        .state('suscripcion', {
+            url: "/suscripcion",
+            templateUrl: "app/components/suscripcion/suscripcionView.html"
+        })
+        .state('suscripcion.courses',       {url: '/courses',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionCoursesView.html'}}})
+        .state('suscripcion.dudas',       {url: '/dudas',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionDudasView.html'}}})
+
         .state('account', {
             url: "/account",
             templateUrl: "app/components/account/accountView.html"
         })
 
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
-        .state('account.courses',       {url: '/courses',views: {'account': { templateUrl: 'app/components/account/accountCoursesView.html'}}})
-        .state('account.dudas',       {url: '/dudas',views: {'account': { templateUrl: 'app/components/account/accountDudasView.html'}}})
         .state('account.email',       {url: '/email',views: {'account': { templateUrl: 'app/components/account/accountEmailView.html'}}})
         .state('account.pass',       {url: '/pass',views: {'account': { templateUrl: 'app/components/account/accountPassView.html'}}})
         .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
@@ -220,8 +239,7 @@ app.controller("loginController", function($scope,$http,$state,$rootScope){
             $rootScope.loged = true;
             $rootScope.token = res.token;
            // $state.go("home");
-
-            // TODO recargar pagina
+            $('#myModal').modal('hide')
 
         }).error(function(data){
             console.log("Error");
@@ -266,6 +284,13 @@ app.controller("registerController", function($scope,$http){
 app.controller("searchController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";
 
+
+
+
+
+});;
+app.controller("suscripcionController", function($scope,$data){
+    $scope.data = "Dataaaaaaaaaaaa";
 
 
 

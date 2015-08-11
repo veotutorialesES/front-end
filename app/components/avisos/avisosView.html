@@ -1,0 +1,67 @@
+<style type="text/css">
+    .search-menu{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .search-menu li{
+        float: left;padding: 10px;
+
+    }
+    .search-menu li:hover{
+        border-bottom:3px #e3e3e3 solid;
+        cursor: pointer ;
+    }
+    .search-menu li.selected{
+        border-bottom:3px gainsboro solid;
+    }
+</style>
+<div ng-controller="searchController">
+    <div style="border-bottom:1px #e6e6e6 solid;padding-top: 5px;background-color: #f5614b;color: white">
+    <div class="container" style="">
+            <div style="height: auto !important;overflow: hidden">
+                <ul class="pull-left search-menu" style="color: white">
+                    <li class="selected">No leidos</li>
+                    <li>Usuarios</li>
+                    <li>Cursos</li>
+                    <li>Eventos</li>
+                </ul>
+                <div class="pull-right" style="padding: 3px;">
+                    <div class="" style="">
+                    <span style="font-size: 16pt;top: 53px;margin-left: 7px;position: absolute;color: rgba(250, 248, 255, 1)" class="glyphicon glyphicon-search"></span>
+                    <input style="padding: 5px;width: 400px;border: 1px #ce5341 solid;padding-left:35px;background-color: #cf5640" type="text" placeholder="Buscar...">
+                    </div>
+                </div>
+
+            </div>
+
+    </div>
+    </div>
+
+
+    <div style="height: 400px;padding-top: 20px;">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-7">
+                    <div class="row" style="border: 1px silver solid;margin-top: 10px;height: 100px;">
+                        <div>Aqui el aviso, se peude colorear por cada tipo: usuarios (azul), cursos (rojo)...</div>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+
+                    <div class="box">
+                        Calendario con la cantidad de avisos marcados por día
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="container">
+            <div class="col-xs-8">
+            </div>
+        </div>
+    </div>
+
+</div>

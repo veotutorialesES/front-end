@@ -23,8 +23,7 @@ app.controller("loginController", function($scope,$http,$state,$rootScope){
             $rootScope.loged = true;
             $rootScope.token = res.token;
            // $state.go("home");
-
-            // TODO recargar pagina
+            $('#myModal').modal('hide')
 
         }).error(function(data){
             console.log("Error");
