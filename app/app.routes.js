@@ -69,5 +69,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('help.faq',       {url: '/faq',views: {'help': { templateUrl: 'app/components/help/faqView.html'}}})
         .state('help.tos',       {url: '/tos',views: {'help': { templateUrl: 'app/components/help/tosView.html'}}})
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
+        .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
 
 });

@@ -10,6 +10,8 @@
     <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="assets/js/app.js"></script>
+
+
     <link rel="stylesheet" href="assets/css/vts.css">
 
 </head>
@@ -90,6 +92,7 @@
                 <div class="pull-right">Facebook</div>
                 <div class="pull-right">Twitter</div>
                 <div class="pull-right" ui-sref="help.faq">FAQ</div>
+                <div class="pull-right" ui-sref="help.contact">Contacto</div>
                 <div class="pull-right" ui-sref="help.sobre">Sobre nosotros</div>
             </div>
         </div>
@@ -103,7 +106,7 @@
 
 
 
-
+<!-- login modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginController"  ng-init="email='geodracs@gmail.com';pass='123456'">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -116,7 +119,7 @@
 
         </div>
     </div>
-</div>
+</div><!-- .login modal -->
 
 
 
