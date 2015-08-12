@@ -28,9 +28,7 @@
 
 
     <link rel="stylesheet" href="assets/css/vts.css">
-    <!--
-    <link rel="stylesheet" href="assets/css/prettyprint.css">
-    -->
+
 </head>
 <body>
 <!-- header -->
@@ -48,6 +46,8 @@
                     <input type="text">
                 </li>
                 <li class="hover-default" ui-sref="search" style="color: gainsboro;">Explorar</li>
+                <li ui-sref="welcome">Welcome</li>
+                <li ui-sref="reminder">Recordar Pass</li>
             </ul>
             <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
                 <li data-toggle="modal" data-target="#myModal" >Iniciar Sesión</li>
@@ -108,9 +108,13 @@
                 <div class="pull-right">Youtube</div>
                 <div class="pull-right">Facebook</div>
                 <div class="pull-right">Twitter</div>
+                <!--
                 <div class="pull-right" ui-sref="help.faq">FAQ</div>
+                -->
                 <div class="pull-right" ui-sref="help.contact">Contacto</div>
+                <!--
                 <div class="pull-right" ui-sref="help.sobre">Sobre nosotros</div>
+                -->
             </div>
         </div>
     </footer><!-- .footer -->

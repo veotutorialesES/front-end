@@ -9,7 +9,7 @@
             <input style="margin-top: 10px;" ng-model="email" class="form-control" type="text" placeholder="Email">
             <input style="margin-top: 10px;" ng-model="pass" class="form-control" type="password" placeholder="Contraseña">
             <div style="margin-top:10px;">
-            <label><input type="checkbox" ng-model="checkbox"></label> Acepto lo terminos legales
+            <label><input type="checkbox" ng-model="checkbox"></label> <a style="color: black" target="_blank" ui-sref="help.tos">Acepto lo terminos legales</a>
             <button ng-click="send(checkbox)" class="btn btn-default btn-sm pull-right" type="submit">REGISTRARME</button>
             </div>
         </div>
@@ -17,10 +17,5 @@
 
 
     </div>
-    <div class="container" style="padding-top: 10px;">
-        <ul>
-            <li ui-sref="welcome">Welcome</li>
-            <li ui-sref="reminder">Recordar Pass</li>
-        </ul>
-    </div>
+
 </div>
