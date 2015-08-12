@@ -1,4 +1,4 @@
-var app = angular.module("vts", ['ui.router','app.data']);
+var app = angular.module("vts", ['ui.router','app.data','textAngular']);
 
 app.controller("headerController",function($rootScope,$scope){
 
@@ -36,3 +36,5 @@ app.controller("playlist", function($scope){
 
     }
 });
+
+

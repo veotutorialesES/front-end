@@ -26,7 +26,7 @@ angular.module("app.data", [])
 
 
     });;
-var app = angular.module("vts", ['ui.router','app.data']);
+var app = angular.module("vts", ['ui.router','app.data','textAngular']);
 
 app.controller("headerController",function($rootScope,$scope){
 
@@ -63,7 +63,10 @@ app.controller("playlist", function($scope){
 
 
     }
-});;
+});
+
+
+;
 app.config(function($stateProvider, $urlRouterProvider) {
     //
     // For any unmatched url, redirect to /state1
@@ -157,6 +160,10 @@ app.controller("courseController", function($scope){
 });;
 app.controller("dudasController", function($scope){
     $scope.data = "Dataaaaaaaaaaaa";
+    angular.element(document).ready(function () {
+        console.log('Code highlighting');
+        prettyPrint();
+    });
 });;
 app.controller("helpController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";

@@ -15,17 +15,26 @@
                 <p>If a resource is located on my server (say /js/somefile.js), I sometimes do things like <script src="/js/somefile.js?v=3" type="text/javascript"></script> and update v whenever changes are made to ensure a user's client doesn't use the old cached version.
 
                     What should be done if using a CDN resource?</p>
-<pre><code>&lt;!DOCTYPE html>
-    &lt;html>
-    &lt;head>
-    ...</code>
-	<code class="highlight">&lt;link href="themes/prism.css" rel="stylesheet" /></code>
-<code>&lt;/head>
-    &lt;body>
-    ...</code>
-	<code class="highlight">&lt;script src="prism.js">&lt;/script></code>
-<code>&lt;/body>
-    &lt;/html></code></pre>
+<pre class="prettyprint lang-js">
+function getCookie(c_name){
+    var c_value = document.cookie;
+    var c_start = c_value.indexOf(" " + c_name + "=");
+    if (c_start == -1){
+        c_start = c_value.indexOf(c_name + "=");
+    }
+    if (c_start == -1){
+        c_value = null;
+    }else{
+        c_start = c_value.indexOf("=", c_start) + 1;
+        var c_end = c_value.indexOf(";", c_start);
+        if (c_end == -1){
+            c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start,c_end));
+    }
+    return c_value;
+}
+</pre>
 
 
             </div>
@@ -84,19 +93,19 @@
 
 
 
+            <div class="box" style="margin-top: 20px;padding: 5px;">
+                <div text-angular ta-toolbar="[['h1','h2','h3'],['bold','italics']]" style="">
 
-                <div class="box" style="margin-top: 20px;padding: 5px;">
-                    <textarea class="form-control" style="height: 200px;"></textarea>
-                    <div style="padding-top: 5px;text-align: right">
-                        <button class="btn btn-default" style="">ENVIAR</button>
-                    </div>
                 </div>
-
+                <div style="padding-top: 5px;text-align: right">
+                    <button class="btn btn-default" style="">ENVIAR</button>
+                </div>
 
 
 
             </div>
 
+        </div>
 
 
 
@@ -106,7 +115,7 @@
 
         </div>
         <div class="col-xs-4" style="">
-            <iframe style="border: 0;width: 100%;height: 200px" class="embed-responsive-item" src="https://www.youtube.com/embed/_eVNU59Q_MU"></iframe>
+            <img style="width: 100%" src="https://i.ytimg.com/vi_webp/mpQts3ezPVg/mqdefault.webp">
             <div style="margin-top: 20px;">
                 <div style="padding: 10px;border:1px silver solid">Salvador hace 3 días</div>
             </div>
