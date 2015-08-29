@@ -1,3 +1,60 @@
+angular.module("app.api", []).service("$api", function($http){
+    var self = this;
+
+    var host = location.host + ":8000";
+
+    self.base_url = "http://"+host+"/api/v1/";
+    // get
+    this.get = function(route, params, callback){
+        console.log("ApiService: get()");
+        console.log("ApiService->get(): (url) " + self.base_url+route);
+
+        $http.get(self.base_url+route).then(function(res){
+            callback(res.data);
+        })
+    };
+
+    // create
+    this.post = function(route, params, callback){
+
+        console.log("ApiService: post()");
+
+        var dat = "";
+        for (var k in params){
+            dat += "&"+k+"="+params[k];
+        }
+
+        var postData = "?token=1234" + dat;
+        console.log("ApiService->post(): (url) " + postData);
+
+        $http({
+            method: 'POST',
+            url: self.base_url+route,
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("ApiService->post(): ");
+            console.log(res);
+
+            callback(res);
+
+
+        }).error(function(data){
+            console.error("ApiService->post(): ");
+            callback(data);
+
+        });
+
+
+
+    };
+
+
+
+
+});;
 angular.module("app.data", [])
 
     .service("$data", function($http){
@@ -26,7 +83,7 @@ angular.module("app.data", [])
 
 
     });;
-var app = angular.module("vts", ['ui.router','app.data','textAngular']);
+var app = angular.module("vts", ['ui.router','app.data','textAngular','app.api']);
 
 app.controller("headerController",function($rootScope,$scope){
 
@@ -45,25 +102,7 @@ app.controller("headerController",function($rootScope,$scope){
 
 });
 
-app.controller("playlist", function($scope){
 
-    $scope.list = {
-        "Modulo1": [
-            {id: 1, title: "Introduccion"},
-            {id: 1, title: "Variables"},
-            {id: 1, title: "Tipos de datos"},
-            {id: 1, title: "Orientado a objetos"}
-        ],
-        "Modulo2": [
-            {id: 1, title: "Introduccion"},
-            {id: 1, title: "Variables"},
-            {id: 1, title: "Tipos de datos"},
-            {id: 1, title: "Orientado a objetos"}
-        ]
-
-
-    }
-});
 
 
 ;
@@ -99,7 +138,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "app/components/avisos/avisosView.html"
         })
         .state('course', {
-            url: "/course",
+            url: "/course/:id",
             templateUrl: "app/components/course/courseView.html"
         })
 
@@ -155,8 +194,43 @@ app.controller("accountController", function($scope,$data){
 
 
 });;
-app.controller("courseController", function($scope){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("courseController", function($scope,$stateParams,$api){
+
+    $scope.course_id = $stateParams.id;
+    $scope.course = [];
+    $scope.modules = [];
+
+    $scope.getCourse = function(id, callback){
+        console.log("courseController: getModules()");
+
+
+        $api.get("course/"+id+"/all",[], function(res){
+
+            console.log("courseController->getModules(): ");
+            console.log(res.course.modules);
+
+            $scope.course = res.course;
+            $scope.modules =  $scope.course.modules;
+
+            /*
+            $scope.modules = [];
+            for (var key in res.course.modules) {
+                    var obj = res.course.modules[key];
+                $scope.modules.push(obj);
+
+
+            }
+             */
+
+
+
+            if (callback) { callback(true);}
+
+
+        });
+
+    };
+
 });;
 app.controller("dudasController", function($scope){
     $scope.data = "Dataaaaaaaaaaaa";
