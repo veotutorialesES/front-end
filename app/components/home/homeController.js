@@ -1,5 +1,19 @@
-app.controller("homeController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("homeController", function($scope,$data,$api){
+
+    $scope.tutorials = [];
+
+
+    $scope.lastTutorials = function(){
+
+        $api.get("tutorial/last",[],function(res){
+
+            $scope.tutorials = res;
+            console.log(res)
+        });
+
+
+    };
+
 
 
     $data.getCourses();

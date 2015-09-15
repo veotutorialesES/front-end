@@ -30,7 +30,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "app/components/avisos/avisosView.html"
         })
         .state('course', {
-            url: "/course/:id",
+            url: "/course/:course_id/:tutorial_id",
             templateUrl: "app/components/course/courseView.html"
         })
 

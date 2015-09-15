@@ -132,6 +132,11 @@ pre {
   border: 0 !important;
   padding: 10px !important;
 }
+div {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+}
 header {
   position: fixed;
   left: 0;

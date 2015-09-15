@@ -26,14 +26,9 @@
             <h2><span class="glyphicon glyphicon-fire"></span> Ultimos tutoriales <span ui-sref="search" class="pull-right" style="color:#d1171e">Ver más</span></h2>
 
         </div>
-        <div class="container">
+        <div ng-init="lastTutorials()" class="container">
             <div class="row" style="">
-            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
-            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
-            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
-            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
-            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
-            <tutorial-card class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
+            <tutorial-card ng-repeat="tutorial in tutorials" ui-sref="course({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})" title="tutorial.title" class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
 
 
 
