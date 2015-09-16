@@ -101,30 +101,26 @@
                 </div>
 
 
+                <div  ng-controller="dudasController">
+                    <h2 style="margin-top: 10px;"><span class="glyphicon glyphicon-question-sign"></span> Dudas</h2>
+                    <div ng-init="getDoubts(tutorial_id)" style="margin-top:10px;">
+                        <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
 
-                <h2 style="margin-top: 10px;"><span class="glyphicon glyphicon-question-sign"></span> Dudas</h2>
-                <div style="margin-top:10px;">
-                    <dudas-card info="test"></dudas-card>
-                    <dudas-card info="test"></dudas-card>
-                    <dudas-card info="test"></dudas-card>
-                    <dudas-card info="test"></dudas-card>
-                    <dudas-card info="test"></dudas-card>
-                    <dudas-card info="test"></dudas-card>
-                    <dudas-card info="test"></dudas-card>
+                    </div>
 
-                </div>
+                    <h2 style="margin-top:10px;"><span class="glyphicon glyphicon-pencil"></span> Tienes alguna duda?</h2>
 
-                <h2 style="margin-top:10px;"><span class="glyphicon glyphicon-pencil"></span> Tienes alguna duda?</h2>
+                    <div class="box" style="padding: 5px;margin-top:10px;">
+                        <div>Antes de enviar tu duda asegurate de que no esté ya resuelta.</div>
+                        <input ng-model="auxDoubt.title" style="margin-top: 5px;border-radius: 0" type="text" class="form-control" placeholder="Un titulo para tu duda">
 
-                <div class="box" style="padding: 5px;margin-top:10px;">
-                    <div>Antes de enviar tu duda asegurate de que no esté ya resuelta.</div>
-                    <input style="margin-top: 5px;border-radius: 0" type="text" class="form-control" placeholder="Un titulo para tu duda">
-
-                    <div text-angular ta-toolbar="[['h1','h2','h3'],['bold','italics']]" style=""></div>
-                    <div style="margin-top: 5px;text-align: right">
-                        <button class="btn btn-default">Enviar</button>
+                        <textarea ng-model="auxDoubt.description" class="form-control"></textarea>
+                        <div style="margin-top: 5px;text-align: right">
+                            <button ng-click="addDoubt(tutorial_id)" class="btn btn-default">Enviar</button>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
 

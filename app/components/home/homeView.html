@@ -67,7 +67,7 @@
 
 <div style="background-color: #e7e7e7">
 
-    <div class="container" style="">
+    <div ng-controller="dudasController" class="container" style="">
 
 
         <div class="col-xs-5" style="padding: 20px;" >
@@ -75,11 +75,9 @@
             <div>Estamos en BETA</div>
 
         </div>
-        <div class="col-xs-7" ng-init="test = {a:'uno'}" style="padding: 20px;  ">
-            <dudas-card info="test"></dudas-card>
-            <dudas-card info="test"></dudas-card>
-            <dudas-card info="test"></dudas-card>
-            <dudas-card info="test"></dudas-card>
+        <div class="col-xs-7" ng-init="getAll()" style="padding: 20px;  ">
+            <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
+
 
         </div>
 

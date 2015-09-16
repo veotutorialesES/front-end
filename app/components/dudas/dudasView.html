@@ -2,7 +2,7 @@
 
 </style>
 
-<div ng-controller="dudasController" style="padding-bottom: 20px;margin-top: 20px;">
+<div ng-controller="dudasController" ng-init="getDoubt(doubt_id)" style="padding-bottom: 20px;margin-top: 20px;">
 
 
 <div class="container">
@@ -10,11 +10,11 @@
 
         <div class="col-xs-12 col-sm-8">
             <div class="box">
-                <div style="padding: 10px;border-bottom: 1px silver solid"><h1>Titulo de la duda que quieres plantear en el videotutorial visto</h1></div>
-            <div style="padding: 20px;">
-                <p>If a resource is located on my server (say /js/somefile.js), I sometimes do things like <script src="/js/somefile.js?v=3" type="text/javascript"></script> and update v whenever changes are made to ensure a user's client doesn't use the old cached version.
+                <div style="padding: 10px;border-bottom: 1px silver solid">
 
-                    What should be done if using a CDN resource?</p>
+                    <h1>{{doubt.title}}</h1></div>
+            <div style="padding: 20px;">
+                {{doubt.description}}
 <pre class="prettyprint lang-js">
 function getCookie(c_name){
     var c_value = document.cookie;
@@ -22,18 +22,6 @@ function getCookie(c_name){
     if (c_start == -1){
         c_start = c_value.indexOf(c_name + "=");
     }
-    if (c_start == -1){
-        c_value = null;
-    }else{
-        c_start = c_value.indexOf("=", c_start) + 1;
-        var c_end = c_value.indexOf(";", c_start);
-        if (c_end == -1){
-            c_end = c_value.length;
-        }
-        c_value = unescape(c_value.substring(c_start,c_end));
-    }
-    return c_value;
-}
 </pre>
 
 

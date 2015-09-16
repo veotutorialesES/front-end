@@ -22,7 +22,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "app/components/home/homeView.html"
         })
         .state('dudas', {
-            url: "/dudas",
+            url: "/dudas/:doubt_id",
             templateUrl: "app/components/dudas/dudasView.html"
         })
         .state('avisos', {

@@ -3,15 +3,12 @@ app.directive("dudasCard", function(){
     return {
         restrict: 'E',
         scope: {
-          section: '=info'
+          doubt: '=info'
         },
         templateUrl: 'app/shared/dudas/dudas-card.html',
         controller: function($scope){
-            console.log($scope.section);
-            $scope.customer = {
-                name:"Salvador",
-                address:"paseo de mons"
-            }
+            //console.log($scope.section);
+
 
         }
     };
