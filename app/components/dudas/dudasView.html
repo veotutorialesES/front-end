@@ -2,7 +2,7 @@
 
 </style>
 
-<div ng-controller="dudasController" ng-init="getDoubt(doubt_id)" style="padding-bottom: 20px;margin-top: 20px;">
+<div ng-controller="dudasController" ng-init="getDoubt(doubt_id);getAnswers(doubt_id)" style="padding-bottom: 20px;margin-top: 20px;">
 
 
 <div class="container">
@@ -15,6 +15,7 @@
                     <h1>{{doubt.title}}</h1></div>
             <div style="padding: 20px;">
                 {{doubt.description}}
+                <!--
 <pre class="prettyprint lang-js">
 function getCookie(c_name){
     var c_value = document.cookie;
@@ -23,14 +24,14 @@ function getCookie(c_name){
         c_start = c_value.indexOf(c_name + "=");
     }
 </pre>
-
+-->
 
             </div>
             </div>
             <hr>
             <h2>Respuestas</h2>
-            <div style="margin-top: 20px;">
-                <div class="box" style="">
+            <div ng-repeat="answer in answers" style="margin-top: 20px;">
+                <div  class="box" style="">
                     <div style="height: auto !important;overflow: hidden;border-bottom: 1px #e5e5e5 solid">
                         <div class="pull-left" style="padding: 5px;"><span class="glyphicon glyphicon-ok"></span> SOLUCIÓN</div>
                         <ul class="pull-right float padding-5 hover-default">
@@ -39,12 +40,7 @@ function getCookie(c_name){
                         </ul>
                     </div>
                     <div style="padding: 20px;">
-
-                            Your problem is confusing the functionality intent of the classes. The QAbstractListModel is intended as a wrapper around a container, yes, you could put the container inside the QAbstractListModel derived class, but you don't really have to, the container can be just about any C++ class, not necessarily even QObject derived, it can be ju that you can reach from the model via a pointer. Which is good for cases where you have many objects, and not all need to have models at all the time, since those models are pretty heavy.
-
-                            You don't really need to concern yourself with the ownership, leave that at the C++ side, the same goes for the actual object creation, have a slot called that adds the new object to the container while also using the model's beginInsertRows and endInsertRows so that any views will be notified to update efficiently, the new object should also be created in that slot, you can pass any data needed for it from QML, just make sure all data is registered with the Qt meta system so it can work with QVariant for QML-C++ interop.
-
-
+                        {{answer}}
                     </div>
 
                     <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;border-top: 1px silver solid">
@@ -62,20 +58,24 @@ function getCookie(c_name){
 
                 </div>
                 <div class="box" style="padding: 5px;">
-                    <textarea class="form-control" style="height: 70px;resize: none"></textarea>
+                    <textarea ng-model="comment.description" class="form-control" style="height: 70px;resize: none"></textarea>
                     <div style="padding-top: 5px;text-align: right">
-                        <button class="btn btn-default btn-xs" style="">ENVIAR</button>
+                        <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
                     </div>
                 </div>
                 <div class="box" style="border: 1px silver solid;background-color: #e3e3e3">
 
-                    <div style="">
+                    <div ng-click="getComments(answer.answer_id)" style="">
 
-                        <div style="padding: 5px;border-bottom: 1px silver solid">Comentario 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
-                        <div style="padding: 5px;border-bottom: 1px silver solid">Comentario 2</div>
-                        <div style="padding: 5px;">Comentario 3</div>
+                        <div ng-repeat="" style="padding: 5px;border-bottom: 1px silver solid">{{1}} 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
+
                     </div>
                 </div>
+
+
+
+        </div>
+
 
 
 
@@ -84,21 +84,16 @@ function getCookie(c_name){
 
 
             <div class="box" style="margin-top: 20px;padding: 5px;">
-                <div text-angular ta-toolbar="[['h1','h2','h3'],['bold','italics']]" style="">
+                <textarea ng-model="NewAnswer.description" class="form-control">
 
-                </div>
+                </textarea>
                 <div style="padding-top: 5px;text-align: right">
-                    <button class="btn btn-default" style="">ENVIAR</button>
+                    <button ng-click="addAnswer(doubt_id)" class="btn btn-default" style="">ENVIAR</button>
                 </div>
 
 
 
             </div>
-
-        </div>
-
-
-
 
 
 
