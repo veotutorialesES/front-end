@@ -357,7 +357,8 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
 
     $scope.addComment = function(answer_id){
-        console.log("dudasController: addComment("+answer_id+"): ");
+        console.info("dudasController: addComment("+answer_id+"): ");
+        console.warn(answer_id);
         var arr = [];
 
         arr["description"] = $scope.comment.description;
@@ -366,7 +367,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
         console.log(arr);
 
         $api.post("comment",arr,function(res){
-            console.log("dudasController->addComment(): ");
+            console.info("dudasController->addComment(): ");
 
             console.log(res);
 

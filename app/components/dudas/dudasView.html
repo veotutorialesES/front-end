@@ -40,7 +40,7 @@ function getCookie(c_name){
                         </ul>
                     </div>
                     <div style="padding: 20px;">
-                        {{answer}}
+                        {{answer.description}}
                     </div>
 
                     <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;border-top: 1px silver solid">
@@ -67,7 +67,7 @@ function getCookie(c_name){
 
                     <div ng-click="getComments(answer.answer_id)" style="">
 
-                        <div ng-repeat="" style="padding: 5px;border-bottom: 1px silver solid">{{1}} 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
+                        <div ng-repeat="comment in answer.comments" style="padding: 5px;border-bottom: 1px silver solid">{{comment.description}} 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
 
                     </div>
                 </div>
@@ -117,5 +117,7 @@ function getCookie(c_name){
         </div>
     </div>
 </div>
+
+
 
 </div>
