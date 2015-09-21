@@ -1,7 +1,14 @@
 
-<div>
+<div ng-init="subscriptions(0)">
 
-    <dudas-card></dudas-card>
-    <dudas-card></dudas-card>
+    <table class="box" style="width: 100%">
+        <tbody>
+        <tr ng-repeat="item in items" style="border-bottom: 1px #ebebeb solid;">
+            <td><img style="width: 100px;" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp"></td>
+            <td>{{item.type_id}}</td>
+            <td ng-click="unsubscribe(item.type, item.type_id)">ELIMINAR</td>
+        </tr>
 
+        </tbody>
+    </table>
 </div>

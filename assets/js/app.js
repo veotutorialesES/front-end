@@ -5,7 +5,7 @@ angular.module("app.api", []).service("$api", function($http){
 
     self.base_url = "http://"+host+"/api/v1/";
     // get
-    this.get = function(route, params, callback){
+    self.get = function(route, params, callback){
         console.log("ApiService: get()");
         console.log("ApiService->get(): (url) " + self.base_url+route);
 
@@ -15,7 +15,7 @@ angular.module("app.api", []).service("$api", function($http){
     };
 
     // create
-    this.post = function(route, params, callback){
+    self.post = function(route, params, callback){
 
         console.log("ApiService: post()");
 
@@ -25,7 +25,7 @@ angular.module("app.api", []).service("$api", function($http){
         }
 
         var postData = "?token=1234" + dat;
-        console.log("ApiService->post(): (url) " + postData);
+        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
 
         $http({
             method: 'POST',
@@ -54,6 +54,55 @@ angular.module("app.api", []).service("$api", function($http){
 
 
 
+    self.subscribe = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("ApiService->subscribe("+type+","+type_id+")");
+        self.post("subscription/",arr,function(res){
+            console.info("ApiService->subscribe(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.unsubscribe = function(type, type_id,callback){
+        console.info("ApiService->unsubscribe("+type+","+type_id+")");
+        self.post("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("ApiService->unsubscribe(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.subscriptions = function(type,callback){
+        console.info("ApiService->subscriptions("+type+")");
+
+        self.get("subscription/"+type,[],function(res){
+            console.info("ApiService->subscriptions(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+    self.is_subscribed = function(type,type_id,callback){
+        console.info("ApiService->is_subscribe("+type+","+type_id+")");
+
+        self.get("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("ApiService->is_subscribe(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
 });;
 angular.module("app.data", [])
 
@@ -113,72 +162,35 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //
     // Now set up the states
     $stateProvider
-        .state('login', {
-            url: "/login",
-            templateUrl: "app/components/login/loginView.html"
-        })
-        .state('reminder', {
-            url: "/reminder",
-            templateUrl: "app/components/login/reminderView.html"
-        })
-        .state('register', {
-            url: "/register",
-            templateUrl: "app/components/register/registerView.html"
-        })
-        .state('home', {
-            url: "/",
-            templateUrl: "app/components/home/homeView.html"
-        })
-        .state('dudas', {
-            url: "/dudas/:doubt_id",
-            templateUrl: "app/components/dudas/dudasView.html"
-        })
-        .state('avisos', {
-            url: "/avisos",
-            templateUrl: "app/components/avisos/avisosView.html"
-        })
-        .state('course', {
-            url: "/course/:course_id/:tutorial_id",
-            templateUrl: "app/components/course/courseView.html"
-        })
+        .state('login', { url: "/login", templateUrl: "app/components/login/loginView.html"})
+        .state('reminder', { url: "/reminder", templateUrl: "app/components/login/reminderView.html"})
+        .state('register', { url: "/register", templateUrl: "app/components/register/registerView.html"})
+        .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
+        .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
+        .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
+        .state('course', { url: "/course/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
 
-        .state('welcome', {
-            url: "/welcome",
-            templateUrl: "app/components/account/welcomeView.html"
-        })
-        .state('search', {
-            url: "/search",
-            templateUrl: "app/components/search/searchView.html"
-        })
-        .state('suscripcion', {
-            url: "/suscripcion",
-            templateUrl: "app/components/suscripcion/suscripcionView.html"
-        })
+        .state('welcome', { url: "/welcome", templateUrl: "app/components/account/welcomeView.html"})
+        .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
+
+        .state('suscripcion', { url: "/suscripcion", templateUrl: "app/components/suscripcion/suscripcionView.html"})
         .state('suscripcion.courses',       {url: '/courses',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionCoursesView.html'}}})
         .state('suscripcion.dudas',       {url: '/dudas',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionDudasView.html'}}})
 
-        .state('account', {
-            url: "/account",
-            templateUrl: "app/components/account/accountView.html"
-        })
 
+        .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
         .state('account.email',       {url: '/email',views: {'account': { templateUrl: 'app/components/account/accountEmailView.html'}}})
         .state('account.pass',       {url: '/pass',views: {'account': { templateUrl: 'app/components/account/accountPassView.html'}}})
         .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
-        .state('account.social',       {url: '/social',views: {'account': { templateUrl: 'app/components/account/accountSocialView.html'}}})
         .state('account.config',       {url: '/config',views: {'account': { templateUrl: 'app/components/account/accountConfigView.html'}}})
 
-        .state('help', {
-            url: "/help",
-            templateUrl: "app/components/help/helpView.html"
-        })
+        .state('help', { url: "/help", templateUrl: "app/components/help/helpView.html" })
         .state('help.sobre',       {url: '/sobre',views: {'help': { templateUrl: 'app/components/help/aboutView.html'}}})
-        .state('help.faq',       {url: '/faq',views: {'help': { templateUrl: 'app/components/help/faqView.html'}}})
+        .state('help.faq',          {url: '/faq',views: {'help': { templateUrl: 'app/components/help/faqView.html'}}})
         .state('help.tos',       {url: '/tos',views: {'help': { templateUrl: 'app/components/help/tosView.html'}}})
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
-
 });;
 app.controller("accountController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";
@@ -198,7 +210,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
-
+    $scope.is_subscribed = false;
 
     $scope.video_url = "";
 
@@ -229,7 +241,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
 
     $scope.getTutorial = function(tutorial_id){
-        console.log("courseController: getTutorial()");
+        console.info("courseController: getTutorial("+tutorial_id+")");
 
         $api.get("tutorial/id/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
@@ -239,6 +251,32 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
             console.log(res)
         });
 
+    }
+
+
+    $scope.subscribe = function(course_id){
+        console.info("courseController: subscribe("+course_id+")");
+
+        $api.subscribe(3,course_id,function(res){
+            console.info("courseController->subscribe(): ");
+            console.log(res)
+            $scope.is_subscribed = true;
+        });
+    };
+    $scope.unsubscribe = function(course_id){
+        console.info("courseController: unsubscribe("+course_id+")");
+
+        $api.unsubscribe(3,course_id,function(res){
+            console.info("courseController->unsubscribe(): ");
+            console.log(res)
+            $scope.is_subscribed = false;
+        });
+    };
+
+    $scope.check_subscription = function(type_id){
+        $api.is_subscribed(3,type_id,function(res){
+            $scope.is_subscribed = res;
+        });
     }
 
 
@@ -257,6 +295,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.NewAnswer = {};
     $scope.answers = [];
     $scope.comment = {};
+    $scope.is_subscribed = false;
 
     $scope.addDoubt = function(tutorial_id){
         console.log("dudasController: addDoubt(): ");
@@ -332,10 +371,10 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
 
     $scope.getAnswers = function(doubt_id){
-        console.log("dudasController: getAnswers("+doubt_id+"): ");
+        console.info("dudasController: getAnswers("+doubt_id+"): ");
 
         $api.get("doubt/answer/"+doubt_id,[],function(res){
-            console.log("dudasController->getAnswers(): ");
+            console.info("dudasController->getAnswers(): ");
 
             console.log(res);
             $scope.answers = res;
@@ -344,10 +383,10 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     };
 
     $scope.getComments = function(answer_id){
-        console.log("dudasController: getComments("+answer_id+"): ");
+        console.info("dudasController: getComments("+answer_id+"): ");
 
         $api.get("comment/0/"+answer_id,[],function(res){
-            console.log("dudasController->getAnswers(): ");
+            console.info("dudasController->getAnswers(): ");
 
             console.log(res);
             return res;
@@ -358,7 +397,6 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
     $scope.addComment = function(answer_id){
         console.info("dudasController: addComment("+answer_id+"): ");
-        console.warn(answer_id);
         var arr = [];
 
         arr["description"] = $scope.comment.description;
@@ -373,7 +411,37 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         })
 
+    };
+
+    $scope.subscribe = function(doubt_id){
+        console.info("dudasController: subscribe("+doubt_id+")");
+
+        $api.subscribe(0,doubt_id,function(res){
+            console.info("dudasController->subscribe(): ");
+            console.log(res);
+            $scope.is_subscribed = true;
+
+        });
     }
+
+
+    $scope.unsubscribe = function(doubt_id){
+        console.info("dudasController: unsubscribe("+doubt_id+")");
+
+        $api.unsubscribe(0,course_id,function(res){
+            console.info("dudasController->unsubscribe(): ");
+            console.log(res);
+            $scope.is_subscribed = false;
+        });
+    };
+
+    $scope.check_subscription = function(type_id){
+        $api.is_subscribed(0,type_id,function(res){
+            $scope.is_subscribed = res;
+        });
+    }
+
+
 
 });;
 app.controller("helpController", function($scope,$data){
@@ -522,9 +590,30 @@ app.controller("searchController", function($scope,$data){
 
 
 });;
-app.controller("suscripcionController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("suscripcionController", function($scope,$api){
 
+    $scope.items = [];
+
+    $scope.subscriptions = function(type) {
+        console.info("subscriptionController: subscriptions()")
+
+        $api.subscriptions(type, function (res) {
+            console.info("subscriptionController->subscriptions()")
+            console.log(res);
+            $scope.items = res;
+        })
+    }
+
+
+    $scope.unsubscribe = function(type, type_id){
+        console.info("subscriptionController: unsubscribe("+type+","+type_id+")");
+
+        $api.unsubscribe(type,type_id, function(res){
+            console.info("subscriptionController->unsubscribe()")
+            console.log(res);
+            $scope.subscriptions(type); // TODO eliminar manualmente del array
+        });
+    }
 
 
 

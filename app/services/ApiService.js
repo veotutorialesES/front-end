@@ -5,7 +5,7 @@ angular.module("app.api", []).service("$api", function($http){
 
     self.base_url = "http://"+host+"/api/v1/";
     // get
-    this.get = function(route, params, callback){
+    self.get = function(route, params, callback){
         console.log("ApiService: get()");
         console.log("ApiService->get(): (url) " + self.base_url+route);
 
@@ -15,7 +15,7 @@ angular.module("app.api", []).service("$api", function($http){
     };
 
     // create
-    this.post = function(route, params, callback){
+    self.post = function(route, params, callback){
 
         console.log("ApiService: post()");
 
@@ -25,7 +25,7 @@ angular.module("app.api", []).service("$api", function($http){
         }
 
         var postData = "?token=1234" + dat;
-        console.log("ApiService->post(): (url) " + postData);
+        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
 
         $http({
             method: 'POST',
@@ -54,4 +54,53 @@ angular.module("app.api", []).service("$api", function($http){
 
 
 
+    self.subscribe = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("ApiService->subscribe("+type+","+type_id+")");
+        self.post("subscription/",arr,function(res){
+            console.info("ApiService->subscribe(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.unsubscribe = function(type, type_id,callback){
+        console.info("ApiService->unsubscribe("+type+","+type_id+")");
+        self.post("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("ApiService->unsubscribe(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.subscriptions = function(type,callback){
+        console.info("ApiService->subscriptions("+type+")");
+
+        self.get("subscription/"+type,[],function(res){
+            console.info("ApiService->subscriptions(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+    self.is_subscribed = function(type,type_id,callback){
+        console.info("ApiService->is_subscribe("+type+","+type_id+")");
+
+        self.get("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("ApiService->is_subscribe(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
 });

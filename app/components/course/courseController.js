@@ -2,7 +2,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
-
+    $scope.is_subscribed = false;
 
     $scope.video_url = "";
 
@@ -33,7 +33,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
 
     $scope.getTutorial = function(tutorial_id){
-        console.log("courseController: getTutorial()");
+        console.info("courseController: getTutorial("+tutorial_id+")");
 
         $api.get("tutorial/id/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
@@ -43,6 +43,32 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
             console.log(res)
         });
 
+    }
+
+
+    $scope.subscribe = function(course_id){
+        console.info("courseController: subscribe("+course_id+")");
+
+        $api.subscribe(3,course_id,function(res){
+            console.info("courseController->subscribe(): ");
+            console.log(res)
+            $scope.is_subscribed = true;
+        });
+    };
+    $scope.unsubscribe = function(course_id){
+        console.info("courseController: unsubscribe("+course_id+")");
+
+        $api.unsubscribe(3,course_id,function(res){
+            console.info("courseController->unsubscribe(): ");
+            console.log(res)
+            $scope.is_subscribed = false;
+        });
+    };
+
+    $scope.check_subscription = function(type_id){
+        $api.is_subscribed(3,type_id,function(res){
+            $scope.is_subscribed = res;
+        });
     }
 
 

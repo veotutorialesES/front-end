@@ -29,11 +29,11 @@ function getCookie(c_name){
             </div>
             </div>
             <hr>
-            <h2>Respuestas</h2>
+            <label style="font-size: 17pt;">Respuestas</label>
             <div ng-repeat="answer in answers" style="margin-top: 20px;">
                 <div  class="box" style="">
-                    <div style="height: auto !important;overflow: hidden;border-bottom: 1px #e5e5e5 solid">
-                        <div class="pull-left" style="padding: 5px;"><span class="glyphicon glyphicon-ok"></span> SOLUCIÓN</div>
+                    <div style="height: auto !important;overflow: hidden;border-bottom: 1px #e1e1e1 solid">
+                        <div class="pull-left" style="padding: 5px;"></div>
                         <ul class="pull-right float padding-5 hover-default">
                             <li><span class="glyphicon glyphicon-thumbs-up"></span> FUNCIONA  </li>
                             <li><span class="glyphicon glyphicon-thumbs-down"></span> NO FUNCIONA</li>
@@ -43,10 +43,10 @@ function getCookie(c_name){
                         {{answer.description}}
                     </div>
 
-                    <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;border-top: 1px silver solid">
+                    <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;border-top: 1px #e1e1e1 solid">
 
                         <div class="pull-left">
-                            hace 23 minutos por Salvador
+                            hace {{answer.created_at}} minutos por {{answer.user_id}}
 
                         </div>
 
@@ -57,17 +57,17 @@ function getCookie(c_name){
                     </div>
 
                 </div>
-                <div class="box" style="padding: 5px;">
+                <div class="box" ng-hide="true" style="padding: 5px;">
                     <textarea ng-model="comment.description" class="form-control" style="height: 70px;resize: none"></textarea>
                     <div style="padding-top: 5px;text-align: right">
                         <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
                     </div>
                 </div>
-                <div class="box" style="border: 1px silver solid;background-color: #e3e3e3">
+                <div class="box" style="border-top: 1px #e1e1e1 solid;background-color:#efefef;">
 
                     <div ng-click="getComments(answer.answer_id)" style="">
 
-                        <div ng-repeat="comment in answer.comments" style="padding: 5px;border-bottom: 1px silver solid">{{comment.description}} 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
+                        <div ng-repeat="comment in answer.comments" style="padding: 5px;border-bottom: 1px #e5e5e5 solid;padding:10px;">{{comment.description}} 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
 
                     </div>
                 </div>
@@ -84,6 +84,9 @@ function getCookie(c_name){
 
 
             <div class="box" style="margin-top: 20px;padding: 5px;">
+                <label style="font-size: 17pt;">Escribe una respuesta</label>
+
+
                 <textarea ng-model="NewAnswer.description" class="form-control">
 
                 </textarea>
@@ -100,19 +103,17 @@ function getCookie(c_name){
 
         </div>
         <div class="col-xs-12 col-sm-4" style="">
-            <img style="width: 100%" src="https://i.ytimg.com/vi_webp/mpQts3ezPVg/mqdefault.webp">
-            <div style="margin-top: 20px;">
-                <div style="padding: 10px;border:1px silver solid">Salvador hace 3 días</div>
-            </div>
-            <div style="margin-top: 20px;">
-                <div style="padding: 10px;border:1px silver solid">Tags</div>
-            </div>
-            <div style="margin-top: 20px;">
-                <div style="padding: 10px;border:1px silver solid">Compartir</div>
-            </div>
-            <div style="margin-top: 20px;font-weight: bold;">
-                <div style="padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> Solucionado</div>
-                <div style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Suscribirme</div>
+            <div>
+                <img style="width: 100%" src="https://i.ytimg.com/vi_webp/mpQts3ezPVg/mqdefault.webp">
+                <div style="margin-top: 20px;">
+                    <div style="padding: 10px;border:1px silver solid">Tutorial: {{doubt.tutorial.title}}</div>
+                </div>
+
+                <div style="margin-top: 20px;font-weight: bold;">
+                    <div style="padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> Solucionado</div>
+                    <div ng-hide="is_subscribed" ng-click="subscribe(doubt_id)" style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Suscribirme</div>
+                    <div ng-show="is_subscribed" ng-click="subscribe(doubt_id)" style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Eliminar subscripcion</div>
+                </div>
             </div>
         </div>
     </div>

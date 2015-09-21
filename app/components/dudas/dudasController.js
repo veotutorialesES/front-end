@@ -12,6 +12,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.NewAnswer = {};
     $scope.answers = [];
     $scope.comment = {};
+    $scope.is_subscribed = false;
 
     $scope.addDoubt = function(tutorial_id){
         console.log("dudasController: addDoubt(): ");
@@ -87,10 +88,10 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
 
     $scope.getAnswers = function(doubt_id){
-        console.log("dudasController: getAnswers("+doubt_id+"): ");
+        console.info("dudasController: getAnswers("+doubt_id+"): ");
 
         $api.get("doubt/answer/"+doubt_id,[],function(res){
-            console.log("dudasController->getAnswers(): ");
+            console.info("dudasController->getAnswers(): ");
 
             console.log(res);
             $scope.answers = res;
@@ -99,10 +100,10 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     };
 
     $scope.getComments = function(answer_id){
-        console.log("dudasController: getComments("+answer_id+"): ");
+        console.info("dudasController: getComments("+answer_id+"): ");
 
         $api.get("comment/0/"+answer_id,[],function(res){
-            console.log("dudasController->getAnswers(): ");
+            console.info("dudasController->getAnswers(): ");
 
             console.log(res);
             return res;
@@ -113,7 +114,6 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
     $scope.addComment = function(answer_id){
         console.info("dudasController: addComment("+answer_id+"): ");
-        console.warn(answer_id);
         var arr = [];
 
         arr["description"] = $scope.comment.description;
@@ -128,6 +128,36 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         })
 
+    };
+
+    $scope.subscribe = function(doubt_id){
+        console.info("dudasController: subscribe("+doubt_id+")");
+
+        $api.subscribe(0,doubt_id,function(res){
+            console.info("dudasController->subscribe(): ");
+            console.log(res);
+            $scope.is_subscribed = true;
+
+        });
     }
+
+
+    $scope.unsubscribe = function(doubt_id){
+        console.info("dudasController: unsubscribe("+doubt_id+")");
+
+        $api.unsubscribe(0,course_id,function(res){
+            console.info("dudasController->unsubscribe(): ");
+            console.log(res);
+            $scope.is_subscribed = false;
+        });
+    };
+
+    $scope.check_subscription = function(type_id){
+        $api.is_subscribed(0,type_id,function(res){
+            $scope.is_subscribed = res;
+        });
+    }
+
+
 
 });
