@@ -1,4 +1,4 @@
-var app = angular.module("vts", ['ui.router','app.data','textAngular','app.api','app.like','app.subscription','app.view']);
+var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
 
 app.controller("headerController",function($rootScope,$scope){
 

@@ -20,44 +20,23 @@
 </style>
 <div ng-controller="homeController">
 
-    <div style="background-color: #e8e8e8;padding-bottom: 20px;">
-        <div class="container" style="padding: 5px;padding-top: 10px;">
-
-            <h2><span class="glyphicon glyphicon-fire"></span> Ultimos tutoriales <span ui-sref="search" class="pull-right" style="color:#d1171e">Ver más</span></h2>
-
-        </div>
-        <div ng-init="lastTutorials()" class="container">
-            <div class="row" style="">
-            <tutorial-card ng-repeat="tutorial in tutorials" ui-sref="course({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})" title="tutorial.title" class="col-xs-2" style="padding: 5px;height: 110px"></tutorial-card>
-
-
-
-            </div>
-
-        </div>
-    </div>
-
-
 
     <!-- calendario -->
-    <div class="" style="padding-top: 10px;min-height: 200px;">
+    <div ng-init="getCalendar(getDate(),6)" class="" style="padding-top: 10px;min-height: 200px;">
         <div class="container">
             <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
 
             <div class="row calendario" style="margin-top: 10px;">
-                <div class="col-xs-2" ng-repeat="(i,k) in calendar">
-                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{i}}</div>
+                <div class="col-xs-2" ng-repeat="cal in calendar">
+                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{cal.day}}</div>
                     <ul>
-                        <li ng-repeat="tutorial in k">{{tutorial.name}}</li>
+
+                        <li style="background-color: greenyellow" ng-repeat="tutorial in cal.tutorials">{{tutorial.title}}</li>
+                        <li style="background-color: indianred" ng-repeat="course in cal.courses">{{course.title}}</li>
 
                     </ul>
                 </div>
-                <div class="col-xs-1">
-                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">sabado</div>
-                </div>
-                <div class="col-xs-1">
-                    <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">domingo</div>
-                </div>
+
             </div>
 
 
@@ -65,19 +44,22 @@
     </div><!-- .calendario -->
 
 
-<div style="background-color: #e7e7e7">
+<div style="background-color: white">
 
-    <div ng-controller="dudasController" class="container" style="">
+    <div  class="container" style="">
 
-
-        <div class="col-xs-5" style="padding: 20px;" >
-            <div>Ayuda a otros usuarios resolviendo sus dudas, ellos lo harían por ti.</div>
-            <div>Estamos en BETA</div>
-
-        </div>
-        <div class="col-xs-7" ng-init="getAll()" style="padding: 20px;  ">
-            <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
-
+        <div class="row">
+            <div ng-init="lastTutorials()" class="col-xs-6" style="padding: 20px;" >
+                <label>Ultimos tutoriales</label>
+                <div ng-repeat="tutorial in tutorials" ui-sref="course({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})" title="tutorial.title" style="padding: 5px;height: 110px">
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-9">{{tutorial.title}}</div>
+                </div>
+            </div>
+            <div class="col-xs-6" ng-controller="dudasController" ng-init="getAll()" style="padding: 20px;  ">
+                <label>Ultimas dudas</label>
+                <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
+            </div>
 
         </div>
 
@@ -85,28 +67,3 @@
 
 </div>
 
-
-
-<!-- boletin -->
-    <div class="" style="margin-top: 20px;height: 200px">
-        <div class="container">
-            <h2><span class="glyphicon glyphicon-envelope"></span> Boletin semanal</h2>
-            <div>Nuestro boletin actualmente recoge las siguientes posibilidades:</div>
-            <div class="row" style="padding: 20px;">
-                <div class="col-xs-6">
-                    <ul style="list-style: circle;padding-left: 40px;">
-                        <li><label><input type="checkbox" checked> Conocer las novedades de la web</label></li>
-                        <li><label><input type="checkbox" checked> Recibir calendario semanal</label></li>
-                        <li><label><input type="checkbox" checked> Avisarme de nuevos cursos</label></li>
-                    </ul>
-                </div>
-                <div class="col-xs-6">
-                    <form class="form-inline" style="padding-top: 20px;">
-                        <input style="width: 300px;" type="text" class="form-control" placeholder="introduce tu email">
-                        <button class="btn btn-primary">Suscribirme</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div><!-- .boletin -->

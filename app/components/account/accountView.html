@@ -42,13 +42,33 @@
 
             <div class="box">
                 <ul class="hover-default padding-10">
+                    <label style="padding: 5px;">Información básica</label>
 
                     <li class="selected" ui-sref="account.info">Cambiar nombre de usuario</li>
                     <li ui-sref="account.email">Cambiar Email</li>
                     <li ui-sref="account.pass">Cambiar Contraseña</li>
 
+                    <!--
                     <li ui-sref="account.notifications">Notificaciones</li>
+                    -->
 
+                </ul>
+
+            </div>
+
+            <div class="box" style="margin-top: 20px;">
+
+                <ul class="hover-default padding-10" >
+                    <label style="padding: 5px;">Subscripciones</label>
+                    <li class="selected" ui-sref="account.subCourses">Cursos</li>
+                    <li ui-sref="account.subDudas">Dudas</li>
+                </ul>
+            </div>
+
+            <div class="box" style="margin-top: 20px;">
+
+                <ul class="hover-default padding-10" >
+                    <label style="padding: 5px;">Danger Zone</label>
                     <li ui-sref="account.config">Eliminar mi cuenta</li>
                 </ul>
             </div>

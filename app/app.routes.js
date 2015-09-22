@@ -15,11 +15,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
         .state('welcome', { url: "/welcome", templateUrl: "app/components/account/welcomeView.html"})
         .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
-
+/*
         .state('suscripcion', { url: "/suscripcion", templateUrl: "app/components/suscripcion/suscripcionView.html"})
         .state('suscripcion.courses',       {url: '/courses',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionCoursesView.html'}}})
         .state('suscripcion.dudas',       {url: '/dudas',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionDudasView.html'}}})
-
+*/
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
@@ -27,6 +27,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('account.pass',       {url: '/pass',views: {'account': { templateUrl: 'app/components/account/accountPassView.html'}}})
         .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
         .state('account.config',       {url: '/config',views: {'account': { templateUrl: 'app/components/account/accountConfigView.html'}}})
+        .state('account.subDudas',       {url: '/SDoubts',views: {'account': { templateUrl: 'app/components/account/accountSuscriptionDudasView.html'}}})
+        .state('account.subCourses',       {url: '/SCourses',views: {'account': { templateUrl: 'app/components/account/accountSuscriptionCoursesView.html'}}})
 
         .state('help', { url: "/help", templateUrl: "app/components/help/helpView.html" })
         .state('help.sobre',       {url: '/sobre',views: {'help': { templateUrl: 'app/components/help/aboutView.html'}}})

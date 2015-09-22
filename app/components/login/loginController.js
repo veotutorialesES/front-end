@@ -1,7 +1,4 @@
 app.controller("loginController", function($scope,$http,$state,$rootScope){
-    $scope.data = "Dataaaaaaaaaaaa";
-
-
 
 
 

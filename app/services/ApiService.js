@@ -1,4 +1,4 @@
-angular.module("app.api", []).service("$api", function($http){
+angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
 
     var host = location.host + ":8000";
@@ -6,10 +6,9 @@ angular.module("app.api", []).service("$api", function($http){
     self.base_url = "http://"+host+"/api/v1/";
     // get
     self.get = function(route, params, callback){
-        console.log("ApiService: get()");
         console.log("ApiService->get(): (url) " + self.base_url+route);
 
-        $http.get(self.base_url+route).then(function(res){
+        $http.get(self.base_url+route+"?token="+$rootScope.token).then(function(res){
             callback(res.data);
         })
     };
@@ -17,14 +16,12 @@ angular.module("app.api", []).service("$api", function($http){
     // create
     self.post = function(route, params, callback){
 
-        console.log("ApiService: post()");
-
         var dat = "";
         for (var k in params){
             dat += "&"+k+"="+params[k];
         }
 
-        var postData = "?token=1234" + dat;
+        var postData = "?app=akhsdfi2u" + dat + "&token="+$rootScope.token;
         console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
 
         $http({

@@ -1,4 +1,4 @@
-angular.module("app.api", []).service("$api", function($http){
+angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
 
     var host = location.host + ":8000";
@@ -6,10 +6,9 @@ angular.module("app.api", []).service("$api", function($http){
     self.base_url = "http://"+host+"/api/v1/";
     // get
     self.get = function(route, params, callback){
-        console.log("ApiService: get()");
         console.log("ApiService->get(): (url) " + self.base_url+route);
 
-        $http.get(self.base_url+route).then(function(res){
+        $http.get(self.base_url+route+"?token="+$rootScope.token).then(function(res){
             callback(res.data);
         })
     };
@@ -17,14 +16,12 @@ angular.module("app.api", []).service("$api", function($http){
     // create
     self.post = function(route, params, callback){
 
-        console.log("ApiService: post()");
-
         var dat = "";
         for (var k in params){
             dat += "&"+k+"="+params[k];
         }
 
-        var postData = "?token=1234" + dat;
+        var postData = "?app=akhsdfi2u" + dat + "&token="+$rootScope.token;
         console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
 
         $http({
@@ -104,34 +101,6 @@ angular.module("app.api", []).service("$api", function($http){
         })
     };
 });;
-angular.module("app.data", [])
-
-    .service("$data", function($http){
-
-        console.log("Service called");
-
-        this.login = function(){
-            console.log("You are login");
-        }
-
-
-        this.getCourses = function(){
-            $http.get("http://localhost:8000/api/v1/test",{token:"askdjfh"}).then(function(res){
-                console.log(res.data);
-            });
-        }
-        
-        
-        // 2 data ways
-        
-        // Download all user no sensible data (tutoriales vistos,)
-        
-        // Download web data (courses, tutorials) from cache
-        
-        // Download dudas from cache (renew every X)
-
-
-    });;
 angular.module("app.like", ['app.api']).service("$like", function($api){
     var self = this;
 
@@ -299,7 +268,7 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
     };
 
 });;
-var app = angular.module("vts", ['ui.router','app.data','textAngular','app.api','app.like','app.subscription','app.view']);
+var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
 
 app.controller("headerController",function($rootScope,$scope){
 
@@ -339,11 +308,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
         .state('welcome', { url: "/welcome", templateUrl: "app/components/account/welcomeView.html"})
         .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
-
+/*
         .state('suscripcion', { url: "/suscripcion", templateUrl: "app/components/suscripcion/suscripcionView.html"})
         .state('suscripcion.courses',       {url: '/courses',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionCoursesView.html'}}})
         .state('suscripcion.dudas',       {url: '/dudas',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionDudasView.html'}}})
-
+*/
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
@@ -351,6 +320,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('account.pass',       {url: '/pass',views: {'account': { templateUrl: 'app/components/account/accountPassView.html'}}})
         .state('account.notifications',       {url: '/notifications',views: {'account': { templateUrl: 'app/components/account/accountNotificationsView.html'}}})
         .state('account.config',       {url: '/config',views: {'account': { templateUrl: 'app/components/account/accountConfigView.html'}}})
+        .state('account.subDudas',       {url: '/SDoubts',views: {'account': { templateUrl: 'app/components/account/accountSuscriptionDudasView.html'}}})
+        .state('account.subCourses',       {url: '/SCourses',views: {'account': { templateUrl: 'app/components/account/accountSuscriptionCoursesView.html'}}})
 
         .state('help', { url: "/help", templateUrl: "app/components/help/helpView.html" })
         .state('help.sobre',       {url: '/sobre',views: {'help': { templateUrl: 'app/components/help/aboutView.html'}}})
@@ -359,15 +330,37 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
 });;
-app.controller("accountController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("accountController", function($scope,$subscription){
+    $scope.subscriptionItems = [];
+
+    $scope.subscriptions = function(type) {
+        console.info("subscriptionController: subscriptions()")
+
+        $subscription.list(type, function (res) {
+            console.info("subscriptionController->subscriptions()")
+            console.log(res);
+            $scope.subscriptionItems = res;
+        })
+    }
+
+
+    $scope.unsubscribe = function(type, type_id){
+        console.info("subscriptionController: unsubscribe("+type+","+type_id+")");
+
+        $subscription.delete(type,type_id, function(res){
+            console.info("subscriptionController->unsubscribe()")
+            console.log(res);
+            $scope.subscriptions(type); // TODO eliminar manualmente del array
+        });
+    }
+
+
 
 
 
 
 });;
-app.controller("accountController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("avisosController", function($scope){
 
 
 
@@ -646,9 +639,21 @@ app.controller("helpController", function($scope,$data){
 
 
 });;
-app.controller("homeController", function($scope,$data,$api){
+app.controller("homeController", function($scope,$api){
 
     $scope.tutorials = [];
+    $scope.calendar = [];
+
+
+
+    $scope.getDate = function(){
+        var inicio = new Date();
+        var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
+        var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
+        var t = inicio.getFullYear() + "-" + m + "-" + d;
+        console.error(t);
+        return t;
+    };
 
 
     $scope.lastTutorials = function(){
@@ -663,57 +668,73 @@ app.controller("homeController", function($scope,$data,$api){
     };
 
 
-
-    $data.getCourses();
-
-
-    $scope.calendar = {
-        lunes:[
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
-            },
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
+    function calendarTutorials(tutorials, day){
+        console.info("calendarTutorials");
+        var arr = [];
+        for (var i = 0; i < tutorials.length; i++){
+        console.log(tutorials[i].public_date);
+            if (tutorials[i].public_date == day){
+                arr.push(tutorials[i]);
             }
-        ],
-        martes:[
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
-            }
-        ],
-        miercoles:[
+        }
 
-        ],
-        jueves:[
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
-            }
-        ],
-        viernes:[
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
-            },
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
-            },
-            {
-                name: "Introducción a JAVA (T01)",
-                id: "12"
-            }
-        ]
+        return arr;
+
     }
+    function calendarCourses(courses, day){
+        console.info("calendarCourses");
+        var arr = [];
+        for (var i = 0; i < courses.length; i++){
+
+            if (courses[i].public_date == day){
+                arr.push(courses[i]);
+            }
+        }
+
+        return arr;
+
+    }
+    $scope.getCalendar = function(start, dias){
+        console.info("homeController: getCalendar("+start+","+dias+")");
+        $scope.calendar = [];
+        var arr = [];
+        arr["start"] = start;
+        arr["days"] = dias;
+        $api.post("calendar",arr,function(res){
+            console.info("homeController->getCalendar(): ");
+            console.log(res);
+            var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);
+            console.error(dat);
+            var inicio=new Date(dat); // obtener full
+
+
+            for (var i = 0; i < dias; i++){
+
+
+                var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
+                var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
+                var t = inicio.getFullYear() + "-" + m + "-" + d;
+                console.log(t);
+                $scope.calendar.push({
+                    day: t,
+                    tutorials: calendarTutorials(res.tutorials,t),
+                    courses: calendarCourses(res.courses,t)
+                });
+
+                inicio.setDate(inicio.getDate()+1);
+
+
+            }
+
+
+        })
+    };
+
+
+
 
 });;
 app.controller("loginController", function($scope,$http,$state,$rootScope){
-    $scope.data = "Dataaaaaaaaaaaa";
-
-
 
 
 
