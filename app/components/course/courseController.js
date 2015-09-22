@@ -1,4 +1,4 @@
-app.controller("courseController", function($scope,$stateParams,$api,$sce){
+app.controller("courseController", function($scope,$stateParams,$api,$sce,$subscription,$views){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
@@ -49,7 +49,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     $scope.subscribe = function(course_id){
         console.info("courseController: subscribe("+course_id+")");
 
-        $api.subscribe(3,course_id,function(res){
+        $subscription.add(3,course_id,function(res){
             console.info("courseController->subscribe(): ");
             console.log(res)
             $scope.is_subscribed = true;
@@ -58,7 +58,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     $scope.unsubscribe = function(course_id){
         console.info("courseController: unsubscribe("+course_id+")");
 
-        $api.unsubscribe(3,course_id,function(res){
+        $subscription.delete(3,course_id,function(res){
             console.info("courseController->unsubscribe(): ");
             console.log(res)
             $scope.is_subscribed = false;
@@ -66,8 +66,20 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     };
 
     $scope.check_subscription = function(type_id){
-        $api.is_subscribed(3,type_id,function(res){
+        $subscription.check(3,type_id,function(res){
             $scope.is_subscribed = res;
+        });
+    }
+
+    $scope.setView = function(type_id){
+        $views.add(4,type_id,function(res){
+
+        });
+    }
+
+    $scope.unsetView = function(type_id){
+        $views.delete(4,type_id,function(res){
+
         });
     }
 

@@ -132,7 +132,174 @@ angular.module("app.data", [])
 
 
     });;
-var app = angular.module("vts", ['ui.router','app.data','textAngular','app.api']);
+angular.module("app.like", ['app.api']).service("$like", function($api){
+    var self = this;
+
+
+    self.add = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("app.like->add("+type+","+type_id+")");
+        $api.post("like/",arr,function(res){
+            console.info("app.like->add(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.delete = function(type, type_id,callback){
+        console.info("app.like->delete("+type+","+type_id+")");
+        $api.post("like/"+type+"/"+type_id,[],function(res){
+            console.info("app.like->delete(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.list = function(type,callback){
+        console.info("app.like->list("+type+")");
+
+        $api.get("like/"+type,[],function(res){
+            console.info("app.like->list(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.check = function(type,type_id,callback){
+        console.info("app.like->check("+type+","+type_id+")");
+
+        $api.get("like/"+type+"/"+type_id,[],function(res){
+            console.info("app.like->check(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
+
+});;
+angular.module("app.subscription", ['app.api']).service("$subscription", function($api){
+    var self = this;
+
+
+    self.add = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("app.subscription->add("+type+","+type_id+")");
+        $api.post("subscription/",arr,function(res){
+            console.info("app.subscription->add(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.delete = function(type, type_id,callback){
+        console.info("app.subscription->delete("+type+","+type_id+")");
+        $api.post("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("app.subscription->delete(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.list = function(type,callback){
+        console.info("app.subscription->list("+type+")");
+
+        $api.get("subscription/"+type,[],function(res){
+            console.info("app.subscription->list(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.check = function(type,type_id,callback){
+        console.info("app.subscription->check("+type+","+type_id+")");
+
+        $api.get("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("app.subscription->check(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
+});;
+angular.module("app.view", ['app.api']).service("$views", function($api){
+    var self = this;
+
+
+    self.add = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("app.view->add("+type+","+type_id+")");
+        $api.post("view/",arr,function(res){
+            console.info("app.view->add(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.delete = function(type, type_id,callback){
+        console.info("app.view->delete("+type+","+type_id+")");
+        $api.post("view/"+type+"/"+type_id,[],function(res){
+            console.info("app.view->delete(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.list = function(type,callback){
+        console.info("app.view->list("+type+")");
+
+        $api.get("view/"+type,[],function(res){
+            console.info("app.view->list(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.check = function(type,type_id,callback){
+        console.info("app.view->check("+type+","+type_id+")");
+
+        $api.get("view/"+type+"/"+type_id,[],function(res){
+            console.info("app.view->check(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
+
+});;
+var app = angular.module("vts", ['ui.router','app.data','textAngular','app.api','app.like','app.subscription','app.view']);
 
 app.controller("headerController",function($rootScope,$scope){
 
@@ -206,7 +373,7 @@ app.controller("accountController", function($scope,$data){
 
 
 });;
-app.controller("courseController", function($scope,$stateParams,$api,$sce){
+app.controller("courseController", function($scope,$stateParams,$api,$sce,$subscription,$views){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
@@ -257,7 +424,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     $scope.subscribe = function(course_id){
         console.info("courseController: subscribe("+course_id+")");
 
-        $api.subscribe(3,course_id,function(res){
+        $subscription.add(3,course_id,function(res){
             console.info("courseController->subscribe(): ");
             console.log(res)
             $scope.is_subscribed = true;
@@ -266,7 +433,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     $scope.unsubscribe = function(course_id){
         console.info("courseController: unsubscribe("+course_id+")");
 
-        $api.unsubscribe(3,course_id,function(res){
+        $subscription.delete(3,course_id,function(res){
             console.info("courseController->unsubscribe(): ");
             console.log(res)
             $scope.is_subscribed = false;
@@ -274,14 +441,26 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     };
 
     $scope.check_subscription = function(type_id){
-        $api.is_subscribed(3,type_id,function(res){
+        $subscription.check(3,type_id,function(res){
             $scope.is_subscribed = res;
+        });
+    }
+
+    $scope.setView = function(type_id){
+        $views.add(4,type_id,function(res){
+
+        });
+    }
+
+    $scope.unsetView = function(type_id){
+        $views.delete(4,type_id,function(res){
+
         });
     }
 
 
 });;
-app.controller("dudasController", function($scope,$api,$stateParams){
+app.controller("dudasController", function($scope,$api,$stateParams,$subscription,$like){
 
     angular.element(document).ready(function () {
         console.log('Code highlighting');
@@ -416,7 +595,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.subscribe = function(doubt_id){
         console.info("dudasController: subscribe("+doubt_id+")");
 
-        $api.subscribe(0,doubt_id,function(res){
+        $subscription.add(0,doubt_id,function(res){
             console.info("dudasController->subscribe(): ");
             console.log(res);
             $scope.is_subscribed = true;
@@ -428,7 +607,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.unsubscribe = function(doubt_id){
         console.info("dudasController: unsubscribe("+doubt_id+")");
 
-        $api.unsubscribe(0,course_id,function(res){
+        $subscription.delete(0,course_id,function(res){
             console.info("dudasController->unsubscribe(): ");
             console.log(res);
             $scope.is_subscribed = false;
@@ -436,10 +615,26 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     };
 
     $scope.check_subscription = function(type_id){
-        $api.is_subscribed(0,type_id,function(res){
+        $subscription.check(0,type_id,function(res){
             $scope.is_subscribed = res;
         });
-    }
+    };
+
+
+    $scope.answer_like = function(type_id){
+
+        $like.add(1,type_id, function(res){
+            console.info("dudasController->answer_like(): ");
+            console.log(res);
+        });
+    };
+    $scope.answer_unlike = function(type_id){
+
+        $like.delete(1,type_id, function(res){
+            console.info("dudasController->answer_unlike(): ");
+            console.log(res);
+        });
+    };
 
 
 
@@ -590,14 +785,14 @@ app.controller("searchController", function($scope,$data){
 
 
 });;
-app.controller("suscripcionController", function($scope,$api){
+app.controller("suscripcionController", function($scope,$api,$subscription){
 
     $scope.items = [];
 
     $scope.subscriptions = function(type) {
         console.info("subscriptionController: subscriptions()")
 
-        $api.subscriptions(type, function (res) {
+        $subscription.list(type, function (res) {
             console.info("subscriptionController->subscriptions()")
             console.log(res);
             $scope.items = res;
@@ -608,7 +803,7 @@ app.controller("suscripcionController", function($scope,$api){
     $scope.unsubscribe = function(type, type_id){
         console.info("subscriptionController: unsubscribe("+type+","+type_id+")");
 
-        $api.unsubscribe(type,type_id, function(res){
+        $subscription.delete(type,type_id, function(res){
             console.info("subscriptionController->unsubscribe()")
             console.log(res);
             $scope.subscriptions(type); // TODO eliminar manualmente del array

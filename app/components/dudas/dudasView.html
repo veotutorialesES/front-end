@@ -35,8 +35,9 @@ function getCookie(c_name){
                     <div style="height: auto !important;overflow: hidden;border-bottom: 1px #e1e1e1 solid">
                         <div class="pull-left" style="padding: 5px;"></div>
                         <ul class="pull-right float padding-5 hover-default">
-                            <li><span class="glyphicon glyphicon-thumbs-up"></span> FUNCIONA  </li>
-                            <li><span class="glyphicon glyphicon-thumbs-down"></span> NO FUNCIONA</li>
+                            <li >{{answer.likes}}  </li>
+                            <li ng-hide="answer.is_liked"  ng-click="answer_like(answer.answer_id);answer.is_liked = true;answer.likes = answer.likes + 1;"><span class="glyphicon glyphicon-thumbs-up"></span> FUNCIONA  </li>
+                            <li ng-show="answer.is_liked"  ng-click="answer_unlike(answer.answer_id);answer.is_liked = false;answer.likes = answer.likes - 1;"><span class="glyphicon glyphicon-thumbs-up"></span> NO FUNCIONA  </li>
                         </ul>
                     </div>
                     <div style="padding: 20px;">

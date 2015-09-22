@@ -29,7 +29,7 @@
     }
 </style>
 
-<div  ng-controller="courseController" style="padding-bottom: 20px;" ng-init="getCourse(course_id);getTutorial(tutorial_id)">
+<div  ng-controller="courseController" style="padding-bottom: 20px;" ng-init="getCourse(course_id);getTutorial(tutorial_id);setView(tutorial_id)">
 
 
     <div style="height: auto !important;overflow: hidden;box-shadow: inset 0px 1px 15px 0px rgba(50, 50, 50, 0.75);background-color: #2c343d;margin-bottom: 20px;">
@@ -81,10 +81,10 @@
                             </div>
 
                             <table style="width: 100%" class="player">
-                                <tr ng-repeat="tutorial in mod.items" ng-class="{'selected': tutorial.tutorial_id == tutorial_id}" ui-sref="course({course_id:course_id,tutorial_id:tutorial.tutorial_id})">
+                                <tr ng-repeat="tutorial in mod.items" ng-class="{'selected': tutorial.tutorial_id == tutorial_id}" >
                                     <td style="width: 20px;"><span style="color: green" class="glyphicon glyphicon-play-circle"></span> </td>
-                                    <td>{{tutorial.title}}</td>
-                                    <td style="text-align: right"><span class="glyphicon glyphicon-eye-open"></span> </td>
+                                    <td ui-sref="course({course_id:course_id,tutorial_id:tutorial.tutorial_id})">{{tutorial.title}}</td>
+                                    <td style="text-align: right"><span  ng-show="tutorial.is_view" ng-click="unsetView(tutorial.tutorial_id);tutorial.is_view = false;" class="glyphicon glyphicon-eye-open"></span> </td>
                                 </tr>
                             </table>
 

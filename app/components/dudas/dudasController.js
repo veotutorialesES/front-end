@@ -1,4 +1,4 @@
-app.controller("dudasController", function($scope,$api,$stateParams){
+app.controller("dudasController", function($scope,$api,$stateParams,$subscription,$like){
 
     angular.element(document).ready(function () {
         console.log('Code highlighting');
@@ -133,7 +133,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.subscribe = function(doubt_id){
         console.info("dudasController: subscribe("+doubt_id+")");
 
-        $api.subscribe(0,doubt_id,function(res){
+        $subscription.add(0,doubt_id,function(res){
             console.info("dudasController->subscribe(): ");
             console.log(res);
             $scope.is_subscribed = true;
@@ -145,7 +145,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.unsubscribe = function(doubt_id){
         console.info("dudasController: unsubscribe("+doubt_id+")");
 
-        $api.unsubscribe(0,course_id,function(res){
+        $subscription.delete(0,course_id,function(res){
             console.info("dudasController->unsubscribe(): ");
             console.log(res);
             $scope.is_subscribed = false;
@@ -153,10 +153,26 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     };
 
     $scope.check_subscription = function(type_id){
-        $api.is_subscribed(0,type_id,function(res){
+        $subscription.check(0,type_id,function(res){
             $scope.is_subscribed = res;
         });
-    }
+    };
+
+
+    $scope.answer_like = function(type_id){
+
+        $like.add(1,type_id, function(res){
+            console.info("dudasController->answer_like(): ");
+            console.log(res);
+        });
+    };
+    $scope.answer_unlike = function(type_id){
+
+        $like.delete(1,type_id, function(res){
+            console.info("dudasController->answer_unlike(): ");
+            console.log(res);
+        });
+    };
 
 
 
