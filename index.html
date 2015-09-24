@@ -46,7 +46,7 @@
                     <input type="text">
                 </li>
                 <li class="hover-default" ui-sref="search" style="color: gainsboro;">Explorar</li>
-                <li ui-sref="welcome">Welcome</li>
+                <li ui-sref="activation">activation</li>
                 <li ui-sref="reminder">Recordar Pass</li>
             </ul>
             <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
@@ -134,7 +134,7 @@
                 <input class="form-control" style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
                 <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">Entrar YA</button>
             </div>
-
+            <div ng-show="wrong" style="background-color: red;color: white">Error en el nombre de usuario o contraseña</div>
         </div>
     </div>
 </div><!-- .login modal -->

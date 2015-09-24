@@ -5,7 +5,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //
     // Now set up the states
     $stateProvider
-        .state('login', { url: "/login", templateUrl: "app/components/login/loginView.html"})
+        //.state('login', { url: "/login", templateUrl: "app/components/login/loginView.html"})
         .state('reminder', { url: "/reminder", templateUrl: "app/components/login/reminderView.html"})
         .state('register', { url: "/register", templateUrl: "app/components/register/registerView.html"})
         .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
@@ -13,13 +13,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
         .state('course', { url: "/course/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
 
-        .state('welcome', { url: "/welcome", templateUrl: "app/components/account/welcomeView.html"})
+
+        .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
+
+
         .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
-/*
-        .state('suscripcion', { url: "/suscripcion", templateUrl: "app/components/suscripcion/suscripcionView.html"})
-        .state('suscripcion.courses',       {url: '/courses',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionCoursesView.html'}}})
-        .state('suscripcion.dudas',       {url: '/dudas',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionDudasView.html'}}})
-*/
+
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})

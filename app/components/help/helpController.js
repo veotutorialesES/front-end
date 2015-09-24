@@ -1,5 +1,4 @@
-app.controller("helpController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("helpController", function($scope){
 
 
 

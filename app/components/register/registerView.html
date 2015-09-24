@@ -5,12 +5,16 @@
         <div class="col-xs-6 box" style="margin-top: 20px;padding: 20px;">
         <h1>Crear una cuenta nueva</h1>
         <div class="" style="padding: 10px;">
-            <input style="margin-top: 10px;" ng-model="user" type="text" class="form-control" placeholder="Nombre">
-            <input style="margin-top: 10px;" ng-model="email" class="form-control" type="text" placeholder="Email">
-            <input style="margin-top: 10px;" ng-model="pass" class="form-control" type="password" placeholder="Contraseña">
+            <input style="margin-top: 10px;" ng-model="user.name" type="text" class="form-control" placeholder="Nombre">
+            <input style="margin-top: 10px;" ng-model="user.email" class="form-control" type="text" placeholder="Email">
+            <input style="margin-top: 10px;" ng-model="user.pass" class="form-control" type="password" placeholder="Contraseña">
             <div style="margin-top:10px;">
             <label><input type="checkbox" ng-model="checkbox"></label> <a style="color: black" target="_blank" ui-sref="help.tos">Acepto lo terminos legales</a>
             <button ng-click="send(checkbox)" class="btn btn-default btn-sm pull-right" type="submit">REGISTRARME</button>
+            </div>
+            <div ng-show="wrong">
+                <div>Atención:</div>
+                <div ng-repeat="m in msg">{{m}}</div>
             </div>
         </div>
         </div>

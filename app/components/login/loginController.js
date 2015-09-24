@@ -1,32 +1,28 @@
-app.controller("loginController", function($scope,$http,$state,$rootScope){
+app.controller("loginController", function($scope,$api,$state,$rootScope,$window){
 
+    $scope.wrong = false;
 
 
     $scope.send = function(email,pass) {
+        $scope.wrong = false;
 
+        var arr = [];
+        arr["email"] = email;
+        arr["pass"] = pass;
 
-        var postData = 'email='+email+'&pass='+pass;
-        $http({
-            method: 'POST',
-            url: 'http://localhost:8000/api/v1/login',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("Iniciando sesion...");
-            console.log(res);
-            localStorage.setItem("token",res.token);
-            $rootScope.loged = true;
-            $rootScope.token = res.token;
-           // $state.go("home");
-            $('#myModal').modal('hide')
+        $api.post("login",arr,function(res){
 
-        }).error(function(data){
-            console.log("Error");
-            console.log(data);
+            if (res.status) {
+                $window.sessionStorage.token = res.token;
 
+                $rootScope.loged = true;
+                $rootScope.token = res.token;
+                $('#myModal').modal('hide');
+            }else{
+                $scope.wrong = true;
+            }
         });
+
     }
 
 });

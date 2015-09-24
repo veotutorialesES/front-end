@@ -2,13 +2,14 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
 
     var host = location.host + ":8000";
+    var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
     // get
     self.get = function(route, params, callback){
         console.log("ApiService->get(): (url) " + self.base_url+route);
 
-        $http.get(self.base_url+route+"?token="+$rootScope.token).then(function(res){
+        $http.get(self.base_url+route+"?app="+appID+"&token="+$rootScope.token).then(function(res){
             callback(res.data);
         })
     };
@@ -21,7 +22,7 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
             dat += "&"+k+"="+params[k];
         }
 
-        var postData = "?app=akhsdfi2u" + dat + "&token="+$rootScope.token;
+        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
         console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
 
         $http({
@@ -51,55 +52,6 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
 
 
-    self.subscribe = function(type, type_id,callback){
-        var arr = [];
-        arr["type"] = type;
-        arr["type_id"] = type_id;
-        console.info("ApiService->subscribe("+type+","+type_id+")");
-        self.post("subscription/",arr,function(res){
-            console.info("ApiService->subscribe(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.unsubscribe = function(type, type_id,callback){
-        console.info("ApiService->unsubscribe("+type+","+type_id+")");
-        self.post("subscription/"+type+"/"+type_id,[],function(res){
-            console.info("ApiService->unsubscribe(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.subscriptions = function(type,callback){
-        console.info("ApiService->subscriptions("+type+")");
-
-        self.get("subscription/"+type,[],function(res){
-            console.info("ApiService->subscriptions(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-    self.is_subscribed = function(type,type_id,callback){
-        console.info("ApiService->is_subscribe("+type+","+type_id+")");
-
-        self.get("subscription/"+type+"/"+type_id,[],function(res){
-            console.info("ApiService->is_subscribe(): ");
-            console.log(res);
-            if (res != "null"){
-
-                callback(true);
-
-            }else{
-                callback(false);
-
-            }
-        })
-    };
 });;
 angular.module("app.like", ['app.api']).service("$like", function($api){
     var self = this;
@@ -270,6 +222,32 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
 });;
 var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
 
+
+
+/*
+app.factory('authInterceptor', function ($rootScope, $q, $window) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if ($window.sessionStorage.token) {
+                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+            }
+            return config;
+        },
+        response: function (response) {
+            if (response.status === 401) {
+                // TODO handle the case where the user is not authenticated
+            }
+            return response || $q.when(response);
+        }
+    };
+});
+
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+});
+*/
+
 app.controller("headerController",function($rootScope,$scope){
 
     $rootScope.token = localStorage.getItem("token");
@@ -286,10 +264,6 @@ app.controller("headerController",function($rootScope,$scope){
     }
 
 });
-
-
-
-
 ;
 app.config(function($stateProvider, $urlRouterProvider) {
     //
@@ -298,7 +272,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //
     // Now set up the states
     $stateProvider
-        .state('login', { url: "/login", templateUrl: "app/components/login/loginView.html"})
+        //.state('login', { url: "/login", templateUrl: "app/components/login/loginView.html"})
         .state('reminder', { url: "/reminder", templateUrl: "app/components/login/reminderView.html"})
         .state('register', { url: "/register", templateUrl: "app/components/register/registerView.html"})
         .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
@@ -306,13 +280,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
         .state('course', { url: "/course/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
 
-        .state('welcome', { url: "/welcome", templateUrl: "app/components/account/welcomeView.html"})
+
+        .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
+
+
         .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
-/*
-        .state('suscripcion', { url: "/suscripcion", templateUrl: "app/components/suscripcion/suscripcionView.html"})
-        .state('suscripcion.courses',       {url: '/courses',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionCoursesView.html'}}})
-        .state('suscripcion.dudas',       {url: '/dudas',views: {'suscripcion': { templateUrl: 'app/components/suscripcion/suscripcionDudasView.html'}}})
-*/
+
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
         .state('account.info',       {url: '/info',views: {'account': { templateUrl: 'app/components/account/accountInfoView.html'}}})
@@ -632,8 +605,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
 
 
 });;
-app.controller("helpController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("helpController", function($scope){
 
 
 
@@ -734,93 +706,90 @@ app.controller("homeController", function($scope,$api){
 
 
 });;
-app.controller("loginController", function($scope,$http,$state,$rootScope){
+app.controller("loginController", function($scope,$api,$state,$rootScope,$window){
 
+    $scope.wrong = false;
 
 
     $scope.send = function(email,pass) {
+        $scope.wrong = false;
 
+        var arr = [];
+        arr["email"] = email;
+        arr["pass"] = pass;
 
-        var postData = 'email='+email+'&pass='+pass;
-        $http({
-            method: 'POST',
-            url: 'http://localhost:8000/api/v1/login',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("Iniciando sesion...");
-            console.log(res);
-            localStorage.setItem("token",res.token);
-            $rootScope.loged = true;
-            $rootScope.token = res.token;
-           // $state.go("home");
-            $('#myModal').modal('hide')
+        $api.post("login",arr,function(res){
 
-        }).error(function(data){
-            console.log("Error");
-            console.log(data);
+            if (res.status) {
+                $window.sessionStorage.token = res.token;
 
+                $rootScope.loged = true;
+                $rootScope.token = res.token;
+                $('#myModal').modal('hide');
+            }else{
+                $scope.wrong = true;
+            }
         });
+
     }
 
 });;
-app.controller("registerController", function($scope,$api){
+app.controller("registerController", function($scope,$api,$state){
 
-    $scope.user = "";
-    $scope.pass = "";
-    $scope.email = "";
-
-    $scope.send = function(user,email,pass,check) {
+    $scope.user = {};
+    $scope.wrong = false;
+    $scope.msg = [];
+    $scope.send = function(check) {
+        $scope.wrong = false;
+        $scope.msg = [];
 
         // TODO validate first
 
+        if (!check){
+            $scope.wrong = true;
+            return false;
+        }
+
+
         var arr = [];
-        arr["user"] = $scope.user;
-        arr["pass"] = $scope.pass;
-        arr["email"] = $scope.email;
+        arr["name"] = $scope.user.name;
+        arr["pass"] = $scope.user.pass;
+        arr["email"] = $scope.user.email;
 
         $api.post("register",arr,function(res){
+
             console.info("registerController->send():");
             console.log(res);
+            if (!res.status){
+                $scope.wrong = true;
+                for (var key in res) {
+                    var obj = res[key];
+
+                    $scope.msg.push(replace(obj.toString()));
+                }
+
+
+            }else{
+                $state.go("activation");
+            }
+
         });
 
     }
 
+
+
+    function replace(str){
+        str.replace("[","");
+        str.replace("]","");
+        str.replace('"',"");
+        return str;
+    }
 });;
 app.controller("searchController", function($scope,$data){
     $scope.data = "Dataaaaaaaaaaaa";
 
 
-
-
-
-});;
-app.controller("suscripcionController", function($scope,$api,$subscription){
-
-    $scope.items = [];
-
-    $scope.subscriptions = function(type) {
-        console.info("subscriptionController: subscriptions()")
-
-        $subscription.list(type, function (res) {
-            console.info("subscriptionController->subscriptions()")
-            console.log(res);
-            $scope.items = res;
-        })
-    }
-
-
-    $scope.unsubscribe = function(type, type_id){
-        console.info("subscriptionController: unsubscribe("+type+","+type_id+")");
-
-        $subscription.delete(type,type_id, function(res){
-            console.info("subscriptionController->unsubscribe()")
-            console.log(res);
-            $scope.subscriptions(type); // TODO eliminar manualmente del array
-        });
-    }
 
 
 
