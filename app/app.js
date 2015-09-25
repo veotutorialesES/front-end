@@ -26,9 +26,9 @@ app.config(function ($httpProvider) {
 });
 */
 
-app.controller("headerController",function($rootScope,$scope){
+app.controller("headerController",function($rootScope,$scope,$window){
 
-    $rootScope.token = localStorage.getItem("token");
+    $rootScope.token =  $window.sessionStorage.token;
     if ($rootScope.token){
         $rootScope.loged = true;
     }

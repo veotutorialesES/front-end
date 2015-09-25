@@ -248,9 +248,9 @@ app.config(function ($httpProvider) {
 });
 */
 
-app.controller("headerController",function($rootScope,$scope){
+app.controller("headerController",function($rootScope,$scope,$window){
 
-    $rootScope.token = localStorage.getItem("token");
+    $rootScope.token =  $window.sessionStorage.token;
     if ($rootScope.token){
         $rootScope.loged = true;
     }
@@ -268,7 +268,7 @@ app.controller("headerController",function($rootScope,$scope){
 app.config(function($stateProvider, $urlRouterProvider) {
     //
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/home");
+    $urlRouterProvider.otherwise("/");
     //
     // Now set up the states
     $stateProvider
@@ -303,7 +303,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
 });;
-app.controller("accountController", function($scope,$subscription){
+app.controller("accountController", function($scope,$subscription,$api,$state,$rootScope){
     $scope.subscriptionItems = [];
 
     $scope.subscriptions = function(type) {
@@ -314,7 +314,7 @@ app.controller("accountController", function($scope,$subscription){
             console.log(res);
             $scope.subscriptionItems = res;
         })
-    }
+    };
 
 
     $scope.unsubscribe = function(type, type_id){
@@ -325,12 +325,56 @@ app.controller("accountController", function($scope,$subscription){
             console.log(res);
             $scope.subscriptions(type); // TODO eliminar manualmente del array
         });
+    };
+
+
+    $scope.updateName = function(name,pass){
+
+        var arr = [];
+        arr["name"] = name;
+        arr["pass"] = pass;
+
+        $api.post("user/update/name",arr,function(res){
+
+        });
+    };
+
+    $scope.updateEmail = function(email,pass){
+
+        var arr = [];
+        arr["email"] = email;
+        arr["pass"] = pass;
+
+        $api.post("user/update/email",arr,function(res){
+
+        });
     }
+    $scope.updatePassword = function(old_pass,new_pass,new_pass2){
 
+        if (new_pass != new_pass2){
+            alert("Pass no coinciden");
+            return null;
+        }
 
+        var arr = [];
+        arr["new_pass"] = new_pass;
+        arr["old_pass"] = old_pass;
 
+        $api.post("user/update/password",arr,function(res){
 
+        });
+    }
+    $scope.destroy = function(pass){
 
+        var arr = [];
+        arr["pass"] = pass;
+
+        $api.post("user/delete",arr,function(res){
+            $rootScope.loged = false;
+            $state.go("home");
+
+        });
+    }
 
 });;
 app.controller("avisosController", function($scope){

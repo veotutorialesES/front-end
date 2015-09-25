@@ -8,9 +8,9 @@
     </div>
     <div style="padding: 5px;">
         <label>Introduce tu contraseña</label>
-        <input type="password" class="form-control">
+        <input ng-model="pass" type="password" class="form-control">
         <hr>
-        <button class="btn btn-danger btn-block">ELIMINAR MI CUENTA</button>
+        <button ng-click="destroy(pass)" class="btn btn-danger btn-block">ELIMINAR MI CUENTA</button>
     </div>
     <div style="padding: 5px;">
         <div  style="background-color: red;padding: 5px;color: white">La contraseña no es correcta</div>
