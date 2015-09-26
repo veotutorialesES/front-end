@@ -58,11 +58,14 @@ function getCookie(c_name){
                     </div>
 
                 </div>
-                <div class="box" ng-hide="true" style="padding: 5px;">
+                <div class="box" style="padding: 5px;">
+                    <div ng-show="loged">
                     <textarea ng-model="comment.description" class="form-control" style="height: 70px;resize: none"></textarea>
                     <div style="padding-top: 5px;text-align: right">
                         <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
                     </div>
+                    </div>
+                    <div ng-hide="loged">Inicia sesión para responder</div>
                 </div>
                 <div class="box" style="border-top: 1px #e1e1e1 solid;background-color:#efefef;">
 
@@ -85,6 +88,7 @@ function getCookie(c_name){
 
 
             <div class="box" style="margin-top: 20px;padding: 5px;">
+                <div ng-show="loged">
                 <label style="font-size: 17pt;">Escribe una respuesta</label>
 
 
@@ -94,6 +98,8 @@ function getCookie(c_name){
                 <div style="padding-top: 5px;text-align: right">
                     <button ng-click="addAnswer(doubt_id)" class="btn btn-default" style="">ENVIAR</button>
                 </div>
+                </div>
+                <div ng-hide="loged">Inicia sesión para responder</div>
 
 
 
@@ -109,9 +115,9 @@ function getCookie(c_name){
                 <div style="margin-top: 20px;">
                     <div style="padding: 10px;border:1px silver solid">Tutorial: {{doubt.tutorial.title}}</div>
                 </div>
+                <div style="margin-top:10px;padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> Solucionado</div>
 
-                <div style="margin-top: 20px;font-weight: bold;">
-                    <div style="padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> Solucionado</div>
+                <div ng-show="loged" style="margin-top: 10px;font-weight: bold;">
                     <div ng-hide="is_subscribed" ng-click="subscribe(doubt_id)" style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Suscribirme</div>
                     <div ng-show="is_subscribed" ng-click="subscribe(doubt_id)" style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Eliminar subscripcion</div>
                 </div>

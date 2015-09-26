@@ -752,6 +752,7 @@ app.controller("homeController", function($scope,$api){
 
 });;
 app.controller("loginController", function($scope,$api,$state,$rootScope,$window,$stateParams){
+    $('#myModal').modal('hide');
 
     $scope.wrong = false;
 
