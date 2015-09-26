@@ -1,22 +1,24 @@
 
-<div>
+<div ng-controller="loginController">
 
 
-    <div class="container" style="padding-top: 80px;">
+    <div ng-init="tmp = {}" class="container" style="padding-top: 80px;">
         <h1>Recordar contraseña</h1>
         <div class="col-xs-6">
             <p>Recivirás un código para poder cambiar tu contraseña</p>
 
-            <input class="form-control" type="text" placeholder="Inserta tu email">
-            <button class="btn btn-primary">Recordar</button>
+            <input ng-model="tmp.email" class="form-control" type="text" placeholder="Inserta tu email">
+            <button ng-hide="recoverToken" ng-click="getRecoverToken(tmp)" class="btn btn-primary">Recordar</button>
+            <div ng-show="recoverToken">Hemos enviado un email con una clave para cambiar tu contraseña. Rellena el resto de campos
+            manteniendo el mismo email.</div>
         </div>
         <div class="col-xs-6">
             <label>Codigo</label>
-            <input class="form-control" type="text" placeholder="Inserta aqui el código">
+            <input ng-model="tmp.token" class="form-control" type="text" placeholder="Inserta aqui el código">
             <hr>
-            <input class="form-control" type="text" placeholder="Nueva contraseña">
-            <input class="form-control" type="text" placeholder="Repite la contraseña">
-            <button class="btn btn-primary">Cambiar</button>
+            <input ng-model="tmp.pass" class="form-control" type="password" placeholder="Nueva contraseña">
+            <input ng-model="tmp.pass2" class="form-control" type="password" placeholder="Repite la contraseña">
+            <button ng-click="recover(tmp)" class="btn btn-primary">Cambiar</button>
 
         </div>
 

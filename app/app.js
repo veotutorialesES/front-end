@@ -38,7 +38,7 @@ app.controller("headerController",function($rootScope,$scope,$window){
     $scope.logout = function(){
         $rootScope.loged = false;
         $rootScope.token = null;
-        localStorage.removeItem("token");
+        $window.sessionStorage.removeItem("token");
     }
 
 });

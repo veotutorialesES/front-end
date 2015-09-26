@@ -15,6 +15,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 
         .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
+        .state('activate', { url: "/activation/:email/:token", templateUrl: "app/components/login/activationView.html"})
 
 
         .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
