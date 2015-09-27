@@ -37,20 +37,20 @@
         <div class="container">
             <div class="row">
             <ul class="default float padding-10 pull-left">
-                <li ui-sref="home" class="bree" style="color: gainsboro;cursor: pointer">
-                    VEOTUTORIALES
+                <li class="bree" style="color: gainsboro;cursor: pointer">
+                    <a ui-sref="home">VEOTUTORIALES</a>
                 </li>
                 <li class="search" style="padding: 2px;">
                     <span class="glyphicon glyphicon-search"></span>
 
                     <input type="text">
                 </li>
-                <li class="hover-default" ui-sref="search" style="color: gainsboro;">Explorar</li>
+                <li class="hover-default" style="color: gainsboro;"><a  ui-sref="search">Explorar</a></li>
                 <li ui-sref="activation">activation</li>
             </ul>
             <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
                 <li data-toggle="modal" data-target="#myModal" >Iniciar Sesión</li>
-                <li ui-sref="register">Registrarme</li>
+                <li><a  ui-sref="register">Registrarme</a></li>
 
             </ul>
             <ul ng-show="loged" class="default float padding-10 pull-right" style="color: gainsboro">
