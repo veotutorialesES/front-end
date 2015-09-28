@@ -7,9 +7,13 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
     self.base_url = "http://"+host+"/api/v1/";
     // get
     self.get = function(route, params, callback){
+        var dat = "";
+        for (var k in params){
+            dat += "&"+k+"="+params[k];
+        }
         console.log("ApiService->get(): (url) " + self.base_url+route);
 
-        $http.get(self.base_url+route+"?app="+appID+"&token="+$rootScope.token).then(function(res){
+        $http.get(self.base_url+route+"?app="+appID+dat+"&token="+$rootScope.token).then(function(res){
             callback(res.data);
         })
     };
@@ -49,7 +53,39 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
     };
 
+    self.put = function(route, params, callback){
 
+        var dat = "";
+        for (var k in params){
+            dat += "&"+k+"="+params[k];
+        }
+
+        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
+        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
+
+        $http({
+            method: 'PUT',
+            url: self.base_url+route,
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("ApiService->post(): ");
+            console.log(res);
+
+            callback(res);
+
+
+        }).error(function(data){
+            console.error("ApiService->post(): ");
+            callback(data);
+
+        });
+
+
+
+    };
 
 
 });;
@@ -402,7 +438,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         console.log("courseController: getCourse()");
 
 
-        $api.get("course/"+id+"/all",[], function(res){
+        $api.get("course/"+id,[], function(res){
 
             console.log("courseController->getCourse(): ");
             console.log(res.course.modules);
@@ -421,7 +457,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
     $scope.getTutorial = function(tutorial_id){
         console.info("courseController: getTutorial("+tutorial_id+")");
 
-        $api.get("tutorial/id/"+tutorial_id,[],function(res){
+        $api.get("tutorial/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
 
             $scope.tutorial = res;
@@ -429,7 +465,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
             console.log(res)
         });
 
-    }
+    };
 
 
     $scope.subscribe = function(course_id){
@@ -455,19 +491,19 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         $subscription.check(3,type_id,function(res){
             $scope.is_subscribed = res;
         });
-    }
+    };
 
     $scope.setView = function(type_id){
         $views.add(4,type_id,function(res){
 
         });
-    }
+    };
 
     $scope.unsetView = function(type_id){
         $views.delete(4,type_id,function(res){
 
         });
-    }
+    };
 
 
 });;
@@ -509,10 +545,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
     $scope.getDoubts = function(tutorial_id){
         console.log("dudasController: getDoubts("+tutorial_id+"): ");
 
-        $api.get("doubt/tutorial/"+tutorial_id,[],function(res){
-            console.log("dudasController->getDoubts(): ");
-
-            console.log(res);
+        $api.get("doubt/?tutorial_id="+tutorial_id,[],function(res){
             $scope.doubtsList = res;
         })
 
@@ -552,7 +585,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
         arr["doubt_id"] = doubt_id;
 
 
-        $api.post("doubt/answer",arr,function(res){
+        $api.post("answer",arr,function(res){
             console.log("dudasController->addAnswer(): ");
 
             console.log(res);
@@ -563,7 +596,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
     $scope.getAnswers = function(doubt_id){
         console.info("dudasController: getAnswers("+doubt_id+"): ");
 
-        $api.get("doubt/answer/"+doubt_id,[],function(res){
+        $api.get("answer/"+doubt_id,[],function(res){
             console.info("dudasController->getAnswers(): ");
 
             console.log(res);
@@ -668,19 +701,16 @@ app.controller("homeController", function($scope,$api){
         var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
         var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
         var t = inicio.getFullYear() + "-" + m + "-" + d;
-        console.error(t);
         return t;
     };
 
 
     $scope.lastTutorials = function(){
 
-        $api.get("tutorial/last",[],function(res){
-
+        $api.get("tutorial/",[],function(res){
             $scope.tutorials = res;
             console.log(res)
         });
-
 
     };
 
@@ -689,7 +719,6 @@ app.controller("homeController", function($scope,$api){
         console.info("calendarTutorials");
         var arr = [];
         for (var i = 0; i < tutorials.length; i++){
-        console.log(tutorials[i].public_date);
             if (tutorials[i].public_date == day){
                 arr.push(tutorials[i]);
             }
@@ -717,7 +746,7 @@ app.controller("homeController", function($scope,$api){
         var arr = [];
         arr["start"] = start;
         arr["days"] = dias;
-        $api.post("calendar",arr,function(res){
+        $api.get("calendar",arr,function(res){
             console.info("homeController->getCalendar(): ");
             console.log(res);
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);

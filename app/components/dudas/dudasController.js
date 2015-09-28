@@ -36,10 +36,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
     $scope.getDoubts = function(tutorial_id){
         console.log("dudasController: getDoubts("+tutorial_id+"): ");
 
-        $api.get("doubt/tutorial/"+tutorial_id,[],function(res){
-            console.log("dudasController->getDoubts(): ");
-
-            console.log(res);
+        $api.get("doubt/?tutorial_id="+tutorial_id,[],function(res){
             $scope.doubtsList = res;
         })
 
@@ -79,7 +76,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
         arr["doubt_id"] = doubt_id;
 
 
-        $api.post("doubt/answer",arr,function(res){
+        $api.post("answer",arr,function(res){
             console.log("dudasController->addAnswer(): ");
 
             console.log(res);
@@ -90,7 +87,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
     $scope.getAnswers = function(doubt_id){
         console.info("dudasController: getAnswers("+doubt_id+"): ");
 
-        $api.get("doubt/answer/"+doubt_id,[],function(res){
+        $api.get("answer/"+doubt_id,[],function(res){
             console.info("dudasController->getAnswers(): ");
 
             console.log(res);

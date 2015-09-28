@@ -10,19 +10,16 @@ app.controller("homeController", function($scope,$api){
         var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
         var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
         var t = inicio.getFullYear() + "-" + m + "-" + d;
-        console.error(t);
         return t;
     };
 
 
     $scope.lastTutorials = function(){
 
-        $api.get("tutorial/last",[],function(res){
-
+        $api.get("tutorial/",[],function(res){
             $scope.tutorials = res;
             console.log(res)
         });
-
 
     };
 
@@ -31,7 +28,6 @@ app.controller("homeController", function($scope,$api){
         console.info("calendarTutorials");
         var arr = [];
         for (var i = 0; i < tutorials.length; i++){
-        console.log(tutorials[i].public_date);
             if (tutorials[i].public_date == day){
                 arr.push(tutorials[i]);
             }
@@ -59,7 +55,7 @@ app.controller("homeController", function($scope,$api){
         var arr = [];
         arr["start"] = start;
         arr["days"] = dias;
-        $api.post("calendar",arr,function(res){
+        $api.get("calendar",arr,function(res){
             console.info("homeController->getCalendar(): ");
             console.log(res);
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);

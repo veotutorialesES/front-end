@@ -16,7 +16,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         console.log("courseController: getCourse()");
 
 
-        $api.get("course/"+id+"/all",[], function(res){
+        $api.get("course/"+id,[], function(res){
 
             console.log("courseController->getCourse(): ");
             console.log(res.course.modules);
@@ -35,7 +35,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
     $scope.getTutorial = function(tutorial_id){
         console.info("courseController: getTutorial("+tutorial_id+")");
 
-        $api.get("tutorial/id/"+tutorial_id,[],function(res){
+        $api.get("tutorial/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
 
             $scope.tutorial = res;
@@ -43,7 +43,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
             console.log(res)
         });
 
-    }
+    };
 
 
     $scope.subscribe = function(course_id){
@@ -69,19 +69,19 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         $subscription.check(3,type_id,function(res){
             $scope.is_subscribed = res;
         });
-    }
+    };
 
     $scope.setView = function(type_id){
         $views.add(4,type_id,function(res){
 
         });
-    }
+    };
 
     $scope.unsetView = function(type_id){
         $views.delete(4,type_id,function(res){
 
         });
-    }
+    };
 
 
 });
