@@ -29,7 +29,7 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         arr["name"] = name;
         arr["pass"] = pass;
 
-        $api.post("user/update/name",arr,function(res){
+        $api.put("user/me",arr,function(res){
 
         });
     };
@@ -40,7 +40,7 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         arr["email"] = email;
         arr["pass"] = pass;
 
-        $api.post("user/update/email",arr,function(res){
+        $api.put("user/me",arr,function(res){
 
         });
     }
@@ -55,7 +55,7 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         arr["new_pass"] = new_pass;
         arr["old_pass"] = old_pass;
 
-        $api.post("user/update/password",arr,function(res){
+        $api.put("user/me",arr,function(res){
 
         });
     }
@@ -64,8 +64,9 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         var arr = [];
         arr["pass"] = pass;
 
-        $api.post("user/delete",arr,function(res){
+        $api.delete("user/me",arr,function(res){
             $rootScope.loged = false;
+            // TODO comprobar que se ha eliminado antes
             $state.go("home");
 
         });

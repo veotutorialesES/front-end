@@ -86,6 +86,38 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
 
     };
+    self.delete = function(route, params, callback){
 
+        var dat = "";
+        for (var k in params){
+            dat += "&"+k+"="+params[k];
+        }
+
+        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
+        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
+
+        $http({
+            method: 'DELETE',
+            url: self.base_url+route,
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("ApiService->post(): ");
+            console.log(res);
+
+            callback(res);
+
+
+        }).error(function(data){
+            console.error("ApiService->post(): ");
+            callback(data);
+
+        });
+
+
+
+    };
 
 });

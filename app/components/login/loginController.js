@@ -11,7 +11,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         arr["email"] = email;
         arr["pass"] = pass;
 
-        $api.post("login",arr,function(res){
+        $api.post("user/login",arr,function(res){
 
             if (res.status) {
                 $window.sessionStorage.token = res.token;
@@ -45,7 +45,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
 
         arr["activate_token"] = $stateParams.token;
         arr["email"] = $stateParams.email;
-        $api.post("login/activate",arr,function(res){
+        $api.post("user/activate",arr,function(res){
 
 
            // $state.go("home");
@@ -62,7 +62,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         var arr = [];
         arr["email"] = obj.email;
 
-        $api.post("login/recover/store",arr,function(res){
+        $api.post("recover",arr,function(res){
             if (res.status){
                 $scope.recoverToken = true;
 
@@ -81,7 +81,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
             return null; // TODO show error
         }
 
-        $api.post("login/recover",arr,function(res){
+        $api.post("user/recover",arr,function(res){
 
         })
     };

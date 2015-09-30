@@ -20,7 +20,7 @@ app.controller("registerController", function($scope,$api,$state){
         arr["pass"] = $scope.user.pass;
         arr["email"] = $scope.user.email;
 
-        $api.post("register",arr,function(res){
+        $api.post("user",arr,function(res){
 
             console.info("registerController->send():");
             console.log(res);

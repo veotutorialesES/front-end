@@ -86,7 +86,39 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
 
     };
+    self.delete = function(route, params, callback){
 
+        var dat = "";
+        for (var k in params){
+            dat += "&"+k+"="+params[k];
+        }
+
+        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
+        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
+
+        $http({
+            method: 'DELETE',
+            url: self.base_url+route,
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:postData
+        }).success(function (res) {
+            console.log("ApiService->post(): ");
+            console.log(res);
+
+            callback(res);
+
+
+        }).error(function(data){
+            console.error("ApiService->post(): ");
+            callback(data);
+
+        });
+
+
+
+    };
 
 });;
 angular.module("app.like", ['app.api']).service("$like", function($api){
@@ -371,7 +403,7 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         arr["name"] = name;
         arr["pass"] = pass;
 
-        $api.post("user/update/name",arr,function(res){
+        $api.put("user/me",arr,function(res){
 
         });
     };
@@ -382,7 +414,7 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         arr["email"] = email;
         arr["pass"] = pass;
 
-        $api.post("user/update/email",arr,function(res){
+        $api.put("user/me",arr,function(res){
 
         });
     }
@@ -397,7 +429,7 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         arr["new_pass"] = new_pass;
         arr["old_pass"] = old_pass;
 
-        $api.post("user/update/password",arr,function(res){
+        $api.put("user/me",arr,function(res){
 
         });
     }
@@ -406,8 +438,9 @@ app.controller("accountController", function($scope,$subscription,$api,$state,$r
         var arr = [];
         arr["pass"] = pass;
 
-        $api.post("user/delete",arr,function(res){
+        $api.delete("user/me",arr,function(res){
             $rootScope.loged = false;
+            // TODO comprobar que se ha eliminado antes
             $state.go("home");
 
         });
@@ -793,7 +826,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         arr["email"] = email;
         arr["pass"] = pass;
 
-        $api.post("login",arr,function(res){
+        $api.post("user/login",arr,function(res){
 
             if (res.status) {
                 $window.sessionStorage.token = res.token;
@@ -827,7 +860,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
 
         arr["activate_token"] = $stateParams.token;
         arr["email"] = $stateParams.email;
-        $api.post("login/activate",arr,function(res){
+        $api.post("user/activate",arr,function(res){
 
 
            // $state.go("home");
@@ -844,7 +877,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         var arr = [];
         arr["email"] = obj.email;
 
-        $api.post("login/recover/store",arr,function(res){
+        $api.post("recover",arr,function(res){
             if (res.status){
                 $scope.recoverToken = true;
 
@@ -863,7 +896,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
             return null; // TODO show error
         }
 
-        $api.post("login/recover",arr,function(res){
+        $api.post("user/recover",arr,function(res){
 
         })
     };
@@ -891,7 +924,7 @@ app.controller("registerController", function($scope,$api,$state){
         arr["pass"] = $scope.user.pass;
         arr["email"] = $scope.user.email;
 
-        $api.post("register",arr,function(res){
+        $api.post("user",arr,function(res){
 
             console.info("registerController->send():");
             console.log(res);
@@ -927,6 +960,12 @@ app.controller("searchController", function($scope,$data){
 
 
 
+
+});;
+app.controller("subscriptionController", function($scope,$api,$state){
+
+
+    // TODO todas las funciones de subscripciones
 
 });;
 app.directive("dudasCard", function(){
