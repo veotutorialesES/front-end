@@ -1,4 +1,4 @@
-app.controller("subscriptionController", function($scope,$api,$state){
+app.controller("viewController", function($scope,$api,$state){
 
 
     $scope.is_subscribed = false;
@@ -7,7 +7,7 @@ app.controller("subscriptionController", function($scope,$api,$state){
         var arr = [];
         arr["type"] = type;
         arr["type_id"] = type_id;
-        $api.post("subscription/",arr,function(res){
+        $api.post("view",arr,function(res){
 
 
         })
@@ -19,7 +19,7 @@ app.controller("subscriptionController", function($scope,$api,$state){
         arr["type"] = type;
         arr["type_id"] = type_id;
 
-        $api.delete("subscription",arr,function(res){
+        $api.delete("view",arr,function(res){
 
 
         })
@@ -28,7 +28,7 @@ app.controller("subscriptionController", function($scope,$api,$state){
     $scope.list = function(type){
         var arr = [];
         arr["type"] = type;
-        $api.get("subscription"+type,arr,function(res){
+        $api.get("view",arr,function(res){
 
 
         })
@@ -39,7 +39,7 @@ app.controller("subscriptionController", function($scope,$api,$state){
         var arr = [];
         arr["type"] = type;
         arr["type_id"] = type_id;
-        $api.get("subscription/me",arr,function(res){
+        $api.get("view/me",arr,function(res){
 
             $scope.is_subscribed = res.status;
 
