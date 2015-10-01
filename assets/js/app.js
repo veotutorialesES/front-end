@@ -1,92 +1,25 @@
 angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
 
-    var host = location.host + ":8000";
+    var host = "localhost:8000";
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
-    // get
+
     self.get = function(route, params, callback){
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-        console.log("ApiService->get(): (url) " + self.base_url+route);
-
-        $http.get(self.base_url+route+"?app="+appID+dat+"&token="+$rootScope.token).then(function(res){
-            callback(res.data);
-        })
+        self.http("GET", route, params, callback);
     };
-
-    // create
     self.post = function(route, params, callback){
-
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-
-        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
-
-        $http({
-            method: 'POST',
-            url: self.base_url+route,
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("ApiService->post(): ");
-            console.log(res);
-
-            callback(res);
-
-
-        }).error(function(data){
-            console.error("ApiService->post(): ");
-            callback(data);
-
-        });
-
-
-
+        self.http("POST", route, params, callback);
     };
-
     self.put = function(route, params, callback){
-
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-
-        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
-
-        $http({
-            method: 'PUT',
-            url: self.base_url+route,
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("ApiService->post(): ");
-            console.log(res);
-
-            callback(res);
-
-
-        }).error(function(data){
-            console.error("ApiService->post(): ");
-            callback(data);
-
-        });
-
-
-
+        self.http("PUT", route, params, callback);
     };
     self.delete = function(route, params, callback){
+        self.http("DELETE", route, params, callback);
+    };
+
+    self.http = function(type, route, params, callback){
 
         var dat = "";
         for (var k in params){
@@ -94,87 +27,29 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
         }
 
         var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
+        console.log("ApiService->"+type+"(): ("+self.base_url+route+") " + postData);
 
         $http({
-            method: 'DELETE',
+            method: type,
             url: self.base_url+route,
             headers: {
                 'Content-Type' : 'application/x-www-form-urlencoded'
             },
             data:postData
         }).success(function (res) {
-            console.log("ApiService->post(): ");
+            console.log("ApiService->"+type+"(): ");
             console.log(res);
 
             callback(res);
 
 
         }).error(function(data){
-            console.error("ApiService->post(): ");
+            console.error("ApiService->"+type+"(): ");
             callback(data);
 
         });
 
-
-
-    };
-
-});;
-angular.module("app.like", ['app.api']).service("$like", function($api){
-    var self = this;
-
-
-    self.add = function(type, type_id,callback){
-        var arr = [];
-        arr["type"] = type;
-        arr["type_id"] = type_id;
-        console.info("app.like->add("+type+","+type_id+")");
-        $api.post("like/",arr,function(res){
-            console.info("app.like->add(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.delete = function(type, type_id,callback){
-        console.info("app.like->delete("+type+","+type_id+")");
-        $api.post("like/"+type+"/"+type_id,[],function(res){
-            console.info("app.like->delete(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.list = function(type,callback){
-        console.info("app.like->list("+type+")");
-
-        $api.get("like/"+type,[],function(res){
-            console.info("app.like->list(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.check = function(type,type_id,callback){
-        console.info("app.like->check("+type+","+type_id+")");
-
-        $api.get("like/"+type+"/"+type_id,[],function(res){
-            console.info("app.like->check(): ");
-            console.log(res);
-            if (res != "null"){
-
-                callback(true);
-
-            }else{
-                callback(false);
-
-            }
-        })
-    };
+    }
 
 });;
 angular.module("app.subscription", ['app.api']).service("$subscription", function($api){
@@ -231,6 +106,62 @@ angular.module("app.subscription", ['app.api']).service("$subscription", functio
             }
         })
     };
+});;
+angular.module("app.like", ['app.api']).service("$like", function($api){
+    var self = this;
+
+
+    self.add = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("app.like->add("+type+","+type_id+")");
+        $api.post("like/",arr,function(res){
+            console.info("app.like->add(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.delete = function(type, type_id,callback){
+        console.info("app.like->delete("+type+","+type_id+")");
+        $api.post("like/"+type+"/"+type_id,[],function(res){
+            console.info("app.like->delete(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.list = function(type,callback){
+        console.info("app.like->list("+type+")");
+
+        $api.get("like/"+type,[],function(res){
+            console.info("app.like->list(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.check = function(type,type_id,callback){
+        console.info("app.like->check("+type+","+type_id+")");
+
+        $api.get("like/"+type+"/"+type_id,[],function(res){
+            console.info("app.like->check(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
+
 });;
 angular.module("app.view", ['app.api']).service("$views", function($api){
     var self = this;
@@ -501,30 +432,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
     };
 
 
-    $scope.subscribe = function(course_id){
-        console.info("courseController: subscribe("+course_id+")");
 
-        $subscription.add(3,course_id,function(res){
-            console.info("courseController->subscribe(): ");
-            console.log(res)
-            $scope.is_subscribed = true;
-        });
-    };
-    $scope.unsubscribe = function(course_id){
-        console.info("courseController: unsubscribe("+course_id+")");
-
-        $subscription.delete(3,course_id,function(res){
-            console.info("courseController->unsubscribe(): ");
-            console.log(res)
-            $scope.is_subscribed = false;
-        });
-    };
-
-    $scope.check_subscription = function(type_id){
-        $subscription.check(3,type_id,function(res){
-            $scope.is_subscribed = res;
-        });
-    };
 
     $scope.setView = function(type_id){
         $views.add(4,type_id,function(res){
@@ -965,7 +873,50 @@ app.controller("searchController", function($scope,$data){
 app.controller("subscriptionController", function($scope,$api,$state){
 
 
-    // TODO todas las funciones de subscripciones
+    $scope.is_subscribed = false;
+
+    $scope.add = function(type, type_id){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        $api.post("subscription/",arr,function(res){
+
+
+        })
+    };
+
+    $scope.delete = function(type, type_id){
+
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+
+        $api.delete("subscription",arr,function(res){
+
+
+        })
+    };
+
+    $scope.list = function(type){
+        var arr = [];
+        arr["type"] = type;
+        $api.get("subscription"+type,arr,function(res){
+
+
+        })
+    };
+
+
+    $scope.check = function(type,type_id){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        $api.get("subscription/me",arr,function(res){
+
+            $scope.is_subscribed = res.status;
+
+        })
+    };
 
 });;
 app.directive("dudasCard", function(){

@@ -68,9 +68,8 @@
         <div class="row">
 
             <div class="col-xs-4" style="padding: 10px;">
-                <div ng-show="loged" ng-init="check_subscription(course_id)" class="box" style="">
-                    <button ng-hide="is_subscribed" ng-click="subscribe(course_id)" class="btn btn-block subscribe">Suscribirme al curso <span class="glyphicon glyphicon-star pull-right" ></span></button>
-                    <button ng-show="is_subscribed" ng-click="unsubscribe(course_id)" class="btn btn-block subscribe">Eliminar subscripcion <span class="glyphicon glyphicon-star pull-right" ></span></button>
+                <div ng-controller="subscriptionController" ng-show="loged" ng-init="check(3,course_id)" class="box" style="">
+                    <button ng-hide="is_subscribed" ng-click="add(3,course_id)" class="btn btn-block subscribe">Suscribirme al curso <span class="glyphicon glyphicon-star pull-right" ></span></button>
                 </div>
 
                 <div  class="box" style="margin-top:20px;">

@@ -46,30 +46,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
     };
 
 
-    $scope.subscribe = function(course_id){
-        console.info("courseController: subscribe("+course_id+")");
 
-        $subscription.add(3,course_id,function(res){
-            console.info("courseController->subscribe(): ");
-            console.log(res)
-            $scope.is_subscribed = true;
-        });
-    };
-    $scope.unsubscribe = function(course_id){
-        console.info("courseController: unsubscribe("+course_id+")");
-
-        $subscription.delete(3,course_id,function(res){
-            console.info("courseController->unsubscribe(): ");
-            console.log(res)
-            $scope.is_subscribed = false;
-        });
-    };
-
-    $scope.check_subscription = function(type_id){
-        $subscription.check(3,type_id,function(res){
-            $scope.is_subscribed = res;
-        });
-    };
 
     $scope.setView = function(type_id){
         $views.add(4,type_id,function(res){

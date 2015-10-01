@@ -1,92 +1,25 @@
 angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
 
-    var host = location.host + ":8000";
+    var host = "localhost:8000";
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
-    // get
+
     self.get = function(route, params, callback){
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-        console.log("ApiService->get(): (url) " + self.base_url+route);
-
-        $http.get(self.base_url+route+"?app="+appID+dat+"&token="+$rootScope.token).then(function(res){
-            callback(res.data);
-        })
+        self.http("GET", route, params, callback);
     };
-
-    // create
     self.post = function(route, params, callback){
-
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-
-        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
-
-        $http({
-            method: 'POST',
-            url: self.base_url+route,
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("ApiService->post(): ");
-            console.log(res);
-
-            callback(res);
-
-
-        }).error(function(data){
-            console.error("ApiService->post(): ");
-            callback(data);
-
-        });
-
-
-
+        self.http("POST", route, params, callback);
     };
-
     self.put = function(route, params, callback){
-
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-
-        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
-
-        $http({
-            method: 'PUT',
-            url: self.base_url+route,
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("ApiService->post(): ");
-            console.log(res);
-
-            callback(res);
-
-
-        }).error(function(data){
-            console.error("ApiService->post(): ");
-            callback(data);
-
-        });
-
-
-
+        self.http("PUT", route, params, callback);
     };
     self.delete = function(route, params, callback){
+        self.http("DELETE", route, params, callback);
+    };
+
+    self.http = function(type, route, params, callback){
 
         var dat = "";
         for (var k in params){
@@ -94,30 +27,28 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
         }
 
         var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->post(): ("+self.base_url+route+") " + postData);
+        console.log("ApiService->"+type+"(): ("+self.base_url+route+") " + postData);
 
         $http({
-            method: 'DELETE',
+            method: type,
             url: self.base_url+route,
             headers: {
                 'Content-Type' : 'application/x-www-form-urlencoded'
             },
             data:postData
         }).success(function (res) {
-            console.log("ApiService->post(): ");
+            console.log("ApiService->"+type+"(): ");
             console.log(res);
 
             callback(res);
 
 
         }).error(function(data){
-            console.error("ApiService->post(): ");
+            console.error("ApiService->"+type+"(): ");
             callback(data);
 
         });
 
-
-
-    };
+    }
 
 });
