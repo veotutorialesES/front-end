@@ -1,5 +1,7 @@
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     //
+    $httpProvider.interceptors.push('authInterceptor');
+
     // For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise("/");
     //

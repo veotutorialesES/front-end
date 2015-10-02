@@ -52,61 +52,6 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
     }
 
 });;
-angular.module("app.subscription", ['app.api']).service("$subscription", function($api){
-    var self = this;
-
-
-    self.add = function(type, type_id,callback){
-        var arr = [];
-        arr["type"] = type;
-        arr["type_id"] = type_id;
-        console.info("app.subscription->add("+type+","+type_id+")");
-        $api.post("subscription/",arr,function(res){
-            console.info("app.subscription->add(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.delete = function(type, type_id,callback){
-        console.info("app.subscription->delete("+type+","+type_id+")");
-        $api.post("subscription/"+type+"/"+type_id,[],function(res){
-            console.info("app.subscription->delete(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.list = function(type,callback){
-        console.info("app.subscription->list("+type+")");
-
-        $api.get("subscription/"+type,[],function(res){
-            console.info("app.subscription->list(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.check = function(type,type_id,callback){
-        console.info("app.subscription->check("+type+","+type_id+")");
-
-        $api.get("subscription/"+type+"/"+type_id,[],function(res){
-            console.info("app.subscription->check(): ");
-            console.log(res);
-            if (res != "null"){
-
-                callback(true);
-
-            }else{
-                callback(false);
-
-            }
-        })
-    };
-});;
 angular.module("app.like", ['app.api']).service("$like", function($api){
     var self = this;
 
@@ -162,6 +107,61 @@ angular.module("app.like", ['app.api']).service("$like", function($api){
         })
     };
 
+});;
+angular.module("app.subscription", ['app.api']).service("$subscription", function($api){
+    var self = this;
+
+
+    self.add = function(type, type_id,callback){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        console.info("app.subscription->add("+type+","+type_id+")");
+        $api.post("subscription/",arr,function(res){
+            console.info("app.subscription->add(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.delete = function(type, type_id,callback){
+        console.info("app.subscription->delete("+type+","+type_id+")");
+        $api.post("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("app.subscription->delete(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.list = function(type,callback){
+        console.info("app.subscription->list("+type+")");
+
+        $api.get("subscription/"+type,[],function(res){
+            console.info("app.subscription->list(): ");
+            console.log(res);
+            callback(res);
+
+        })
+    };
+
+    self.check = function(type,type_id,callback){
+        console.info("app.subscription->check("+type+","+type_id+")");
+
+        $api.get("subscription/"+type+"/"+type_id,[],function(res){
+            console.info("app.subscription->check(): ");
+            console.log(res);
+            if (res != "null"){
+
+                callback(true);
+
+            }else{
+                callback(false);
+
+            }
+        })
+    };
 });;
 angular.module("app.view", ['app.api']).service("$views", function($api){
     var self = this;
@@ -223,15 +223,18 @@ var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like',
 
 
 
-/*
+
 app.factory('authInterceptor', function ($rootScope, $q, $window) {
     return {
         request: function (config) {
+
             config.headers = config.headers || {};
             if ($window.sessionStorage.token) {
                 config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
             }
+
             return config;
+
         },
         response: function (response) {
             if (response.status === 401) {
@@ -241,7 +244,7 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
         }
     };
 });
-
+/* ESTA EN DONDE LAS RUTAS
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
 });
@@ -264,8 +267,10 @@ app.controller("headerController",function($rootScope,$scope,$window){
 
 });
 ;
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     //
+    $httpProvider.interceptors.push('authInterceptor');
+
     // For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise("/");
     //
@@ -303,6 +308,55 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
 });;
+app.controller("likeController", function($scope,$api,$state){
+
+
+    $scope.is_subscribed = false;
+
+    $scope.add = function(type, type_id){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        $api.post("like",arr,function(res){
+
+
+        })
+    };
+
+    $scope.delete = function(type, type_id){
+
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+
+        $api.delete("like",arr,function(res){
+
+
+        })
+    };
+
+    $scope.list = function(type){
+        var arr = [];
+        arr["type"] = type;
+        $api.get("like",arr,function(res){
+
+
+        })
+    };
+
+
+    $scope.check = function(type,type_id){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        $api.get("like/me",arr,function(res){
+
+            $scope.is_subscribed = res.status;
+
+        })
+    };
+
+});;
 app.controller("subscriptionController", function($scope,$api,$state){
 
 
@@ -333,7 +387,7 @@ app.controller("subscriptionController", function($scope,$api,$state){
     $scope.list = function(type){
         var arr = [];
         arr["type"] = type;
-        $api.get("subscription"+type,arr,function(res){
+        $api.get("subscription",arr,function(res){
 
 
         })
@@ -345,6 +399,55 @@ app.controller("subscriptionController", function($scope,$api,$state){
         arr["type"] = type;
         arr["type_id"] = type_id;
         $api.get("subscription/me",arr,function(res){
+
+            $scope.is_subscribed = res.status;
+
+        })
+    };
+
+});;
+app.controller("viewController", function($scope,$api,$state){
+
+
+    $scope.is_subscribed = false;
+
+    $scope.add = function(type, type_id){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        $api.post("view",arr,function(res){
+
+
+        })
+    };
+
+    $scope.delete = function(type, type_id){
+
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+
+        $api.delete("view",arr,function(res){
+
+
+        })
+    };
+
+    $scope.list = function(type){
+        var arr = [];
+        arr["type"] = type;
+        $api.get("view",arr,function(res){
+
+
+        })
+    };
+
+
+    $scope.check = function(type,type_id){
+        var arr = [];
+        arr["type"] = type;
+        arr["type_id"] = type_id;
+        $api.get("view/me",arr,function(res){
 
             $scope.is_subscribed = res.status;
 
@@ -768,7 +871,11 @@ app.controller("homeController", function($scope,$api){
 
 
 
-
+    $scope.test = function(){
+        $api.get("test",[],function(res){
+            console.error(res);
+        })
+    }
 });;
 app.controller("loginController", function($scope,$api,$state,$rootScope,$window,$stateParams){
     $('#myModal').modal('hide');

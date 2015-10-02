@@ -87,5 +87,9 @@ app.controller("homeController", function($scope,$api){
 
 
 
-
+    $scope.test = function(){
+        $api.get("test",[],function(res){
+            console.error(res);
+        })
+    }
 });
