@@ -1,13 +1,23 @@
-angular.module("app.api", []).service("$api", function($http,$rootScope){
+angular.module("app.api", []).service("$api", function($http,$rootScope,$window){
     var self = this;
-
     var host = "localhost:8000";
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
 
     self.get = function(route, params, callback){
-        self.http("GET", route, params, callback);
+        var dat = "";
+        for (var k in params){
+            dat += "&"+k+"="+params[k];
+        }
+        var url = self.base_url+route+"?app=123123"+dat+"&token="+$window.sessionStorage.token;
+        console.log("HTTP: ApiService->get()"+url);
+
+        $http.get(url).then(function(res){
+
+            callback(res.data);
+
+        });
     };
     self.post = function(route, params, callback){
         self.http("POST", route, params, callback);
@@ -26,8 +36,8 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
             dat += "&"+k+"="+params[k];
         }
 
-        var postData = "?app="+appID+ dat + "&token="+$rootScope.token;
-        console.log("ApiService->"+type+"(): ("+self.base_url+route+") " + postData);
+        var postData = "?app="+appID+ dat + "&token="+$window.sessionStorage.token;
+        console.log("HTTP: ApiService->"+type+"(): "+self.base_url+route+ postData);
 
         $http({
             method: type,
@@ -559,8 +569,8 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
             console.log("courseController->getCourse(): ");
             console.log(res.course.modules);
 
-            $scope.course = res.course;
-            $scope.modules =  $scope.course.modules;
+            $scope.course = res.data.course;
+            $scope.modules =   res.data.course.modules;
 
             if (callback) { callback(true);}
 
@@ -576,7 +586,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         $api.get("tutorial/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
 
-            $scope.tutorial = res;
+            $scope.tutorial = res.data;
             $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
             console.log(res)
         });

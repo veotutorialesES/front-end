@@ -21,8 +21,8 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
             console.log("courseController->getCourse(): ");
             console.log(res.course.modules);
 
-            $scope.course = res.course;
-            $scope.modules =  $scope.course.modules;
+            $scope.course = res.data.course;
+            $scope.modules =   res.data.course.modules;
 
             if (callback) { callback(true);}
 
@@ -38,7 +38,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         $api.get("tutorial/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
 
-            $scope.tutorial = res;
+            $scope.tutorial = res.data;
             $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
             console.log(res)
         });
