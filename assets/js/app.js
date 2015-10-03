@@ -10,7 +10,7 @@ angular.module("app.api", []).service("$api", function($http,$rootScope,$window)
         for (var k in params){
             dat += "&"+k+"="+params[k];
         }
-        var url = self.base_url+route+"?app=123123"+dat+"&token="+$window.sessionStorage.token;
+        var url = self.base_url+route+"?app=123123"+dat;
         console.log("HTTP: ApiService->get()"+url);
 
         $http.get(url).then(function(res){
@@ -36,7 +36,7 @@ angular.module("app.api", []).service("$api", function($http,$rootScope,$window)
             dat += "&"+k+"="+params[k];
         }
 
-        var postData = "?app="+appID+ dat + "&token="+$window.sessionStorage.token;
+        var postData = "?app="+appID+ dat;
         console.log("HTTP: ApiService->"+type+"(): "+self.base_url+route+ postData);
 
         $http({
@@ -240,7 +240,7 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
 
             config.headers = config.headers || {};
             if ($window.sessionStorage.token) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+                config.headers.Authorization = $window.sessionStorage.token;
             }
 
             return config;
