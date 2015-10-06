@@ -71,7 +71,7 @@ app.controller("homeController", function($scope,$api){
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
                 console.log(t);
                 $scope.calendar.push({
-                    day: t,
+                    day: dayName(i,inicio),
                     tutorials: calendarTutorials(res.tutorials,t),
                     courses: calendarCourses(res.courses,t)
                 });
@@ -86,10 +86,27 @@ app.controller("homeController", function($scope,$api){
     };
 
 
+    function dayName(i,date){
+        if (i == 0){
+            return "HOY";
+        }
+        if (i == 1){
+            return "MAÑANA";
+        }
+        var weekday = new Array(7);
+        weekday[0]=  "DOMINGO";
+        weekday[1] = "LUNES";
+        weekday[2] = "MARTES";
+        weekday[3] = "MIERCOLES";
+        weekday[4] = "JUEVES";
+        weekday[5] = "VIERNES";
+        weekday[6] = "SABADO";
 
-    $scope.test = function(){
-        $api.get("test",[],function(res){
-            console.error(res);
-        })
+        return weekday[date.getDay()];
+
+
+
     }
+
+
 });

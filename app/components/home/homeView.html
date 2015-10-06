@@ -1,38 +1,27 @@
 <style type="text/css">
-    .home-slider-item{
-        float: left;
-        margin-right: 20px;;
-    }
-    .home-slider-item img{
-        width: 100%;
-    }
-    .home-slider-item p{
-        margin: 0;
-        text-align: center;
-    }
 
 
-
-    .calendario ul li{
-        border-bottom: 1px silver solid;
-        padding: 5px;
-    }
 </style>
 <div ng-controller="homeController">
 
 
     <!-- calendario -->
-    <div ng-click="test()" ng-init="getCalendar(getDate(),6)" class="" style="padding-top: 10px;min-height: 200px;">
+    <div ng-init="getCalendar(getDate(),6)" class="" style="padding-top: 10px;">
         <div class="container">
             <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
 
-            <div class="row calendario" style="margin-top: 10px;">
-                <div class="col-xs-2" ng-repeat="cal in calendar" style="height: 150px;">
+            <div class="row " style="margin-top: 10px;">
+                <div class="col-xs-12 col-md-2" ng-repeat="cal in calendar" style="">
                     <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{cal.day}}</div>
                     <ul>
 
-                        <li style="background-color: greenyellow" ng-repeat="tutorial in cal.tutorials">{{tutorial.title}}</li>
-                        <li style="background-color: indianred" ng-repeat="course in cal.courses">{{course.title}}</li>
+                        <li class="box" style="margin-bottom: 5px;" ng-repeat="tutorial in cal.tutorials">
+                            <div style="color: red;padding: 2px;font-size: 17px;"> Titulo del curso</div>
+                            <div style="padding: 2px;">{{tutorial.title}}</div>
+                        </li>
+                        <li class="box" style="margin-bottom:5px;background-color: indianred" ng-repeat="course in cal.courses">
+                            <div style="padding: 5px;"> {{course.title}}</div>
+                        </li>
 
                     </ul>
                 </div>
@@ -49,7 +38,7 @@
     <div  class="container" style="">
 
         <div class="row">
-            <div ng-init="lastTutorials()" class="col-xs-6" style="padding: 20px;" >
+            <div ng-init="lastTutorials()" class="col-xs-12 col-sm-6" style="padding: 20px;" >
                 <label>Ultimos tutoriales</label>
                 <div ng-repeat="tutorial in tutorials"  title="tutorial.title" style="padding: 5px;height: auto !important;overflow: hidden">
                     <a ui-sref="course({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})">
@@ -58,7 +47,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-xs-6" ng-controller="dudasController" ng-init="getAll()" style="padding: 20px;  ">
+            <div class="col-xs-12 col-sm-6" ng-controller="dudasController" ng-init="getAll()" style="padding: 20px;  ">
                 <label>Ultimas dudas</label>
                 <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
             </div>

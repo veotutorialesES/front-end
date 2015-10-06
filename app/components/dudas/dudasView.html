@@ -13,8 +13,8 @@
                 <div style="padding: 10px;border-bottom: 1px silver solid">
 
                     <h1>{{doubt.title}}</h1></div>
-            <div style="padding: 20px;">
-                {{doubt.description}}
+            <div ng-bind-html="doubt.description" style="padding: 20px;">
+
                 <!--
 <pre class="prettyprint lang-js">
 function getCookie(c_name){
@@ -87,7 +87,7 @@ function getCookie(c_name){
 
 
 
-            <div class="box" style="margin-top: 20px;padding: 5px;">
+            <div class="" style="margin-top: 20px;padding: 5px;">
                 <div ng-show="loged">
                 <label style="font-size: 17pt;">Escribe una respuesta</label>
 
@@ -111,16 +111,15 @@ function getCookie(c_name){
         </div>
         <div class="col-xs-12 col-sm-4" style="">
             <div>
-                <img style="width: 100%" src="https://i.ytimg.com/vi_webp/mpQts3ezPVg/mqdefault.webp">
+                <img style="width: 100%" src="{{doubt.tutorial_img}}">
                 <div style="margin-top: 20px;">
-                    <div style="padding: 10px;border:1px silver solid">Tutorial: {{doubt.tutorial.title}}</div>
+                    <div style="padding: 10px;border:1px silver solid">Tutorial: {{doubt.tutorial_title}}</div>
+                    <div style="padding: 10px;border:1px silver solid">Curso: {{doubt.course_title}}</div>
                 </div>
-                <div style="margin-top:10px;padding: 5px;border:1px #16a01d solid;background-color: #17b21e;color: white"><span class="glyphicon glyphicon-ok"></span> Solucionado</div>
+                <div ng-controller="subscriptionController" ng-show="loged" ng-init="check(0,doubt_id)" class="box" style="margin-top: 20px;;">
+                    <button ng-click="add(0,doubt_id)" class="btn btn-block subscribe">Suscribirme al curso <span class="glyphicon glyphicon-star pull-right" ></span></button>
+                </div>
 
-                <div ng-show="loged" style="margin-top: 10px;font-weight: bold;">
-                    <div ng-hide="is_subscribed" ng-click="subscribe(doubt_id)" style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Suscribirme</div>
-                    <div ng-show="is_subscribed" ng-click="subscribe(doubt_id)" style="padding: 5px;border:1px #a0661d solid;background-color: #b2931d;color: white;margin-top: 20px;"><span class="glyphicon glyphicon-star"></span> Eliminar subscripcion</div>
-                </div>
             </div>
         </div>
     </div>

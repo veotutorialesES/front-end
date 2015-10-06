@@ -281,7 +281,6 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
     //
     $httpProvider.interceptors.push('authInterceptor');
 
-    // For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise("/");
     //
     // Now set up the states
@@ -566,11 +565,9 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
         $api.get("course/"+id,[], function(res){
 
-            console.log("courseController->getCourse(): ");
-            console.log(res.course.modules);
 
-            $scope.course = res.data.course;
-            $scope.modules =   res.data.course.modules;
+            $scope.course = res.data;
+            $scope.modules =   res.data.modules;
 
             if (callback) { callback(true);}
 
@@ -579,6 +576,16 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
+    $scope.getModuleTutorials = function(module_id,callback){
+        console.info("courseController: getTutorial("+tutorial_id+")");
+
+        $api.get("module/"+module_id,[],function(res){
+            console.log("courseController->getTutorial(): ");
+
+            callback(res.data);
+        });
+
+    };
 
     $scope.getTutorial = function(tutorial_id){
         console.info("courseController: getTutorial("+tutorial_id+")");
@@ -593,7 +600,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
-
+/*
 
 
     $scope.setView = function(type_id){
@@ -608,14 +615,30 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         });
     };
 
-
+*/
 });;
-app.controller("dudasController", function($scope,$api,$stateParams,$subscription,$like){
+app.controller("dudasController", function($scope,$api,$stateParams){
 
     angular.element(document).ready(function () {
         console.log('Code highlighting');
         prettyPrint();
     });
+
+
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+        ],
+
+        toolbar1: "bold italic underline strikethrough | alignleft aligncenter | formatselect | bullist numlist | outdent indent | link unlink | hr",
+        menubar: false,
+        statusbar: false,
+        toolbar_items_size: 'small'
+    });
+
 
     $scope.doubt_id = $stateParams.doubt_id;
     $scope.auxDoubt = {};
@@ -633,7 +656,8 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
 
         var arr = [];
         arr["title"] = $scope.auxDoubt.title;
-        arr["description"] = $scope.auxDoubt.description;
+       // arr["description"] = $scope.auxDoubt.description;
+        arr["description"] =tinyMCE.activeEditor.getContent({format : 'raw'});
         arr["tutorial_id"] = tutorial_id;
 
 
@@ -647,9 +671,10 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
 
     $scope.getDoubts = function(tutorial_id){
         console.log("dudasController: getDoubts("+tutorial_id+"): ");
-
-        $api.get("doubt/?tutorial_id="+tutorial_id,[],function(res){
-            $scope.doubtsList = res;
+        var arr = [];
+        arr["tutorial_id"] = tutorial_id;
+        $api.get("doubt/",arr,function(res){
+            $scope.doubtsList = res.data;
         })
 
     };
@@ -657,10 +682,10 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
         $api.get("doubt/"+doubt_id,[],function(res){
-            console.log("dudasController->getDoubts(): ");
+            console.log("dudasController->getDoubt(): ");
 
             console.log(res);
-            $scope.doubt = res;
+            $scope.doubt = res.data;
         })
 
     };
@@ -672,7 +697,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
             console.log("dudasController->getAll(): ");
 
             console.log(res);
-            $scope.doubtsList = res;
+            $scope.doubtsList = res.data;
         })
 
     };
@@ -739,6 +764,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
 
     };
 
+    /*
     $scope.subscribe = function(doubt_id){
         console.info("dudasController: subscribe("+doubt_id+")");
 
@@ -782,7 +808,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$subscriptio
             console.log(res);
         });
     };
-
+*/
 
 
 });;
@@ -865,7 +891,7 @@ app.controller("homeController", function($scope,$api){
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
                 console.log(t);
                 $scope.calendar.push({
-                    day: t,
+                    day: dayName(i,inicio),
                     tutorials: calendarTutorials(res.tutorials,t),
                     courses: calendarCourses(res.courses,t)
                 });
@@ -880,12 +906,29 @@ app.controller("homeController", function($scope,$api){
     };
 
 
+    function dayName(i,date){
+        if (i == 0){
+            return "HOY";
+        }
+        if (i == 1){
+            return "MAÑANA";
+        }
+        var weekday = new Array(7);
+        weekday[0]=  "DOMINGO";
+        weekday[1] = "LUNES";
+        weekday[2] = "MARTES";
+        weekday[3] = "MIERCOLES";
+        weekday[4] = "JUEVES";
+        weekday[5] = "VIERNES";
+        weekday[6] = "SABADO";
 
-    $scope.test = function(){
-        $api.get("test",[],function(res){
-            console.error(res);
-        })
+        return weekday[date.getDay()];
+
+
+
     }
+
+
 });;
 app.controller("loginController", function($scope,$api,$state,$rootScope,$window,$stateParams){
     $('#myModal').modal('hide');

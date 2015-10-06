@@ -18,11 +18,9 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
         $api.get("course/"+id,[], function(res){
 
-            console.log("courseController->getCourse(): ");
-            console.log(res.course.modules);
 
-            $scope.course = res.data.course;
-            $scope.modules =   res.data.course.modules;
+            $scope.course = res.data;
+            $scope.modules =   res.data.modules;
 
             if (callback) { callback(true);}
 
@@ -31,6 +29,16 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
+    $scope.getModuleTutorials = function(module_id,callback){
+        console.info("courseController: getTutorial("+tutorial_id+")");
+
+        $api.get("module/"+module_id,[],function(res){
+            console.log("courseController->getTutorial(): ");
+
+            callback(res.data);
+        });
+
+    };
 
     $scope.getTutorial = function(tutorial_id){
         console.info("courseController: getTutorial("+tutorial_id+")");
@@ -45,7 +53,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
-
+/*
 
 
     $scope.setView = function(type_id){
@@ -60,5 +68,5 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
         });
     };
 
-
+*/
 });
