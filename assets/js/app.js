@@ -892,8 +892,8 @@ app.controller("homeController", function($scope,$api){
                 console.log(t);
                 $scope.calendar.push({
                     day: dayName(i,inicio),
-                    tutorials: calendarTutorials(res.tutorials,t),
-                    courses: calendarCourses(res.courses,t)
+                    tutorials: calendarTutorials(res.tutorials,t)
+                   // courses: calendarCourses(res.courses,t)
                 });
 
                 inicio.setDate(inicio.getDate()+1);

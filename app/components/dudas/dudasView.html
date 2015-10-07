@@ -30,6 +30,13 @@ function getCookie(c_name){
             </div>
             <hr>
             <label style="font-size: 17pt;">Respuestas</label>
+
+
+            <div style="padding:10px;border:1px silver dashed;text-align: center">
+                <p style="margin: 0">Sé el primero en responder a esta duda</p>
+            </div>
+
+
             <div ng-repeat="answer in answers" style="margin-top: 20px;">
                 <div  class="box" style="">
                     <div style="height: auto !important;overflow: hidden;border-bottom: 1px #e1e1e1 solid">
@@ -87,9 +94,9 @@ function getCookie(c_name){
 
 
 
-            <div class="" style="margin-top: 20px;padding: 5px;">
+            <div class="" style="margin-top: 20px;padding:10px;background-color: #e8e8e8">
                 <div ng-show="loged">
-                <label style="font-size: 17pt;">Escribe una respuesta</label>
+                    <h2 style=""><span class="glyphicon glyphicon-pencil"></span> Responde ha esta duda</h2>
 
 
                 <textarea ng-model="NewAnswer.description" class="form-control">
@@ -117,7 +124,8 @@ function getCookie(c_name){
                     <div style="padding: 10px;border:1px silver solid">Curso: {{doubt.course_title}}</div>
                 </div>
                 <div ng-controller="subscriptionController" ng-show="loged" ng-init="check(0,doubt_id)" class="box" style="margin-top: 20px;;">
-                    <button ng-click="add(0,doubt_id)" class="btn btn-block subscribe">Suscribirme al curso <span class="glyphicon glyphicon-star pull-right" ></span></button>
+                    <button ng-click="add(0,course_id)" class="btn btn-block btn-primary">Suscribirme a esta duda <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
+
                 </div>
 
             </div>

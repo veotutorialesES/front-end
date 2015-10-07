@@ -16,11 +16,8 @@
                     <ul>
 
                         <li class="box" style="margin-bottom: 5px;" ng-repeat="tutorial in cal.tutorials">
-                            <div style="color: red;padding: 2px;font-size: 17px;"> Titulo del curso</div>
+                            <div style="color: red;padding: 2px;font-size: 17px;"> {{tutorial.course_title}}</div>
                             <div style="padding: 2px;">{{tutorial.title}}</div>
-                        </li>
-                        <li class="box" style="margin-bottom:5px;background-color: indianred" ng-repeat="course in cal.courses">
-                            <div style="padding: 5px;"> {{course.title}}</div>
                         </li>
 
                     </ul>
