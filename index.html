@@ -14,11 +14,6 @@
     <script src="assets/js/bootstrap.min.js"></script>
 
 
-    <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
-    <script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
-    <script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
-    <script src='node_modules/textangular/dist/textAngular.min.js'></script>
-
     <link href="assets/js/prettify/prettify.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="assets/js/prettify/prettify.js"></script>
     <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
@@ -41,9 +36,11 @@
                     <a ui-sref="home">VEOTUTORIALES</a>
                 </li>
                 <li class="search" style="padding: 2px;">
-                    <span class="glyphicon glyphicon-search"></span>
+                    <form ng-submit="search(q)">
+                        <span class="glyphicon glyphicon-search"></span>
 
-                    <input type="text">
+                        <input ng-model="q" type="text">
+                    </form>
                 </li>
                 <li class="hover-default" style="color: gainsboro;"><a  ui-sref="search">Explorar</a></li>
                 <li ui-sref="activation">activation</li>
@@ -157,7 +154,7 @@
 
 
 
-<!--//BLOQUE COOKIES-->
+<!--//BLOQUE COOKIES
 <div id="barraaceptacion" style="display: block;">
     <div class="inner">
         Solicitamos su permiso para obtener datos estadísticos de su navegación en esta web, en cumplimiento del Real 

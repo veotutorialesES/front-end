@@ -1,4 +1,4 @@
-app.controller("courseController", function($scope,$stateParams,$api,$sce,$subscription,$views){
+app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
@@ -53,20 +53,5 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
-/*
 
-
-    $scope.setView = function(type_id){
-        $views.add(4,type_id,function(res){
-
-        });
-    };
-
-    $scope.unsetView = function(type_id){
-        $views.delete(4,type_id,function(res){
-
-        });
-    };
-
-*/
 });

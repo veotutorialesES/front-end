@@ -1,4 +1,4 @@
-app.controller("homeController", function($scope,$api){
+app.controller("homeController", function($scope,$api,$state){
 
     $scope.tutorials = [];
     $scope.calendar = [];
@@ -107,6 +107,10 @@ app.controller("homeController", function($scope,$api){
 
 
     }
+
+
+
+
 
 
 });

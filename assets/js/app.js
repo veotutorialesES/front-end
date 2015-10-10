@@ -229,7 +229,7 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
     };
 
 });;
-var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
+var app = angular.module("vts", ['ui.router','app.api']);
 
 
 
@@ -260,14 +260,17 @@ app.config(function ($httpProvider) {
 });
 */
 
-app.controller("headerController",function($rootScope,$scope,$window){
+app.controller("headerController",function($rootScope,$scope,$window,$state){
 
     $rootScope.token =  $window.sessionStorage.token;
     if ($rootScope.token){
         $rootScope.loged = true;
     }
 
-
+    $scope.search = function(q){
+        console.log(q);
+        $state.go('search',{type:'all',q:q});
+    }
 
     $scope.logout = function(){
         $rootScope.loged = false;
@@ -298,7 +301,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('activate', { url: "/activation/:email/:token", templateUrl: "app/components/login/activationView.html"})
 
 
-        .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
+        .state('search', { url: "/search/:type/:q", templateUrl: "app/components/search/searchView.html"})
 
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
@@ -545,7 +548,7 @@ app.controller("avisosController", function($scope){
 
 
 });;
-app.controller("courseController", function($scope,$stateParams,$api,$sce,$subscription,$views){
+app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
@@ -600,22 +603,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
-/*
 
-
-    $scope.setView = function(type_id){
-        $views.add(4,type_id,function(res){
-
-        });
-    };
-
-    $scope.unsetView = function(type_id){
-        $views.delete(4,type_id,function(res){
-
-        });
-    };
-
-*/
 });;
 app.controller("dudasController", function($scope,$api,$stateParams){
 
@@ -818,7 +806,7 @@ app.controller("helpController", function($scope){
 
 
 });;
-app.controller("homeController", function($scope,$api){
+app.controller("homeController", function($scope,$api,$state){
 
     $scope.tutorials = [];
     $scope.calendar = [];
@@ -927,6 +915,10 @@ app.controller("homeController", function($scope,$api){
 
 
     }
+
+
+
+
 
 
 });;
@@ -1071,11 +1063,23 @@ app.controller("registerController", function($scope,$api,$state){
         return str;
     }
 });;
-app.controller("searchController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("searchController", function($scope,$stateParams,$state){
+
+    $scope.type = $stateParams.type;
+    $scope.q = $stateParams.q;
 
 
+    $scope.changeType = function(type){
 
+        switch (type){
+            case 0: $scope.type = 'all'; break;
+            case 1: $scope.type = 'cursos'; break;
+            case 2: $scope.type = 'tutoriales'; break;
+            case 3: $scope.type = 'dudas'; break;
+        }
+        $state.go('search',{type:$scope.type});
+
+    }
 
 
 });;

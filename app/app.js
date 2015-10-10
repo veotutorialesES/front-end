@@ -1,4 +1,4 @@
-var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
+var app = angular.module("vts", ['ui.router','app.api']);
 
 
 
@@ -29,14 +29,17 @@ app.config(function ($httpProvider) {
 });
 */
 
-app.controller("headerController",function($rootScope,$scope,$window){
+app.controller("headerController",function($rootScope,$scope,$window,$state){
 
     $rootScope.token =  $window.sessionStorage.token;
     if ($rootScope.token){
         $rootScope.loged = true;
     }
 
-
+    $scope.search = function(q){
+        console.log(q);
+        $state.go('search',{type:'all',q:q});
+    }
 
     $scope.logout = function(){
         $rootScope.loged = false;
