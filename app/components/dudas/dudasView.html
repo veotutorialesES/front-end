@@ -32,30 +32,26 @@ function getCookie(c_name){
             <label style="font-size: 17pt;">Respuestas</label>
 
 
-            <div style="padding:10px;border:1px silver dashed;text-align: center">
+            <div ng-hide="answers.length > 0" style="padding:10px;border:1px silver dashed;text-align: center">
                 <p style="margin: 0">Sé el primero en responder a esta duda</p>
             </div>
 
 
-            <div ng-repeat="answer in answers" style="margin-top: 20px;">
-                <div  class="box" style="">
-                    <div style="height: auto !important;overflow: hidden;border-bottom: 1px #e1e1e1 solid">
-                        <div class="pull-left" style="padding: 5px;"></div>
-                        <ul class="pull-right float padding-5 hover-default">
-                            <li >{{answer.likes}}  </li>
-                            <li ng-hide="answer.is_liked"  ng-click="answer_like(answer.answer_id);answer.is_liked = true;answer.likes = answer.likes + 1;"><span class="glyphicon glyphicon-thumbs-up"></span> FUNCIONA  </li>
-                            <li ng-show="answer.is_liked"  ng-click="answer_unlike(answer.answer_id);answer.is_liked = false;answer.likes = answer.likes - 1;"><span class="glyphicon glyphicon-thumbs-up"></span> NO FUNCIONA  </li>
-                        </ul>
-                    </div>
-                    <div style="padding: 20px;">
-                        {{answer.description}}
+            <div ng-repeat="answer in answers" style="margin-top: 20px;padding-left: 100px;">
+                <div  class="" style="margin-bottom:50px;">
+                    <div style="position: absolute;left: 0px;text-align: center;width: 100px;font-size: 19px;padding:10px;">
+                        <div><span class="glyphicon glyphicon-menu-up"></span></div>
+                        <div >0</div>
+                        <div><span class="glyphicon glyphicon-menu-down"></span></div>
+
                     </div>
 
-                    <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;border-top: 1px #e1e1e1 solid">
+                    <div ng-bind-html="answer.description" style="padding: 20px;background-color: #ebebeb"></div>
+
+                    <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;background-color: #dddddd">
 
                         <div class="pull-left">
                             hace {{answer.created_at}} minutos por {{answer.user_id}}
-
                         </div>
 
                         <div class="pull-right">
@@ -63,25 +59,29 @@ function getCookie(c_name){
                         </div>
 
                     </div>
+                    <div style="background-color: #e1e1e1">
+                        <div>
+                            <div ng-repeat="comment in answer.comments" style="margin-bottom: 10px;padding-top: 10px;">
+                                <div style="padding-left: 40px;">
+                                    <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
+                                    <div>{{comment.description}}</div>
+                                </div>
+                            </div>
+                        </div>
 
-                </div>
-                <div class="box" style="padding: 5px;">
-                    <div ng-show="loged">
-                    <textarea ng-model="comment.description" class="form-control" style="height: 70px;resize: none"></textarea>
-                    <div style="padding-top: 5px;text-align: right">
-                        <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
+                        <div class="" style="padding: 5px;">
+                            <div ng-show="loged">
+                                <textarea ng-model="comment.description" class="form-control" style="height: 70px;resize: none"></textarea>
+                                <div style="padding-top: 5px;text-align: right">
+                                    <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
+                                </div>
+                            </div>
+                            <div ng-hide="loged">Inicia sesión para responder</div>
+                        </div>
                     </div>
-                    </div>
-                    <div ng-hide="loged">Inicia sesión para responder</div>
                 </div>
-                <div class="box" style="border-top: 1px #e1e1e1 solid;background-color:#efefef;">
 
-                    <div ng-click="getComments(answer.answer_id)" style="">
 
-                        <div ng-repeat="comment in answer.comments" style="padding: 5px;border-bottom: 1px #e5e5e5 solid;padding:10px;">{{comment.description}} 1 <span style="color: silver">por Salvador hace 20 minutos</span> </div>
-
-                    </div>
-                </div>
 
 
 
@@ -94,23 +94,21 @@ function getCookie(c_name){
 
 
 
-            <div class="" style="margin-top: 20px;padding:10px;background-color: #e8e8e8">
+            <form ng-submit="addAnswer(doubt_id)" class="" style="margin-top: 70px;padding:10px;background-color: #e8e8e8">
                 <div ng-show="loged">
                     <h2 style=""><span class="glyphicon glyphicon-pencil"></span> Responde ha esta duda</h2>
 
 
-                <textarea ng-model="NewAnswer.description" class="form-control">
-
-                </textarea>
+                <textarea class="form-control"></textarea>
                 <div style="padding-top: 5px;text-align: right">
-                    <button ng-click="addAnswer(doubt_id)" class="btn btn-default" style="">ENVIAR</button>
+                    <button type="submit" class="btn btn-default" style="">ENVIAR</button>
                 </div>
                 </div>
                 <div ng-hide="loged">Inicia sesión para responder</div>
 
 
 
-            </div>
+            </form>
 
 
 

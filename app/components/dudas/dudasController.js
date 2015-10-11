@@ -87,7 +87,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         var arr = [];
 
-        arr["description"] = $scope.NewAnswer.description;
+        arr["description"] =tinyMCE.activeEditor.getContent({format : 'raw'});
         arr["doubt_id"] = doubt_id;
 
 

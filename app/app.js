@@ -23,11 +23,7 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
         }
     };
 });
-/* ESTA EN DONDE LAS RUTAS
-app.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
-});
-*/
+
 
 app.controller("headerController",function($rootScope,$scope,$window,$state){
 
