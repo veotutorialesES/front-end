@@ -16,7 +16,11 @@
                     <ul>
 
                         <li class="box" style="margin-bottom: 5px;" ng-repeat="tutorial in cal.tutorials">
-                            <div style="color: red;padding: 2px;font-size: 17px;"> {{tutorial.course_title}}</div>
+                            <div style="color: red;padding: 2px;font-size: 17px;">
+                                <a ui-sref="course({course_id:tutorial.course_id})">
+                                {{tutorial.course_title}}
+                                </a>
+                            </div>
                             <div style="padding: 2px;">{{tutorial.title}}</div>
                         </li>
 
@@ -38,7 +42,7 @@
             <div ng-init="lastTutorials()" class="col-xs-12 col-sm-6" style="padding: 20px;" >
                 <label>Ultimos tutoriales</label>
                 <div ng-repeat="tutorial in tutorials"  title="tutorial.title" style="padding: 5px;height: auto !important;overflow: hidden">
-                    <a ui-sref="course({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})">
+                    <a ui-sref="tutorial({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})">
                     <div class="col-xs-3"><img style="width: 100%" src="{{tutorial.image}}"> </div>
                     <div class="col-xs-9">{{tutorial.title}}</div>
                     </a>

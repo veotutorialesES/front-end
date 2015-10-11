@@ -46,19 +46,11 @@
         </div>
 
         <div class="col-xs-12 col-sm-6" style="padding: 0">
-            <div class="" style="position: absolute;left: -70px;top:0;height: 100%;opacity: 0.4">
-                <div style="position: relative;top: 50%;transform: translateY(-50%);border: 1px #5f7785 solid;padding: 10px;">
-                    <span style="font-size: 30pt;color: #5f7786;" class="glyphicon glyphicon-chevron-left"></span>
-                </div>
-            </div>
+
             <div class="embed-responsive embed-responsive-16by9" style="">
-                <iframe class="embed-responsive-item" ng-src="{{video_url}}"></iframe>
+                <img src="{{course.image}}">
             </div>
-            <div class="" style="position: absolute;right: -70px;top:0;height: 100%;opacity: 0.4">
-                <div style="position: relative;top: 50%;transform: translateY(-50%);border: 1px #5f7785 solid;padding: 10px;">
-                    <span style="font-size: 30pt;color: #5f7786;" class="glyphicon glyphicon-chevron-right"></span>
-                </div>
-            </div>
+
 
         </div>
 
@@ -79,8 +71,12 @@
                     <button ng-click="add(3,course_id)" class="btn btn-block btn-primary">Suscribirme al curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                 </div>
 
-                <div  class="" style="margin-top:20px;background-color: #e8e8e8">
-                    <ul style="width: 100%" class="player">
+                <div  class="" style="margin-top:20px;">
+                    <div ng-hide="modules.length > 0" style="padding: 10px; border: 1px silver dashed;text-align: center;">
+                        De momento no tenemos tutoriales disponibles.
+                    </div>
+                    <ul ng-show="modules.length > 0" style="width: 100%;background-color: #e8e8e8" class="player">
+
                         <li ng-repeat="mod in modules">
                             <!--
                             <div style="border-bottom: 1px #f1f1f1 solid;border-top: 1px #f2f2f2 solid;padding:5px">{{mod.title}}
@@ -104,38 +100,18 @@
 
             <div class="col-xs-8" style="">
 
-                <h2><span class="glyphicon glyphicon-info-sign"></span> Información y descagas</h2>
+                <h2><span class="glyphicon glyphicon-info-sign"></span> Información de este curso</h2>
                 <div class="" style="padding: 10px;background-color: #e8e8e8">
-                    {{tutorial.description}}
+                    {{course.description}}
+                    <br>
+                    Añadir fechas de tutoriales como en popcorntime
+                    <br>
+                    Añadir cantidad de usuario suscritos
 
                 </div>
 
 
-                <div  ng-controller="dudasController" style="">
-                    <h2 style="margin-top: 20px;"><span class="glyphicon glyphicon-question-sign"></span> Dudas</h2>
-                    <div ng-init="getDoubts(tutorial_id)" style="margin-top:10px;">
-                        <div ng-hide="doubtsList.length > 0" style="padding:10px;border:1px silver dashed;text-align: center">
-                            <p style="margin: 0">Sé el primero en <a ng-click="">publicar una duda</a> para este tutorial</p>
-                        </div>
-                        <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
 
-                    </div>
-
-
-                    <form ng-submit="addDoubt(tutorial_id)" ng-show="loged" class="" style="margin-top:40px;padding:10px;background-color: #e8e8e8">
-                        <h2 style=""><span class="glyphicon glyphicon-pencil"></span> Publica tu duda</h2>
-
-                        <input ng-model="auxDoubt.title" style="margin-bottom: 5px;border-radius: 0" type="text" class="form-control" placeholder="Un titulo para tu duda">
-
-                        <textarea ng-model="auxDoubt.description" class="form-control" style="margin-top: 10px;"></textarea>
-                        <div style="margin-top: 5px;text-align: right">
-                            <button type="submit" class="btn btn-default">Enviar</button>
-                        </div>
-                    </form>
-                    <div ng-hide="loged" style="padding:10px;border:1px silver dashed;text-align: center;margin-top: 20px;">
-                        <label style="margin: 0;font-size: 17px;">Inicia sesion para escribir tu duda</label>
-                    </div>
-                </div>
 
             </div>
 
