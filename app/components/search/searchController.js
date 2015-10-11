@@ -15,6 +15,8 @@ app.controller("searchController", function($scope,$stateParams,$state){
 
                 break;
             case 3: $scope.type = 'dudas'; break;
+            default : $scope.type = 'all'; break;
+
         }
         $state.go('search',{type:$scope.type});
 

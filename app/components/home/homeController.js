@@ -56,10 +56,8 @@ app.controller("homeController", function($scope,$api,$state){
         arr["start"] = start;
         arr["days"] = dias;
         $api.get("calendar",arr,function(res){
-            console.info("homeController->getCalendar(): ");
-            console.log(res);
+
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);
-            console.error(dat);
             var inicio=new Date(dat); // obtener full
 
 
@@ -69,7 +67,6 @@ app.controller("homeController", function($scope,$api,$state){
                 var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
                 var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
-                console.log(t);
                 $scope.calendar.push({
                     day: dayName(i,inicio),
                     tutorials: calendarTutorials(res.tutorials,t)

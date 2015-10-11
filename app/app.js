@@ -27,10 +27,8 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
 
 app.controller("headerController",function($rootScope,$scope,$window,$state){
 
-    $rootScope.token =  $window.sessionStorage.token;
-    if ($rootScope.token){
-        $rootScope.loged = true;
-    }
+
+    $rootScope.loged = ($window.sessionStorage.token != null);
 
     $scope.search = function(q){
         console.log(q);
