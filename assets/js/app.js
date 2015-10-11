@@ -229,7 +229,7 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
     };
 
 });;
-var app = angular.module("vts", ['ui.router','app.api']);
+var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
 
 
 
@@ -651,9 +651,6 @@ app.controller("dudasController", function($scope,$api,$stateParams){
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
         $api.get("doubt/"+doubt_id,[],function(res){
-            console.log("dudasController->getDoubt(): ");
-
-            console.log(res);
             $scope.doubt = res.data;
         })
 

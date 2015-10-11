@@ -1,4 +1,4 @@
-var app = angular.module("vts", ['ui.router','app.api']);
+var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
 
 
 

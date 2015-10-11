@@ -63,9 +63,6 @@ app.controller("dudasController", function($scope,$api,$stateParams){
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
         $api.get("doubt/"+doubt_id,[],function(res){
-            console.log("dudasController->getDoubt(): ");
-
-            console.log(res);
             $scope.doubt = res.data;
         })
 
