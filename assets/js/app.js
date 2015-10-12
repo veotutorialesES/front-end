@@ -1033,7 +1033,7 @@ app.controller("registerController", function($scope,$api,$state){
         return str;
     }
 });;
-app.controller("searchController", function($scope,$stateParams,$state){
+app.controller("searchController", function($scope,$stateParams,$state,$http){
 
     $scope.type = $stateParams.type;
     $scope.q = $stateParams.q;
@@ -1088,10 +1088,29 @@ app.controller("searchController", function($scope,$stateParams,$state){
 
     $scope.search = function(){
         var arr = [];
-        arr['q'] = $scope.q;
+        arr['query'] = $scope.q;
         arr['type'] = $scope.q;
         //TODO implement this
+        $http({
+            method: 'GET',
+            url: 'http://api.orchestrate.io/v0/cursos?query=mamon&pretty=true',
+            headers: {
+                //'Host': 'api.orchestrate.io',
+                'Authorization': 'Basic OGZlMzcxNWItZGExOS00NmFiLTg0NWMtZTE1ODE0ZjliNTFkOg=='
+            }
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            console.info(response);
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            console.error(response);
+        });
     }
+
+
+
 
 
 });;
