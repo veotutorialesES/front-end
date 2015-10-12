@@ -1033,23 +1033,24 @@ app.controller("registerController", function($scope,$api,$state){
         return str;
     }
 });;
-app.controller("searchController", function($scope,$stateParams,$state,$http){
+app.controller("searchController", function($scope,$stateParams,$state,$api){
 
     $scope.type = $stateParams.type;
     $scope.q = $stateParams.q;
     $scope.filters = [];
+    $scope.result = {};
 
     $scope.changeType = function(type){
         $scope.filters = [];
         var arr = [];
         switch (type){
             case 0: $scope.type = 'all'; break;
-            case 1: $scope.type = 'cursos';
+            case 1: $scope.type = 'courses';
                 break;
-            case 2: $scope.type = 'tutoriales';
+            case 2: $scope.type = 'tutorials';
 
                 break;
-            case 3: $scope.type = 'dudas'; break;
+            case 3: $scope.type = 'doubts'; break;
             default : $scope.type = 'all'; break;
 
         }
@@ -1088,24 +1089,12 @@ app.controller("searchController", function($scope,$stateParams,$state,$http){
 
     $scope.search = function(){
         var arr = [];
-        arr['query'] = $scope.q;
-        arr['type'] = $scope.q;
+        arr['q'] = $scope.q;
+        arr['type'] = $scope.type;
         //TODO implement this
-        $http({
-            method: 'GET',
-            url: 'http://api.orchestrate.io/v0/cursos?query=mamon&pretty=true',
-            headers: {
-                //'Host': 'api.orchestrate.io',
-                'Authorization': 'Basic OGZlMzcxNWItZGExOS00NmFiLTg0NWMtZTE1ODE0ZjliNTFkOg=='
-            }
-        }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
-            console.info(response);
-        }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-            console.error(response);
+        $api.get("search",arr,function(res){
+            console.info(res);
+            $scope.result = res.data;
         });
     }
 

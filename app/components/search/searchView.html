@@ -12,9 +12,9 @@
             <div class="row">
                 <ul class="pull-left float padding-10">
                     <li ng-click="changeType(0)" ng-class="{'selected': type == 'all'}">Todo</li>
-                    <li ng-click="changeType(1)" ng-class="{'selected': type == 'cursos'}">Cursos</li>
-                    <li ng-click="changeType(2)" ng-class="{'selected': type == 'tutoriales'}">Tutoriales</li>
-                    <li ng-click="changeType(3)" ng-class="{'selected': type == 'dudas'}">Dudas</li>
+                    <li ng-click="changeType(1)" ng-class="{'selected': type == 'courses'}">Cursos</li>
+                    <li ng-click="changeType(2)" ng-class="{'selected': type == 'tutorials'}">Tutoriales</li>
+                    <li ng-click="changeType(3)" ng-class="{'selected': type == 'doubts'}">Dudas</li>
                 </ul>
                 <div class="pull-right" style="padding: 3px;">
                     <div class="" style="">
@@ -29,14 +29,14 @@
     </div>
 
 
-    <div style="height: 400px;padding-top: 20px;">
+    <div ng-init="search()" style="padding-top: 20px;">
         <div class="container">
             <div class="row">
                 <div class="col-xs-3">
 
 
                     <div class="box" style="">
-                        <label ng-click="search()">Ordenar por</label>
+                        <label>Ordenar por</label>
                         <div>Fecha</div>
                         <div>Relevancia</div>
                         <div></div>
@@ -48,9 +48,19 @@
 
                 </div>
                 <div class="col-xs-9">
-                    <div class="row" style="border: 1px silver solid;margin-top: 10px;height: 100px;">
-                        <div class="col-xs-3">Imgaen</div>
-                        <div class="col-xs-9">Descipcion</div>
+                    <div>
+                        Resultado encontrados: {{result.hits.total}}
+                    </div>
+                    <div ng-repeat="hit in result.hits.hits" class="row" style="overflow:hidden;border: 1px silver solid;margin-top: 10px;">
+
+                        <dudas-card ng-show="hit._type == 'doubts'" info="hit._source"></dudas-card>
+                        <div ng-hide="hit._type == 'doubts'">
+                        <div class="col-xs-3" style="padding: 0"><img style="width: 100%" src="{{hit._source.image}}"></div>
+                        <div class="col-xs-9">
+                            <div><h2>{{hit._source.title}}</h2></div>
+                            <div ng-bind-html="hit._source.description"></div>
+                        </div>
+                        </div>
                     </div>
 
                 </div>
