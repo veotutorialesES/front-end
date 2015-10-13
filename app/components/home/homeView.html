@@ -14,7 +14,9 @@
                 <div class="col-xs-12 col-md-2" ng-repeat="cal in calendar" style="">
                     <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{cal.day}}</div>
                     <ul>
-
+                        <li>
+                            <img style="width: 100%;margin-bottom: 10px;" src="{{cal.tutorials[0].image}}">
+                        </li>
                         <li class="box" style="margin-bottom: 5px;" ng-repeat="tutorial in cal.tutorials">
                             <div style="color: red;padding: 2px;font-size: 17px;">
                                 <a ui-sref="course({course_id:tutorial.course_id})">

@@ -4,6 +4,8 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
     $scope.q = $stateParams.q;
     $scope.filters = [];
     $scope.result = {};
+    $scope.size = 10;
+    $scope.from = 0;
 
     $scope.changeType = function(type){
         $scope.filters = [];
@@ -56,6 +58,8 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
         var arr = [];
         arr['q'] = $scope.q;
         arr['type'] = $scope.type;
+        arr['from'] = $scope.from;
+        arr['size'] = $scope.size;
         //TODO implement this
         $api.get("search",arr,function(res){
             console.info(res);

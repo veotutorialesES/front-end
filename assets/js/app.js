@@ -1,6 +1,8 @@
 angular.module("app.api", []).service("$api", function($http,$rootScope,$window){
     var self = this;
     var host = "localhost:8000";
+    // host = "veotutoriales.es:8000";
+
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
@@ -1039,6 +1041,8 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
     $scope.q = $stateParams.q;
     $scope.filters = [];
     $scope.result = {};
+    $scope.size = 10;
+    $scope.from = 0;
 
     $scope.changeType = function(type){
         $scope.filters = [];
@@ -1091,6 +1095,8 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
         var arr = [];
         arr['q'] = $scope.q;
         arr['type'] = $scope.type;
+        arr['from'] = $scope.from;
+        arr['size'] = $scope.size;
         //TODO implement this
         $api.get("search",arr,function(res){
             console.info(res);
