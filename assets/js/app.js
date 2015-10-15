@@ -1,6 +1,8 @@
 angular.module("app.api", []).service("$api", function($http,$rootScope,$window){
     var self = this;
     var host = "localhost:8000";
+    // host = "veotutoriales.es:8000";
+
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
@@ -229,8 +231,10 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
     };
 
 });;
-var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
-
+var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
+app.run(function($rootScope) {
+    $rootScope.loading = true;
+});
 
 
 
@@ -254,20 +258,17 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
         }
     };
 });
-/* ESTA EN DONDE LAS RUTAS
-app.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
-});
-*/
 
-app.controller("headerController",function($rootScope,$scope,$window){
 
-    $rootScope.token =  $window.sessionStorage.token;
-    if ($rootScope.token){
-        $rootScope.loged = true;
+app.controller("headerController",function($rootScope,$scope,$window,$state){
+
+
+    $rootScope.loged = ($window.sessionStorage.token != null);
+
+    $scope.search = function(q){
+        console.log(q);
+        $state.go('search',{type:'all',q:q});
     }
-
-
 
     $scope.logout = function(){
         $rootScope.loged = false;
@@ -291,14 +292,15 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
         .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
-        .state('course', { url: "/course/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
+        .state('course', { url: "/media/:course_id", templateUrl: "app/components/course/courseFileView.html"})
+        .state('tutorial', { url: "/media/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
 
 
         .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
         .state('activate', { url: "/activation/:email/:token", templateUrl: "app/components/login/activationView.html"})
 
 
-        .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
+        .state('search', { url: "/search/:type/:q", templateUrl: "app/components/search/searchView.html"})
 
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
@@ -464,31 +466,12 @@ app.controller("viewController", function($scope,$api,$state){
     };
 
 });;
-app.controller("accountController", function($scope,$subscription,$api,$state,$rootScope){
-    $scope.subscriptionItems = [];
-
-    $scope.subscriptions = function(type) {
-        console.info("subscriptionController: subscriptions()")
-
-        $subscription.list(type, function (res) {
-            console.info("subscriptionController->subscriptions()")
-            console.log(res);
-            $scope.subscriptionItems = res;
-        })
-    };
+app.controller("accountController", function($scope,$api,$state,$rootScope){
 
 
-    $scope.unsubscribe = function(type, type_id){
-        console.info("subscriptionController: unsubscribe("+type+","+type_id+")");
-
-        $subscription.delete(type,type_id, function(res){
-            console.info("subscriptionController->unsubscribe()")
-            console.log(res);
-            $scope.subscriptions(type); // TODO eliminar manualmente del array
-        });
-    };
 
 
+ 
     $scope.updateName = function(name,pass){
 
         var arr = [];
@@ -545,7 +528,7 @@ app.controller("avisosController", function($scope){
 
 
 });;
-app.controller("courseController", function($scope,$stateParams,$api,$sce,$subscription,$views){
+app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
@@ -600,22 +583,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce,$subsc
 
     };
 
-/*
 
-
-    $scope.setView = function(type_id){
-        $views.add(4,type_id,function(res){
-
-        });
-    };
-
-    $scope.unsetView = function(type_id){
-        $views.delete(4,type_id,function(res){
-
-        });
-    };
-
-*/
 });;
 app.controller("dudasController", function($scope,$api,$stateParams){
 
@@ -682,9 +650,6 @@ app.controller("dudasController", function($scope,$api,$stateParams){
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
         $api.get("doubt/"+doubt_id,[],function(res){
-            console.log("dudasController->getDoubt(): ");
-
-            console.log(res);
             $scope.doubt = res.data;
         })
 
@@ -709,7 +674,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         var arr = [];
 
-        arr["description"] = $scope.NewAnswer.description;
+        arr["description"] =tinyMCE.activeEditor.getContent({format : 'raw'});
         arr["doubt_id"] = doubt_id;
 
 
@@ -818,12 +783,23 @@ app.controller("helpController", function($scope){
 
 
 });;
-app.controller("homeController", function($scope,$api){
+app.controller("homeController", function($scope,$api,$state,$rootScope){
 
     $scope.tutorials = [];
     $scope.calendar = [];
 
+    $rootScope.loading = true;
+    $rootScope.loadingArr = [];
+    $scope.addLoading = function(data){
 
+        $rootScope.loadingArr.push(data);
+
+        if ($scope.loadingArr.length == 2){
+            $rootScope.loading = false;
+        }
+
+
+    };
 
     $scope.getDate = function(){
         var inicio = new Date();
@@ -839,6 +815,10 @@ app.controller("homeController", function($scope,$api){
         $api.get("tutorial/",[],function(res){
             $scope.tutorials = res;
             console.log(res)
+            $scope.addLoading({
+                title: "Tutorials",
+                status: "true"
+            });
         });
 
     };
@@ -856,6 +836,7 @@ app.controller("homeController", function($scope,$api){
         return arr;
 
     }
+    /*
     function calendarCourses(courses, day){
         console.info("calendarCourses");
         var arr = [];
@@ -869,17 +850,17 @@ app.controller("homeController", function($scope,$api){
         return arr;
 
     }
+    */
     $scope.getCalendar = function(start, dias){
         console.info("homeController: getCalendar("+start+","+dias+")");
         $scope.calendar = [];
         var arr = [];
         arr["start"] = start;
         arr["days"] = dias;
+        var tmp = [];
         $api.get("calendar",arr,function(res){
-            console.info("homeController->getCalendar(): ");
-            console.log(res);
+
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);
-            console.error(dat);
             var inicio=new Date(dat); // obtener full
 
 
@@ -889,8 +870,7 @@ app.controller("homeController", function($scope,$api){
                 var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
                 var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
-                console.log(t);
-                $scope.calendar.push({
+                tmp.push({
                     day: dayName(i,inicio),
                     tutorials: calendarTutorials(res.tutorials,t)
                    // courses: calendarCourses(res.courses,t)
@@ -901,8 +881,15 @@ app.controller("homeController", function($scope,$api){
 
             }
 
+            $scope.calendar = tmp;
+            $scope.addLoading({
+                title: "calendar",
+                status: "true"
+            });
+        });
 
-        })
+
+
     };
 
 
@@ -927,6 +914,10 @@ app.controller("homeController", function($scope,$api){
 
 
     }
+
+
+
+
 
 
 });;
@@ -1071,8 +1062,74 @@ app.controller("registerController", function($scope,$api,$state){
         return str;
     }
 });;
-app.controller("searchController", function($scope,$data){
-    $scope.data = "Dataaaaaaaaaaaa";
+app.controller("searchController", function($scope,$stateParams,$state,$api){
+
+    $scope.type = $stateParams.type;
+    $scope.q = $stateParams.q;
+    $scope.filters = [];
+    $scope.result = {};
+    $scope.size = 10;
+    $scope.from = 0;
+
+    $scope.changeType = function(type){
+        $scope.filters = [];
+        var arr = [];
+        switch (type){
+            case 0: $scope.type = 'all'; break;
+            case 1: $scope.type = 'courses';
+                break;
+            case 2: $scope.type = 'tutorials';
+
+                break;
+            case 3: $scope.type = 'doubts'; break;
+            default : $scope.type = 'all'; break;
+
+        }
+        $state.go('search',{type:$scope.type});
+
+    };
+
+    $scope.setFilter = function(){
+        // TODO implement this
+    };
+
+    $scope.setFilters = function(){
+        var arr = [];
+        switch ($scope.type){
+            case 'all':
+
+                break;
+            case 'cursos':
+                arr.push({title:'tutoriales',selected:0});
+                break;
+            case 'tutoriales':
+                arr.push({title:'Dudas',selected:0});
+                arr.push({title:'Duracion',selected:0});
+
+                break;
+            case 'dudas':
+
+                break;
+        }
+
+        $scope.filters = arr;
+    };
+    $scope.setFilters();
+
+
+
+    $scope.search = function(){
+        var arr = [];
+        arr['q'] = $scope.q;
+        arr['type'] = $scope.type;
+        arr['from'] = $scope.from;
+        arr['size'] = $scope.size;
+        //TODO implement this
+        $api.get("search",arr,function(res){
+            console.info(res);
+            $scope.result = res.data;
+        });
+    }
 
 
 

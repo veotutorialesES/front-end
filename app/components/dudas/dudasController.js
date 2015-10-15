@@ -63,9 +63,6 @@ app.controller("dudasController", function($scope,$api,$stateParams){
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
         $api.get("doubt/"+doubt_id,[],function(res){
-            console.log("dudasController->getDoubt(): ");
-
-            console.log(res);
             $scope.doubt = res.data;
         })
 
@@ -90,7 +87,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         var arr = [];
 
-        arr["description"] = $scope.NewAnswer.description;
+        arr["description"] =tinyMCE.activeEditor.getContent({format : 'raw'});
         arr["doubt_id"] = doubt_id;
 
 

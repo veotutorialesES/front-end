@@ -10,14 +10,10 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
     <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 
-
-    <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
-    <script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
-    <script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
-    <script src='node_modules/textangular/dist/textAngular.min.js'></script>
 
     <link href="assets/js/prettify/prettify.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="assets/js/prettify/prettify.js"></script>
@@ -41,11 +37,13 @@
                     <a ui-sref="home">VEOTUTORIALES</a>
                 </li>
                 <li class="search" style="padding: 2px;">
-                    <span class="glyphicon glyphicon-search"></span>
+                    <form ng-submit="search(q)">
+                        <span class="glyphicon glyphicon-search"></span>
 
-                    <input type="text">
+                        <input ng-model="q" type="text">
+                    </form>
                 </li>
-                <li class="hover-default" style="color: gainsboro;"><a  ui-sref="search">Explorar</a></li>
+                <li class="hover-default" style="color: gainsboro;"><a  ui-sref="search({type:'all',q:''})">Explorar</a></li>
                 <li ui-sref="activation">activation</li>
             </ul>
             <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
@@ -145,6 +143,14 @@
 
 
 
+<div ng-show="loading"  style="z-index:99;position: fixed;background-color: white;opacity: 0.8;left: 0;top:0;width: 100%;height: 100%;padding: 200px;text-align: center">
+    Cargando...
+    <br>
+    Necesitas habilitar javascript para poder ver esta web
+    <ul>
+        <li ng-repeat="msg in loadingArr">{{msg}}</li>
+    </ul>
+</div>
 
 
 
@@ -156,8 +162,7 @@
 
 
 
-
-<!--//BLOQUE COOKIES-->
+<!--//BLOQUE COOKIES
 <div id="barraaceptacion" style="display: block;">
     <div class="inner">
         Solicitamos su permiso para obtener datos estadísticos de su navegación en esta web, en cumplimiento del Real 

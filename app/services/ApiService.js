@@ -1,6 +1,8 @@
 angular.module("app.api", []).service("$api", function($http,$rootScope,$window){
     var self = this;
     var host = "localhost:8000";
+    // host = "veotutoriales.es:8000";
+
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";

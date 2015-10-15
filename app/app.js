@@ -1,5 +1,7 @@
-var app = angular.module("vts", ['ui.router','textAngular','app.api','app.like','app.subscription','app.view']);
-
+var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
+app.run(function($rootScope) {
+    $rootScope.loading = true;
+});
 
 
 
@@ -23,20 +25,17 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
         }
     };
 });
-/* ESTA EN DONDE LAS RUTAS
-app.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
-});
-*/
 
-app.controller("headerController",function($rootScope,$scope,$window){
 
-    $rootScope.token =  $window.sessionStorage.token;
-    if ($rootScope.token){
-        $rootScope.loged = true;
+app.controller("headerController",function($rootScope,$scope,$window,$state){
+
+
+    $rootScope.loged = ($window.sessionStorage.token != null);
+
+    $scope.search = function(q){
+        console.log(q);
+        $state.go('search',{type:'all',q:q});
     }
-
-
 
     $scope.logout = function(){
         $rootScope.loged = false;

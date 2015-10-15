@@ -12,14 +12,15 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
         .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
-        .state('course', { url: "/course/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
+        .state('course', { url: "/media/:course_id", templateUrl: "app/components/course/courseFileView.html"})
+        .state('tutorial', { url: "/media/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
 
 
         .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
         .state('activate', { url: "/activation/:email/:token", templateUrl: "app/components/login/activationView.html"})
 
 
-        .state('search', { url: "/search", templateUrl: "app/components/search/searchView.html"})
+        .state('search', { url: "/search/:type/:q", templateUrl: "app/components/search/searchView.html"})
 
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
