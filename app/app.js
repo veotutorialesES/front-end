@@ -1,5 +1,7 @@
 var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
-
+app.run(function($rootScope) {
+    $rootScope.loading = true;
+});
 
 
 

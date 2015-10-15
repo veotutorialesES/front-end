@@ -143,7 +143,14 @@
 
 
 
-
+<div ng-show="loading"  style="z-index:99;position: fixed;background-color: white;opacity: 0.8;left: 0;top:0;width: 100%;height: 100%;padding: 200px;text-align: center">
+    Cargando...
+    <br>
+    Necesitas habilitar javascript para poder ver esta web
+    <ul>
+        <li ng-repeat="msg in loadingArr">{{msg}}</li>
+    </ul>
+</div>
 
 
 

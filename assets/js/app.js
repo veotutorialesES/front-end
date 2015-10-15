@@ -232,7 +232,9 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
 
 });;
 var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
-
+app.run(function($rootScope) {
+    $rootScope.loading = true;
+});
 
 
 
@@ -781,12 +783,23 @@ app.controller("helpController", function($scope){
 
 
 });;
-app.controller("homeController", function($scope,$api,$state){
+app.controller("homeController", function($scope,$api,$state,$rootScope){
 
     $scope.tutorials = [];
     $scope.calendar = [];
 
+    $rootScope.loading = true;
+    $rootScope.loadingArr = [];
+    $scope.addLoading = function(data){
 
+        $rootScope.loadingArr.push(data);
+
+        if ($scope.loadingArr.length == 2){
+            $rootScope.loading = false;
+        }
+
+
+    };
 
     $scope.getDate = function(){
         var inicio = new Date();
@@ -802,6 +815,10 @@ app.controller("homeController", function($scope,$api,$state){
         $api.get("tutorial/",[],function(res){
             $scope.tutorials = res;
             console.log(res)
+            $scope.addLoading({
+                title: "Tutorials",
+                status: "true"
+            });
         });
 
     };
@@ -819,6 +836,7 @@ app.controller("homeController", function($scope,$api,$state){
         return arr;
 
     }
+    /*
     function calendarCourses(courses, day){
         console.info("calendarCourses");
         var arr = [];
@@ -832,12 +850,14 @@ app.controller("homeController", function($scope,$api,$state){
         return arr;
 
     }
+    */
     $scope.getCalendar = function(start, dias){
         console.info("homeController: getCalendar("+start+","+dias+")");
         $scope.calendar = [];
         var arr = [];
         arr["start"] = start;
         arr["days"] = dias;
+        var tmp = [];
         $api.get("calendar",arr,function(res){
 
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);
@@ -850,7 +870,7 @@ app.controller("homeController", function($scope,$api,$state){
                 var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
                 var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
-                $scope.calendar.push({
+                tmp.push({
                     day: dayName(i,inicio),
                     tutorials: calendarTutorials(res.tutorials,t)
                    // courses: calendarCourses(res.courses,t)
@@ -861,8 +881,15 @@ app.controller("homeController", function($scope,$api,$state){
 
             }
 
+            $scope.calendar = tmp;
+            $scope.addLoading({
+                title: "calendar",
+                status: "true"
+            });
+        });
 
-        })
+
+
     };
 
 
