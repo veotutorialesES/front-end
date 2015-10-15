@@ -14,7 +14,9 @@
                     <li ng-click="changeType(0)" ng-class="{'selected': type == 'all'}">Todo</li>
                     <li ng-click="changeType(1)" ng-class="{'selected': type == 'courses'}">Cursos</li>
                     <li ng-click="changeType(2)" ng-class="{'selected': type == 'tutorials'}">Tutoriales</li>
+                    <!--
                     <li ng-click="changeType(3)" ng-class="{'selected': type == 'doubts'}">Dudas</li>
+                    -->
                 </ul>
                 <!--
                 <div class="pull-right" style="padding: 3px;">
@@ -34,39 +36,20 @@
     <div ng-init="search()" style="padding-top: 20px;">
         <div class="container">
             <div class="row">
-                <div class="col-xs-2">
-
-                    <!--
-                    <div class="box" style="">
-                        <label>Ordenar por</label>
-                        <div>Fecha</div>
-                        <div>Relevancia</div>
-                        <div></div>
-                    </div>
-                    <div class="box" style="margin-top: 20px;">
-                        <div ng-repeat="f in filters">{{f.title}}</div>
-
-                    </div>
-                    -->
-
+                <div class="col-xs-12" style="margin-bottom: 20px;">
+                    Se ha encontrado un total de <strong>{{result.hits.total}} resultados</strong> del tipo <strong>{{type}}</strong>
                 </div>
-                <div class="col-xs-8">
-                    <div>
-                        Resultado encontrados: {{result.hits.total}}
-                    </div>
-                    <div ng-repeat="hit in result.hits.hits" class="row" style="overflow:hidden;border: 1px silver solid;margin-top: 10px;">
 
-                        <dudas-card ng-show="hit._type == 'doubts'" info="hit._source"></dudas-card>
-                        <div ng-hide="hit._type == 'doubts'">
-                        <div class="col-xs-3" style="padding: 0"><img style="width: 100%" src="{{hit._source.image}}"></div>
-                        <div class="col-xs-9">
-                            <div><h2>{{hit._source.title}}</h2></div>
-                            <div ng-bind-html="hit._source.description"></div>
-                        </div>
+                <div ng-repeat="hit in result.hits.hits" class="col-xs-12 col-sm-3" style="margin-bottom: 10px;">
+
+                    <div style="border:1px #e0e0e0 solid;height: 150px;">
+                        <img style="width: 100%;height: 100%" src="{{hit._source.image}}">
+                        <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626">
+                            {{hit._source.title}}
                         </div>
                     </div>
-
                 </div>
+
             </div>
 
         </div>
