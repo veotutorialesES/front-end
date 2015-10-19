@@ -1,12 +1,19 @@
 <div ng-controller="loginController" ng-init="activateEmail()" class="container">
-<div>Activa tu cuenta de correo para poder logearte</div>
-<div>No has recivido el correo? Pulsa aqui.</div>
-<div>Activa a través del link o ingresa aqui el codigo</div>
-<ul>
-    <label>Cuando accede a esta pagina?</label>
-    <li>Nada más registrarse</li>
-    <li>cuando accede a través del link de activación</li>
-    <li>Cuando se logea y no está activado el email</li>
 
-</ul>
+
+    <div style="color: #7e7e7e;text-align: center">
+    <h1>¡Gracias por activar tu cuenta!</h1>
+    <div>
+        <p>Te estamos enviando un email a la dirección de correo que nos has proporcionado para que puedas validarlo.</p>
+        <p>Si no te llega comprueba que no este en tu carpeta de spam.</p>
+        <p>¿Aún no te ha llegado?</p>
+        <button class="btn btn-default btn-sm">Re-enviar validación</button>
+    </div>
+
+    </div>
+
+    <div>
+        <div>Puedes ingresar directamente el código de validación o utilizar el enlace proporcionado en el email</div>
+        <input type="text" class="form-control" style="width: 400px;">
+    </div>
 </div>
