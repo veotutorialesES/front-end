@@ -8,7 +8,6 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course = [];
     $scope.modules = [];
-
     $scope.tutorial = {};
 
 

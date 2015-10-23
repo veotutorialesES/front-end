@@ -26,11 +26,11 @@
             <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
 
             <div class="row " style="margin-top: 10px;">
-                <div class="col-xs-12 col-md-2" ng-repeat="cal in calendar" style="">
+                <div  ng-repeat="cal in calendar" class="col-xs-12 col-md-{{cal.len}}" style="">
                     <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{cal.day}}</div>
                     <ul>
                         <li>
-                            <img style="width: 100%;margin-bottom: 10px;" src="{{cal.tutorials[0].image}}">
+                            <img style="width: 100%;margin-bottom: 10px;" src="http://localhost:8000/img/media/sm/{{cal.tutorials[0].image}}">
                         </li>
                         <li class="box" style="margin-bottom: 5px;" ng-repeat="tutorial in cal.tutorials">
                             <div style="color: red;padding: 2px;font-size: 17px;">
@@ -50,72 +50,31 @@
         </div>
     </div><!-- .calendario -->
 
-    <div style="border-bottom: 1px #ebebeb solid;border-top: 1px #ebebeb solid;background-color: #d6d6d6;padding: 10px;">
+    <div ng-init="lastTutorials()" style="border-bottom: 1px #ebebeb solid;border-top: 1px #ebebeb solid;background-color: #d6d6d6;padding: 10px;">
         <div class="container">
-            <h2 style=""><span class="glyphicon glyphicon-fire"></span> Tendencias</h2>
+            <h2 style=""><span class="glyphicon glyphicon-fire"></span> Último contenido</h2>
             <!--- --->
-            <div class="col-xs-12 col-sm-3 ng-scope" style="margin-bottom: 10px;">
-                <div style="border:1px #e0e0e0 solid;height: 150px;">
-                    <img style="width: 100%;height: 100%" src="https://i.ytimg.com/vi_webp/AxoT18S2fEA/mqdefault.webp">
-                    <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626" class="ng-binding">
-                        Nacion ceta
+            <div ng-repeat="tutorial in tutorials" class="col-xs-12 col-sm-3 " style="margin-bottom: 10px;padding: 10px;">
+                <div class="box">
+                    <div>
+                        <img style="width: 100%;" src="http://localhost:8000/img/media/md/{{tutorial.image}}">
                     </div>
+                    <div style="padding:5px;height:50px;">
+                        <div style="color: red;padding: 2px;font-size: 16px;padding-bottom: 0">
+                            <a ui-sref="course({course_id:tutorial.course_id})">
+                                {{tutorial.course_title}}
+                            </a>
+                        </div>
+                        <div style="padding: 2px;padding-top: 0">{{tutorial.title}}</div>                    </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-3 ng-scope" style="margin-bottom: 10px;">
-                <div style="border:1px #e0e0e0 solid;height: 150px;">
-                    <img style="width: 100%;height: 100%" src="https://i.ytimg.com/vi_webp/AxoT18S2fEA/mqdefault.webp">
-                    <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626" class="ng-binding">
-                        Nacion ceta
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 ng-scope" style="margin-bottom: 10px;">
-                <div style="border:1px #e0e0e0 solid;height: 150px;">
-                    <img style="width: 100%;height: 100%" src="https://i.ytimg.com/vi_webp/AxoT18S2fEA/mqdefault.webp">
-                    <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626" class="ng-binding">
-                        Nacion ceta
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 ng-scope" style="margin-bottom: 10px;">
-                <div style="border:1px #e0e0e0 solid;height: 150px;">
-                    <img style="width: 100%;height: 100%" src="https://i.ytimg.com/vi_webp/AxoT18S2fEA/mqdefault.webp">
-                    <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626" class="ng-binding">
-                        Nacion ceta
-                    </div>
-                </div>
-            </div>
+
+
+
 
             <!-- -->
 
         </div>
     </div>
-<div style="background-color: white">
-
-    <div  class="container" style="">
-
-        <div class="row">
-            <div ng-init="lastTutorials()" class="col-xs-12 col-sm-6" style="padding: 15px;" >
-                <h2 style=""><span class="glyphicon glyphicon-fire"></span> Ultimos tutoriales</h2>
-
-                <div ng-repeat="tutorial in tutorials"  title="tutorial.title" style="padding: 5px;height: auto !important;overflow: hidden">
-                    <a ui-sref="tutorial({course_id:tutorial.course_id,tutorial_id:tutorial.tutorial_id})">
-                    <div class="col-xs-3"><img style="width: 100%" src="{{tutorial.image}}"> </div>
-                    <div class="col-xs-9">{{tutorial.title}}</div>
-                    </a>
-                </div>
-            </div>
-            <!--
-            <div class="col-xs-12 col-sm-6" ng-controller="dudasController" ng-init="getAll()" style="padding: 10px;  ">
-                <h2 style=""><span class="glyphicon glyphicon-fire"></span> Ultimas dudas</h2>
-
-                <dudas-card ng-repeat="doubt in doubtsList" info="doubt"></dudas-card>
-            </div>
-            -->
-
-        </div>
-
-    </div>
-
 </div>
+

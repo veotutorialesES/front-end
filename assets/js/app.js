@@ -538,7 +538,6 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
     $scope.course = [];
     $scope.modules = [];
-
     $scope.tutorial = {};
 
 
@@ -870,12 +869,19 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                 var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
                 var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
-                tmp.push({
-                    day: dayName(i,inicio),
-                    tutorials: calendarTutorials(res.tutorials,t)
-                   // courses: calendarCourses(res.courses,t)
-                });
+                var tutos = calendarTutorials(res.tutorials,t);
 
+
+                // TODO organizar segun resultados
+                var len = tutos.length > 0 ? 3 : 1;
+                if (tutos.length > 0) {
+                    tmp.push({
+                        day: dayName(i, inicio),
+                        tutorials: tutos,
+                        len: len
+                        // courses: calendarCourses(res.courses,t)
+                    });
+                }
                 inicio.setDate(inicio.getDate()+1);
 
 

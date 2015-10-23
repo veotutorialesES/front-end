@@ -67,7 +67,13 @@
         <div class="row">
 
             <div class="col-xs-4" style="padding: 10px;">
-                <div ng-controller="subscriptionController" ng-show="loged" ng-init="check(3,course_id)">
+
+                <div class="box" style="margin-bottom: 20px;">
+                    Creado por {{course.user_id}}
+                </div>
+
+                <div ng-controller="subscriptionController" ng-init="check(3,course_id)">
+
                     <button ng-click="add(3,course_id)" class="btn btn-block btn-primary">Suscribirme al curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                 </div>
 
@@ -95,14 +101,20 @@
 
                         </li>
                     </ul>
+
+                    <div>
+                        Próximo tutorial en este curso
+                        <br>
+                        Titulo-fecha
+                    </div>
+
                 </div>
             </div>
 
             <div class="col-xs-8" style="">
-
+                <h1>{{course.title}}</h1>
                 <h2><span class="glyphicon glyphicon-info-sign"></span> Información de este curso</h2>
-                <div class="" style="padding: 10px;background-color: #e8e8e8">
-                    {{course.description}}
+                <div ng-bind-html="course.description" class="" style="padding: 10px;background-color: #e8e8e8">
                     <br>
                     Añadir fechas de tutoriales como en popcorntime
                     <br>
