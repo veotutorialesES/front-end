@@ -37,7 +37,7 @@ function getCookie(c_name){
             </div>
 
 
-            <div ng-repeat="answer in answers" style="margin-top: 20px;padding-left: 100px;">
+            <div ng-repeat="(k,answer) in answers" ng-init="answer.showResponse = false" style="margin-top: 20px;padding-left: 100px;">
                 <div  class="" style="margin-bottom:50px;">
                     <div style="position: absolute;left: 0px;text-align: center;width: 100px;font-size: 19px;padding:10px;">
                         <div><span class="glyphicon glyphicon-menu-up"></span></div>
@@ -54,24 +54,24 @@ function getCookie(c_name){
                             hace {{answer.created_at}} minutos por {{answer.user_id}}
                         </div>
 
-                        <div class="pull-right">
+                        <div class="pull-right" ng-click="toogleCommentResponse(k)">
                             <span class="glyphicon glyphicon-comment"></span> RESPONDER
                         </div>
 
                     </div>
-                    <div style="background-color: #e1e1e1">
-                        <div>
-                            <div ng-repeat="comment in answer.comments" style="margin-bottom: 10px;padding-top: 10px;">
-                                <div style="padding-left: 40px;">
-                                    <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
-                                    <div>{{comment.description}}</div>
-                                </div>
+                    <div  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
+                        <div ng-repeat="comment in answer.comments" style="margin-bottom: 5px;border-top: 1px silver solid">
+                            <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
+                                <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
+                                <div>{{comment.description}}</div>
                             </div>
                         </div>
 
-                        <div class="" style="padding: 5px;">
-                            <div ng-show="loged">
-                                <textarea ng-model="comment.description" class="form-control" style="height: 70px;resize: none"></textarea>
+                        <div ng-show="answer.showResponse" class="" style="padding: 5px;">
+                            <div  style="padding-left: 35px;">
+                                <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
+
+                                <textarea ng-model="comment.description" class="form-control" style="height: 45px;resize: none"></textarea>
                                 <div style="padding-top: 5px;text-align: right">
                                     <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
                                 </div>

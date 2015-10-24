@@ -1,7 +1,7 @@
 angular.module("app.api", []).service("$api", function($http){
     var self = this;
     var host = "localhost:8000";
-    // host = "veotutoriales.es:8000";
+     //host = "veotutoriales.es:8000";
 
     var appID = "asdfalskdjf";
 
@@ -730,6 +730,19 @@ app.controller("dudasController", function($scope,$api,$stateParams){
             console.log(res);
 
         })
+
+    };
+
+
+    $scope.toogleCommentResponse = function(index){
+        console.info("toogleCommentResponse()");
+
+        for (var i = 0; i < $scope.answers.length; i++){
+            $scope.answers[i].showResponse = false;
+        }
+
+        $scope.answers[index].showResponse = true;
+
 
     };
 

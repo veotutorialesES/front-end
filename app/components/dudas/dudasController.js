@@ -142,6 +142,19 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
     };
 
+
+    $scope.toogleCommentResponse = function(index){
+        console.info("toogleCommentResponse()");
+
+        for (var i = 0; i < $scope.answers.length; i++){
+            $scope.answers[i].showResponse = false;
+        }
+
+        $scope.answers[index].showResponse = true;
+
+
+    };
+
     /*
     $scope.subscribe = function(doubt_id){
         console.info("dudasController: subscribe("+doubt_id+")");
