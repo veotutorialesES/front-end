@@ -14,10 +14,12 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         $api.post("user/login",arr,function(res){
 
             if (res.status) {
-                $window.sessionStorage.token = res.token;
 
-                $rootScope.loged = true;
-                $rootScope.token = res.token;
+                $window.sessionStorage.token = res.data.token;
+                $window.sessionStorage.is_premium = res.data.is_premium;
+                $window.sessionStorage.is_user = res.data.is_user;
+                $rootScope.loged = res.data.is_user;
+
                 $('#myModal').modal('hide');
             }else if(res.exist && res.activated == 0){
                 console.log("EL USUARIO EXISTE PERO NO ESTA ACTIVADO");
@@ -31,7 +33,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
             }
         });
 
-    }
+    };
 
 
 

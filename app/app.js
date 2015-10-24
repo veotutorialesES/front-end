@@ -1,6 +1,11 @@
 var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
-app.run(function($rootScope) {
+app.run(function($rootScope,$window) {
     $rootScope.loading = true;
+    $rootScope.loged = $window.sessionStorage.is_user;
+    $rootScope.is_premium = $window.sessionStorage.is_premium;
+
+    // TODO build user OBJ from session
+
 });
 
 
