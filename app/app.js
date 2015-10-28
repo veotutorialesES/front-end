@@ -4,6 +4,11 @@ app.run(function($rootScope,$window) {
     $rootScope.loged = $window.sessionStorage.is_user;
     $rootScope.is_premium = $window.sessionStorage.is_premium;
 
+    $rootScope.imageAsset = function(size,asset){
+        var url = "http://localhost:8000/";
+        return url + "img/media/" + size + "/" + asset;
+    };
+
     // TODO build user OBJ from session
 
 });

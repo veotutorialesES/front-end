@@ -90,14 +90,14 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
                 // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
-                if (tutos.length > 0) {
+                //if (tutos.length > 0) {
                     tmp.push({
                         day: dayName(i, inicio),
                         tutorials: tutos,
                         len: len
                         // courses: calendarCourses(res.courses,t)
                     });
-                }
+                //}
                 inicio.setDate(inicio.getDate()+1);
 
 

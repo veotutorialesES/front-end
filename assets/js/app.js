@@ -237,6 +237,11 @@ app.run(function($rootScope,$window) {
     $rootScope.loged = $window.sessionStorage.is_user;
     $rootScope.is_premium = $window.sessionStorage.is_premium;
 
+    $rootScope.imageAsset = function(size,asset){
+        var url = "http://localhost:8000/";
+        return url + "img/media/" + size + "/" + asset;
+    };
+
     // TODO build user OBJ from session
 
 });
@@ -376,26 +381,34 @@ app.controller("likeController", function($scope,$api,$state){
 app.controller("subscriptionController", function($scope,$api,$state){
 
 
-    $scope.is_subscribed = false;
 
     $scope.add = function(type, type_id){
+        $scope.is_subscribed = true;
         var arr = [];
         arr["type"] = type;
         arr["type_id"] = type_id;
         $api.post("subscription/",arr,function(res){
 
+            if (res.status){
+                $scope.is_subscribed = true;
+
+            }
 
         })
     };
 
     $scope.delete = function(type, type_id){
+        $scope.is_subscribed = false;
 
         var arr = [];
         arr["type"] = type;
         arr["type_id"] = type_id;
 
-        $api.delete("subscription",arr,function(res){
+        $api.delete("subscription/delete",arr,function(res){
+            if (res.status){
+                $scope.is_subscribed = false;
 
+            }
 
         })
     };
@@ -546,15 +559,30 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     $scope.tutorial = {};
 
 
+    function processCode(string){
+
+        string = string.replace("[code]","<pre>");
+        string = string.replace("[/code]","</pre>");
+
+        return string;
+    }
+
     $scope.getCourse = function(id, callback){
-        console.log("courseController: getCourse()");
+        console.log('courseController: getCourse()');
 
 
-        $api.get("course/"+id,[], function(res){
+        $api.get('course/'+id,[], function(res){
 
 
             $scope.course = res.data;
+            $scope.course.description = processCode($scope.course.description);
             $scope.modules =   res.data.modules;
+            console.log('Code highlighting');
+
+            setTimeout(function(){
+                $('pre').each(function(i, block) {hljs.highlightBlock(block);});
+
+            },1000);
 
             if (callback) { callback(true);}
 
@@ -582,7 +610,8 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
             $scope.tutorial = res.data;
             $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
-            console.log(res)
+
+            //console.log(res)
         });
 
     };
@@ -892,14 +921,14 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
                 // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
-                if (tutos.length > 0) {
+                //if (tutos.length > 0) {
                     tmp.push({
                         day: dayName(i, inicio),
                         tutorials: tutos,
                         len: len
                         // courses: calendarCourses(res.courses,t)
                     });
-                }
+                //}
                 inicio.setDate(inicio.getDate()+1);
 
 

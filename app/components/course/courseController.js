@@ -11,15 +11,30 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     $scope.tutorial = {};
 
 
+    function processCode(string){
+
+        string = string.replace("[code]","<pre>");
+        string = string.replace("[/code]","</pre>");
+
+        return string;
+    }
+
     $scope.getCourse = function(id, callback){
-        console.log("courseController: getCourse()");
+        console.log('courseController: getCourse()');
 
 
-        $api.get("course/"+id,[], function(res){
+        $api.get('course/'+id,[], function(res){
 
 
             $scope.course = res.data;
+            $scope.course.description = processCode($scope.course.description);
             $scope.modules =   res.data.modules;
+            console.log('Code highlighting');
+
+            setTimeout(function(){
+                $('pre').each(function(i, block) {hljs.highlightBlock(block);});
+
+            },1000);
 
             if (callback) { callback(true);}
 
@@ -47,7 +62,8 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
             $scope.tutorial = res.data;
             $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
-            console.log(res)
+
+            //console.log(res)
         });
 
     };

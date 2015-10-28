@@ -21,7 +21,7 @@
 
 
     <!-- calendario -->
-    <div ng-init="getCalendar(getDate(),6)" class="" style="padding-top: 10px;">
+    <div ng-init="getCalendar(getDate(),26)" class="" style="padding-top: 10px;">
         <div class="container">
             <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
 
@@ -30,7 +30,7 @@
                     <div style="background-color: #f4f6f7;padding: 3px;font-weight: bold;">{{cal.day}}</div>
                     <ul>
                         <li>
-                            <img style="width: 100%;margin-bottom: 10px;" src="http://localhost:8000/img/media/sm/{{cal.tutorials[0].image}}">
+                            <img style="width: 100%;margin-bottom: 10px;" src="{{imageAsset('md',cal.tutorials[0].image)}}">
                         </li>
                         <li class="box" style="margin-bottom: 5px;" ng-repeat="tutorial in cal.tutorials">
                             <div style="color: red;padding: 2px;font-size: 17px;">
@@ -57,7 +57,7 @@
             <div ng-repeat="tutorial in tutorials" class="col-xs-12 col-sm-3 " style="margin-bottom: 10px;padding: 10px;">
                 <div class="box">
                     <div>
-                        <img style="width: 100%;" src="http://localhost:8000/img/media/md/{{tutorial.image}}">
+                        <img style="width: 100%;" src="{{imageAsset('md',tutorial.image)}}">
                     </div>
                     <div style="padding:5px;height:50px;">
                         <div style="color: red;padding: 2px;font-size: 16px;padding-bottom: 0">

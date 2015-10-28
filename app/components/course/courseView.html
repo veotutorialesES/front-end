@@ -76,7 +76,8 @@
 
             <div class="col-xs-4" style="padding: 10px;">
                 <div ng-controller="subscriptionController" ng-init="check(3,course_id)">
-                    <button ng-click="add(3,course_id)" class="btn btn-block btn-primary">Suscribirme al curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
+                    <button ng-hide="is_subscribed" ng-click="add(3,course_id)" class="btn btn-block btn-primary">Suscribirme al curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
+                    <button ng-show="is_subscribed" ng-click="delete(3,course_id)" class="btn btn-block btn-danger">Cancelar subscripción <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                 </div>
 
                 <div  class="" style="margin-top:20px;background-color: #e8e8e8">
