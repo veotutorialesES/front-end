@@ -129,11 +129,20 @@
         <div class="modal-content">
 
             <div class="modal-body">
-                <h2>Iniciar Sesión</h2>
-                <input class="form-control" style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
-                <input class="form-control" style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
-                <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">Entrar YA</button>
+                <h2 style="margin: 0;border-bottom:1px silver solid">Iniciar Sesión</h2>
+                <div style="margin-top:10px;height: auto !important;overflow: hidden;padding-bottom: 20px;">
+                    <div class="col-xs-4" style="border-right:1px silver solid;">
+                        <div>Facebook</div>
+                        <div>Google+</div>
+                    </div>
+                    <div class="col-xs-8">
+                        <input class="form-control" style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
+                        <input class="form-control" style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
+                        <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">INICIAR SESIÓN</button>
+                    </div>
+                </div>
                 <hr>
+
                 <div ui-sref="register">¿Crearme una cuenta ahora?</div>
                 <div ui-sref="reminder">¿Has olvidado tu contraseña?</div>
             </div>

@@ -69,4 +69,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     };
 
 
+
+
+
 });

@@ -64,117 +64,6 @@ angular.module("app.api", []).service("$api", function($http){
     }
 
 });;
-angular.module("app.like", ['app.api']).service("$like", function($api){
-    var self = this;
-
-
-    self.add = function(type, type_id,callback){
-        var arr = [];
-        arr["type"] = type;
-        arr["type_id"] = type_id;
-        console.info("app.like->add("+type+","+type_id+")");
-        $api.post("like/",arr,function(res){
-            console.info("app.like->add(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.delete = function(type, type_id,callback){
-        console.info("app.like->delete("+type+","+type_id+")");
-        $api.post("like/"+type+"/"+type_id,[],function(res){
-            console.info("app.like->delete(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.list = function(type,callback){
-        console.info("app.like->list("+type+")");
-
-        $api.get("like/"+type,[],function(res){
-            console.info("app.like->list(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.check = function(type,type_id,callback){
-        console.info("app.like->check("+type+","+type_id+")");
-
-        $api.get("like/"+type+"/"+type_id,[],function(res){
-            console.info("app.like->check(): ");
-            console.log(res);
-            if (res != "null"){
-
-                callback(true);
-
-            }else{
-                callback(false);
-
-            }
-        })
-    };
-
-});;
-angular.module("app.subscription", ['app.api']).service("$subscription", function($api){
-    var self = this;
-
-
-    self.add = function(type, type_id,callback){
-        var arr = [];
-        arr["type"] = type;
-        arr["type_id"] = type_id;
-        console.info("app.subscription->add("+type+","+type_id+")");
-        $api.post("subscription/",arr,function(res){
-            console.info("app.subscription->add(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.delete = function(type, type_id,callback){
-        console.info("app.subscription->delete("+type+","+type_id+")");
-        $api.post("subscription/"+type+"/"+type_id,[],function(res){
-            console.info("app.subscription->delete(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.list = function(type,callback){
-        console.info("app.subscription->list("+type+")");
-
-        $api.get("subscription/"+type,[],function(res){
-            console.info("app.subscription->list(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.check = function(type,type_id,callback){
-        console.info("app.subscription->check("+type+","+type_id+")");
-
-        $api.get("subscription/"+type+"/"+type_id,[],function(res){
-            console.info("app.subscription->check(): ");
-            console.log(res);
-            if (res != "null"){
-
-                callback(true);
-
-            }else{
-                callback(false);
-
-            }
-        })
-    };
-});;
 angular.module("app.view", ['app.api']).service("$views", function($api){
     var self = this;
 
@@ -334,16 +223,25 @@ app.controller("likeController", function($scope,$api,$state){
 
     $scope.is_subscribed = false;
 
-    $scope.add = function(type, type_id){
+    $scope.add = function(type, type_id, value  ){
         var arr = [];
         arr["type"] = type;
         arr["type_id"] = type_id;
+        arr["value"] = value;
         $api.post("like",arr,function(res){
 
 
         })
     };
 
+/*
+    $scope.amount = function(type, type_id){
+
+        $api.get(type + "/" + type_id + "/likes",[], function(res){
+            return res.data.value;
+        });
+    }
+*/
     $scope.delete = function(type, type_id){
 
         var arr = [];
@@ -617,6 +515,9 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
     };
 
 
+
+
+
 });;
 app.controller("dudasController", function($scope,$api,$stateParams){
 
@@ -700,6 +601,14 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
     };
 
+    $scope.amount = function(type, type_id, index){
+
+
+        $api.get(type + "/" + type_id + "/likes",[], function(res){
+
+            $scope.answers[index].amount = res.data.value;
+        });
+    };
 
 
     $scope.addAnswer = function(doubt_id){

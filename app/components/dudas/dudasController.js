@@ -80,6 +80,14 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
     };
 
+    $scope.amount = function(type, type_id, index){
+
+
+        $api.get(type + "/" + type_id + "/likes",[], function(res){
+
+            $scope.answers[index].amount = res.data.value;
+        });
+    };
 
 
     $scope.addAnswer = function(doubt_id){

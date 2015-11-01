@@ -1,29 +1,68 @@
+<style type="text/css">
+    .cuadro{
+        background-color: white;padding: 0;border: 1px #dddddd solid;
+    }
+    .cuadro > div{
+        padding: 5px;
+    }
+    .cuadro-header{
 
+        font-size: 16px;
+        font-weight: bold;
+        height: 30px;
+    }
+    .cuadro-content{
+        height: 150px;
+    }
+    .cuadro-footer{
+        height: 30px;
+    }
+</style>
 <div ng-controller="loginController">
 
 
     <div ng-init="tmp = {}" class="container" style="padding-top: 30px;">
-
-
-        <div class="col-xs-12 col-sm-2 col-md-3"></div>
-        <div class="col-xs-12 col-sm-8 col-md-6" style="background-color: #dcdcdc;padding: 10px;">
+        <div class="col-xs-12" style="margin-bottom:10px;">
             <h1>Recordar contraseña</h1>
-            <p>Recivirás un código para poder cambiar tu contraseña</p>
-            <input ng-model="tmp.email" class="form-control" type="text" placeholder="Inserta tu email">
-            <div style="text-align: center;padding: 20px;">
-            <button style="font-size: 19px;" ng-hide="recoverToken" ng-click="getRecoverToken(tmp)" class="btn btn-primary">Enviame el código ahora</button>
-            </div>
-            <div ng-show="recoverToken">Hemos enviado un email con una clave para cambiar tu contraseña. Rellena el resto de campos
-            manteniendo el mismo email.</div>
+            <p>Sigue estos 3 sencillos pasos para restablecer tu contraseña</p>
+        </div>
 
-            <input ng-model="tmp.token" class="form-control" type="text" placeholder="Inserta aqui el código">
-            <hr>
-            <input ng-model="tmp.pass" class="form-control" type="password" placeholder="Nueva contraseña">
-            <input ng-model="tmp.pass2" class="form-control" type="password" placeholder="Repite la contraseña">
-            <div style="text-align: center;padding: 20px;">
-            <button ng-click="recover(tmp)" class="btn btn-primary">Cambiar</button>
+        <div class="col-xs-4">
+            <div class="cuadro">
+                <div class="cuadro-header">Paso 1: Enviar confirmación al email</div>
+                <div class="cuadro-content">
+                    <input ng-model="tmp.email" class="form-control" type="text" placeholder="Inserta tu email">
+                    <div style="text-align: center;padding: 20px;">
+                        <button ng-hide="recoverToken" ng-click="getRecoverToken(tmp)" class="btn btn-primary">Enviame el código ahora</button>
+                    </div>
+                </div>
+                <div class="cuadro-footer">TRANSICION</div>
             </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="cuadro">
+                <div class="cuadro-header">Paso 2: Introduce el código</div>
+                <div class="cuadro-content">
+                    <div><input ng-model="tmp.token" class="form-control" type="text" placeholder="Inserta aqui el código"></div>
+                    <div style="padding: 5px;"><span class="glyphicon glyphicon-info-sign"></span> Inserta aquí el código que aparece en el correo que te hemos enviado al completar el paso 1</div>
 
+                </div>
+                <div class="cuadro-footer">TRANSICION</div>
+
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="cuadro">
+                <div class="cuadro-header">Paso 3: Introduce tu nueva contraseña</div>
+                <div class="cuadro-content">
+                    <input ng-model="tmp.pass" class="form-control" type="password" placeholder="Nueva contraseña">
+                    <input ng-model="tmp.pass2" class="form-control" type="password" placeholder="Repite la contraseña">
+                    <div style="text-align: center;padding: 20px;">
+                    <button ng-click="recover(tmp)" class="btn btn-primary">Cambiar</button>
+                    </div>
+                </div>
+                <div class="cuadro-footer">TRANSICION</div>
+            </div>
         </div>
 
     </div>
