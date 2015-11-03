@@ -117,36 +117,43 @@
 
 
 
-
+<div style="position: fixed;left: 0;bottom:0;width: 100%">
+    <div style="border-top: 1px #4a5767 solid;text-align: center;color: #c4c4c4;padding:5px;font-size: 13px;background-color: #536378">
+        Las cookies nos ayudan a proporcionar, proteger y mejorar los servicios de Veotutoriales. Si sigues usando nuestro sitio, aceptas nuestra Política de cookies
+        <button style="margin-left: 20px;background-color: #6a7c95" class="btn btn-xs">Aceptar</button>
+    </div>
+</div>
 
 
 
 
 
 <!-- login modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginController"  ng-init="email='geodracs@gmail.com';pass='123456'">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginController"  ng-init="email='geodracs@gmail.com';pass='123456'">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content ">
 
             <div class="modal-body">
-                <h2 style="margin: 0;border-bottom:1px silver solid">Iniciar Sesión</h2>
+                <h2 style="margin: 0;font-size: 27px;font-weight: bold">Iniciar Sesión</h2>
                 <div style="margin-top:10px;height: auto !important;overflow: hidden;padding-bottom: 20px;">
-                    <div class="col-xs-4" style="border-right:1px silver solid;">
-                        <div>Facebook</div>
-                        <div>Google+</div>
+
+                    <div class="">
+                        <input class="form-control" style="font-size: 20px;margin-top: 10px;padding: 15px;height: 40px;" ng-model="email"  type="text" placeholder="Email">
+                        <input class="form-control" style="font-size: 20px;margin-top: 10px;padding: 15px;height: 40px;" ng-model="pass"  type="password" placeholder="Contraseña">
+                        <button style="margin-top: 10px" ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">INICIAR SESIÓN</button>
                     </div>
-                    <div class="col-xs-8">
-                        <input class="form-control" style="margin-bottom: 10px;" ng-model="email"  type="text" placeholder="Email">
-                        <input class="form-control" style="margin-bottom: 10px;" ng-model="pass"  type="password" placeholder="Contraseña">
-                        <button ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">INICIAR SESIÓN</button>
+                    <hr>
+
+                    <div>
+                        <button class="btn btn-primary btn-block">Facebook</button>
+                        <button class="btn btn-block">Google+</button>
                     </div>
                 </div>
-                <hr>
+                <hr style="margin-top: 0px;">
 
-                <div ui-sref="register">¿Crearme una cuenta ahora?</div>
-                <div ui-sref="reminder">¿Has olvidado tu contraseña?</div>
+                <!--<div ui-sref="register">¿Crearme una cuenta ahora?</div>-->
+                <a ui-sref="reminder">He olvidado mi contraseña</a>
             </div>
-            <div ng-show="wrong" style="background-color: red;color: white">Error en el nombre de usuario o contraseña</div>
         </div>
     </div>
 </div><!-- .login modal -->
@@ -164,67 +171,6 @@
         <li ng-repeat="msg in loadingArr">{{msg}}</li>
     </ul>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-<!--//BLOQUE COOKIES
-<div id="barraaceptacion" style="display: block;">
-    <div class="inner">
-        Solicitamos su permiso para obtener datos estadísticos de su navegación en esta web, en cumplimiento del Real 
-        Decreto-ley 13/2012. Si continúa navegando consideramos que acepta el uso de cookies.
-        <a href="javascript:void(0);" class="ok" onclick="PonerCookie();"><b>OK</b></a> | 
-        <a href="" ui-sref="help.cookies" target="_blank" class="info">Más información</a>
-    </div>
-</div>
- 
-<script>
-function getCookie(c_name){
-    var c_value = document.cookie;
-    var c_start = c_value.indexOf(" " + c_name + "=");
-    if (c_start == -1){
-        c_start = c_value.indexOf(c_name + "=");
-    }
-    if (c_start == -1){
-        c_value = null;
-    }else{
-        c_start = c_value.indexOf("=", c_start) + 1;
-        var c_end = c_value.indexOf(";", c_start);
-        if (c_end == -1){
-            c_end = c_value.length;
-        }
-        c_value = unescape(c_value.substring(c_start,c_end));
-    }
-    return c_value;
-}
- 
-function setCookie(c_name,value,exdays){
-    var exdate=new Date();
-    exdate.setDate(exdate.getDate() + exdays);
-    var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-    document.cookie=c_name + "=" + c_value;
-}
- 
-if(getCookie('tiendaaviso')!="1"){
-    document.getElementById("barraaceptacion").style.display="block";
-}
-function PonerCookie(){
-    setCookie('tiendaaviso','1',365);
-    document.getElementById("barraaceptacion").style.display="none";
-}
-</script>
-<!--//FIN BLOQUE COOKIES-->
-
-
-
-
 
 
 

@@ -1,19 +1,15 @@
 
-<div class="" style="background-color: #dfdfdf">
+<div class="" style="">
 
 
-    <div style="border-bottom: 1px silver solid;padding: 5px;font-size: 14pt;font-weight: bold;">Cambiar contraseña</div>
+    <h2 style="font-size: 28pt;font-weight: bold;">Cambiar contraseña</h2>
     <div style="padding: 5px;">
-        <label style="margin-top: 10px;">Contraseña anterior</label>
         <input ng-model="old_pass" type="password" class="form-control" placeholder="Contraseña antigua">
         <hr>
-        <label >Contraseña nueva</label>
         <input ng-model="new_pass" type="password"  class="form-control" placeholder="Contraseña nueva">
-        <label style="margin-top: 10px;">Repite la contraseña</label>
         <input ng-model="new_pass2" type="password"  class="form-control" placeholder="Repite la nueva contraseña">
     </div>
     <div style="text-align: right;padding: 5px;">
-        <div class="pull-left" style="background-color: red;padding: 5px;color: white">Contraseña no valida</div>
         <button ng-click="updatePassword(old_pass,new_pass,new_pass2)" class="btn btn-primary">Guardar</button>
     </div>
 

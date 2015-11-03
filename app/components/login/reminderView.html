@@ -29,7 +29,7 @@
 
         <div class="col-xs-4">
             <div class="cuadro">
-                <div class="cuadro-header">Paso 1: Enviar confirmación al email</div>
+                <div class="cuadro-header"><span class="glyphicon glyphicon-ok-sign" style="color: green;font-size: 18pt;float: right"></span> Paso 1: Enviar confirmación al email  </div>
                 <div class="cuadro-content">
                     <input ng-model="tmp.email" class="form-control" type="text" placeholder="Inserta tu email">
                     <div style="text-align: center;padding: 20px;">
@@ -41,7 +41,7 @@
         </div>
         <div class="col-xs-4">
             <div class="cuadro">
-                <div class="cuadro-header">Paso 2: Introduce el código</div>
+                <div class="cuadro-header"> <span class="glyphicon glyphicon-remove-sign" style="color: red;font-size: 18pt;float: right"></span> Paso 2: Introduce el código</div>
                 <div class="cuadro-content">
                     <div><input ng-model="tmp.token" class="form-control" type="text" placeholder="Inserta aqui el código"></div>
                     <div style="padding: 5px;"><span class="glyphicon glyphicon-info-sign"></span> Inserta aquí el código que aparece en el correo que te hemos enviado al completar el paso 1</div>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-xs-4">
-            <div class="cuadro">
+            <div class="cuadro" style="opacity: 0.5;">
                 <div class="cuadro-header">Paso 3: Introduce tu nueva contraseña</div>
                 <div class="cuadro-content">
                     <input ng-model="tmp.pass" class="form-control" type="password" placeholder="Nueva contraseña">

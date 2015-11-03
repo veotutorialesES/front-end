@@ -1,0 +1,5 @@
+AuthUserFile /var/pass/.htpasswd
+AuthName JAVADICTOS
+AuthType Basic
+
+require user salva
