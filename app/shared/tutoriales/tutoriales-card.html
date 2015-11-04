@@ -1,0 +1,29 @@
+<style type="text/css">
+
+    .course-item{
+        overflow: hidden;height: inherit;
+        cursor: pointer;
+    }
+    .course-item:hover img{
+        opacity: 0.9;
+        transition: 0.5s;
+    }
+
+.course-item .text{
+    position: relative;bottom:25px;background-color: rgba(62, 73, 86, 0.8);width: inherit;color: gainsboro;
+    text-align: center;
+}
+
+    .course-item:hover .text{
+        bottom:50px;
+        transition:0.5s;
+    }
+</style>
+
+<div class="course-item box" style="">
+    <img style="height: 100%" src="https://i.ytimg.com/vi_webp/H74PVCIShe0/mqdefault.webp">
+    <div class="text" style="">
+    <p style="font-size: 15px;padding: 5px;margin: 0">{{title}}</p>
+    <p style="font-size: 12px;margin: 0;padding-bottom: 5px;">Introducción a JAVA</p>
+    </div>
+</div>

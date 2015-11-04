@@ -1,0 +1,142 @@
+<style type="text/css">
+    .course-menu{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .course-menu li{
+        float: left;
+        padding: 5px;
+    }
+    .home-slider-item{
+        float: left;
+        margin-right: 10px;
+    }
+    .home-slider-item img{
+        width: 100%;
+    }
+    .home-slider-item p{
+        margin: 0;
+        text-align: center;
+    }
+
+    .player td{
+        padding: 5px;;
+    }
+
+    .selected{
+        background-color: #879dba;
+        color: white;
+    }
+    .selected a{
+        color: white !important;
+    }
+    .selected span{
+        display: none;
+    }
+</style>
+
+<div  ng-controller="courseController" style="padding-bottom: 20px;" ng-init="getCourse(course_id);getTutorial(tutorial_id);">
+
+
+    <div style="height: auto !important;overflow: hidden;box-shadow: inset 0px 1px 15px 0px rgba(50, 50, 50, 0.75);background-color: #2c343d;margin-bottom: 20px;">
+        <!-- 16:9 aspect ratio -->
+
+        <div class="hidden-xs col-sm-3">
+        </div>
+
+        <div class="col-xs-12 col-sm-6" style="padding: 0">
+
+            <div class="embed-responsive embed-responsive-16by9" style="">
+                <img src="{{course.image}}">
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+    <div class="container" style="">
+
+        <div class="row">
+
+            <div class="col-xs-4" style="padding: 10px;">
+
+                <div class="box" style="margin-bottom: 20px;">
+                    Creado por {{course.user_id}}
+                </div>
+
+                <div ng-controller="subscriptionController" ng-init="check(3,course_id)">
+
+                    <button ng-click="add(3,course_id)" class="btn btn-block btn-primary">Suscribirme al curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
+                </div>
+
+                <div  class="" style="margin-top:20px;">
+                    <div ng-hide="modules.length > 0" style="padding: 10px; border: 1px silver dashed;text-align: center;">
+                        De momento no tenemos tutoriales disponibles.
+                    </div>
+                    <ul ng-show="modules.length > 0" style="width: 100%;background-color: #e8e8e8" class="player">
+
+                        <li ng-repeat="mod in modules">
+                            <!--
+                            <div style="border-bottom: 1px #f1f1f1 solid;border-top: 1px #f2f2f2 solid;padding:5px">{{mod.title}}
+                            <span class="pull-right caret" style="margin: 7px;"></span>
+                            </div>
+                            -->
+                            <table style="width: 100%" class="player">
+                                <tr ng-repeat="tutorial in mod.tutorials" ng-class="{'selected': tutorial.tutorial_id == tutorial_id}" >
+
+                                    <td style="width: 20px;"><span style="color: green" class="glyphicon glyphicon-play-circle"></span> </td>
+                                    <td><a style="color: #3e4a5a" ui-sref="tutorial({course_id:course_id,tutorial_id:tutorial.tutorial_id})">{{tutorial.title}}</a></td>
+                                    <td style="text-align: right"><span  ng-show="tutorial.is_view" ng-click="unsetView(tutorial.tutorial_id);tutorial.is_view = false;" class="glyphicon glyphicon-eye-open"></span> </td>
+
+                                </tr>
+                            </table>
+
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 20px;">
+                        <div style="font-size: 18px;padding:5px;">
+                            <span class="glyphicon glyphicon-calendar"></span> Próximo tutorial
+                        </div>
+                        <div style="padding-left: 28px;">
+                            <div>Titulo del tutorial</div>
+                            <div>Fecha</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xs-8" style="">
+                <h1>{{course.title}}</h1>
+                <h2><span class="glyphicon glyphicon-info-sign"></span> Información de este curso</h2>
+                <div ng-bind-html="course.description" class="" style="padding: 10px;background-color: #e8e8e8">
+                    <br>
+                    Añadir fechas de tutoriales como en popcorntime
+                    <br>
+                    Añadir cantidad de usuario suscritos
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+
+</div>

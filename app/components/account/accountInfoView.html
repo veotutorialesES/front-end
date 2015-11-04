@@ -1,0 +1,14 @@
+
+<div class="" style="background-color: #dfdfdf">
+
+    <div style="border-bottom: 1px silver solid;padding: 5px;font-size: 14pt;font-weight: bold;">Cambiar nombre de usuario</div>
+    <div style="padding: 5px;">
+        <input ng-model="name" type="text" class="form-control" value="" placeholder="Nuevo nombre de usuario">
+        <input ng-model="pass" type="password" class="form-control" placeholder="Contraseña">
+    </div>
+    <div style="text-align: right;padding: 5px;">
+        <div class="pull-left" style="background-color: red;padding: 5px;color: white">El usuario ya existe</div>
+        <button ng-click="updateName(name,pass)" class="btn btn-primary">Guardar</button>
+    </div>
+
+</div>

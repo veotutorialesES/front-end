@@ -1,0 +1,62 @@
+<style type="text/css">
+    .search-menu{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+</style>
+<div ng-controller="searchController">
+    <div class="search-head">
+        <div class="container">
+            <div class="row">
+                <ul class="pull-left float padding-10">
+                    <li ng-click="changeType(0)" ng-class="{'selected': type == 'all'}">Todo</li>
+                    <li ng-click="changeType(1)" ng-class="{'selected': type == 'courses'}">Cursos</li>
+                    <li ng-click="changeType(2)" ng-class="{'selected': type == 'tutorials'}">Tutoriales</li>
+                    <!--
+                    <li ng-click="changeType(3)" ng-class="{'selected': type == 'doubts'}">Dudas</li>
+                    -->
+                </ul>
+                <!--
+                <div class="pull-right" style="padding: 3px;">
+                    <div class="" style="">
+                    <span style="font-size: 16pt;top: 53px;margin-left: 7px;position: absolute;color: rgba(106, 131, 151, 0.87)" class="glyphicon glyphicon-search"></span>
+                    <input style="padding: 5px;width: 400px;border: 1px #3e4956 solid;padding-left:35px;background-color: #4f5f70" ng-model="q" type="text" placeholder="Buscar...">
+                    </div>
+                </div>
+                -->
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div ng-init="search()" style="padding-top: 20px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12" style="margin-bottom: 20px;">
+                    Se ha encontrado un total de <strong>{{result.hits.total}} resultados</strong> del tipo <strong>{{type}}</strong>
+                </div>
+
+                <div ng-repeat="hit in result.hits.hits" class="col-xs-12 col-sm-3" style="margin-bottom: 10px;">
+
+                    <div style="border:1px #e0e0e0 solid;height: 150px;">
+                        <img style="width: 100%;height: 100%" src="{{hit._source.image}}">
+                        <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626">
+                            {{hit._source.title}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="container">
+            <div class="col-xs-8">
+            </div>
+        </div>
+    </div>
+
+</div>

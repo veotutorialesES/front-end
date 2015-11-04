@@ -1,0 +1,31 @@
+<style type="text/css">
+    .dudas-menu{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .dudas-menu li{
+        float: left;
+        padding: 5px;
+    }
+</style>
+
+<div class="" style="border-bottom: 1px #e3e3e3 solid;padding: 10px;padding-left: 0">
+
+    <div class="" style="padding: 5px;">
+
+
+        <h2 style="padding: 0;margin: 0;font-weight: bold" >
+            <a style="color: #536378" ui-sref="dudas({doubt_id: doubt.doubt_id})">{{doubt.title}}</a>
+        </h2>
+        <a ui-sref="tutorial({course_id:doubt.course_id,tutorial_id:doubt.tutorial_id})" style="color: #6f85a1">{{doubt.tutorial_title}}</a>
+
+        <div style="font-size: 10pt;color: #a7a7a7;height: auto !important;overflow: hidden">
+            <div>Por  <strong>{{doubt.name}}</strong> hace {{doubt.created_at}}</div>
+
+
+        </div>
+
+    </div>
+
+</div>

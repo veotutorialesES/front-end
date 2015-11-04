@@ -1,0 +1,65 @@
+<style type="text/css">
+    .account-box{
+        border: 1px #d9d9d9 solid;
+        background-color: whitesmoke;
+        margin-bottom: 20px;
+
+    }
+    .account-box h2{
+        margin: 0;
+        padding: 5px;
+        color: darkgray;
+        font-size: 22px;
+        border-bottom: 1px silver solid;
+    }
+    .account-box > div{
+        height: 100px;
+    }
+
+
+    .account-menu{
+        background-color: whitesmoke;
+        list-style: none;
+        padding: 0;
+    margin: 0;
+    }
+    .account-menu li{
+        padding: 10px;
+    }
+    .account-menu li:hover{
+        background-color: #d5d5d5;
+    }
+    .account-menu .selected{
+        background-color: #d5d5d5;
+    }
+</style>
+<div ng-controller="helpController" style="min-height: 400px">
+
+
+
+    <div class="container" style="padding-top: 20px;">
+        <div class="col-xs-3">
+
+            <div class="box">
+                <ul class="hover-default padding-10">
+                    <!--
+                    <li class="selected" ui-sref="help.sobre">Sobre Veotutoriales</li>
+                    -->
+                    <li class="selected" ui-sref="help.contact">Contacto</li>
+                    <!--
+                    <li ui-sref="help.faq">Preguntas frecuentes</li>
+                    -->
+                    <li class="" ui-sref="help.tos">Terminos y Condiciones</li>
+                    <li ui-sref="help.cookies">Política de Cookies</li>
+
+                </ul>
+            </div>
+            
+        </div>
+        <div class="col-xs-7">
+                <div ui-view="help"></div>
+        </div>
+    </div>
+
+
+</div>

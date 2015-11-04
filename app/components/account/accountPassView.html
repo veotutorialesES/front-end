@@ -1,0 +1,17 @@
+
+<div class="" style="">
+
+
+    <h2 style="font-size: 28pt;font-weight: bold;">Cambiar contraseña</h2>
+    <div style="padding: 5px;">
+        <input ng-model="old_pass" type="password" class="form-control" placeholder="Contraseña antigua">
+        <hr>
+        <input ng-model="new_pass" type="password"  class="form-control" placeholder="Contraseña nueva">
+        <input ng-model="new_pass2" type="password"  class="form-control" placeholder="Repite la nueva contraseña">
+    </div>
+    <div style="text-align: right;padding: 5px;">
+        <button ng-click="updatePassword(old_pass,new_pass,new_pass2)" class="btn btn-primary">Guardar</button>
+    </div>
+
+
+</div>

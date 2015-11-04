@@ -1,18 +1,73 @@
 // Colores
+@c_1: #536378;
+@c_1_b: #3c4c61;
 
+@c_2: #6a8296;
+@c_2_b: #546678;
 
+@c_3: #f5614b;
+@c_3_b: #cd5a45;
+
+@c_4: orange;
+
+@cf_1:gainsboro;
 
 // Fuentes
+@font-face {
+  font-family: 'Bree Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bree Serif'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v5/0daoUMW28nkWOnFz2G4AAiEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bree Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bree Serif'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v5/LQ7WLTaITDg4OSRuOZCps_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
 
 
 body{
   background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+  color: #435663;
+
+
+
+}
+.bree{
+  font-family: 'Bree Serif', serif;
 }
 
 
-@import "shared/header";
+//core
+@import "core/inputs";
+@import "core/buttons";
+@import "core/box";
+@import "core/ul";
+@import "core/search";
+@import "core/h";
+@import "core/textarea";
+@import "core/table";
+@import "core/pre";
+@import "core/div";
 
+
+// compartido
+@import "shared/header";
+@import "shared/footer";
+@import "shared/cookies";
+@import "shared/textangular";
+
+// Componentes
 @import "components/login";
 @import "components/home";
+@import "components/search";
 
-@import "shared/footer";

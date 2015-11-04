@@ -1,0 +1,108 @@
+<style type="text/css">
+    .register-form label{
+        font-size: 20px;
+        margin-top: 10px;
+    }
+    .register-form > input{
+        font-size: 20px;
+        margin-top: 10px;
+        padding: 15px;
+        height: 40px;
+
+    }
+
+    .centerBody{
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f5f6+0,e3eaed+37,c8d7dc+100;Grey+3D+%234 */
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f5f6+0,e3eaed+37,d2d9db+100 */
+        background: #f2f5f6; /* Old browsers */
+        background: -moz-linear-gradient(top,  #f2f5f6 0%, #e3eaed 37%, #d2d9db 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f5f6), color-stop(37%,#e3eaed), color-stop(100%,#d2d9db)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  #f2f5f6 0%,#e3eaed 37%,#d2d9db 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  #f2f5f6 0%,#e3eaed 37%,#d2d9db 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  #f2f5f6 0%,#e3eaed 37%,#d2d9db 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  #f2f5f6 0%,#e3eaed 37%,#d2d9db 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#d2d9db',GradientType=0 ); /* IE6-9 */
+
+    }
+    .caracteristicas img{
+        width: 80px;
+        height: 80px;
+    }
+    .caracteristicas > div{
+        margin-bottom: 50px;
+        height: 150px;
+    }
+
+</style>
+<div ng-controller="registerController" class="centerBody">
+
+    <div class="container">
+        <div class="col-xs-7" style="margin-top: 20px;padding-top: 40px;">
+
+            <iframe width="520" height="315" src="https://www.youtube.com/embed/XscUKm4UG3o?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+
+        </div>
+        <div class="col-xs-5 " style="margin-top: 20px;padding: 20px;">
+            <form ng-submit="send(checkbox)" class=" register-form" style="padding: 10px;">
+                <h1 style="font-size: 36px;font-weight: bold">Registrarte</h1>
+                <p>Participa en la comunidad</p>
+                <input  ng-model="user.name" type="text" class="form-control" placeholder="Nombre de usuario">
+                <input  ng-model="user.email" class="form-control" type="text" placeholder="Correo electrónico">
+                <input  ng-model="user.pass" class="form-control" type="password" placeholder="Escribe una contraseña">
+                <input  ng-model="user.pass2" class="form-control" type="password" placeholder="Repite la contraseña">
+                <!--
+                <div style="margin-top:10px;">
+                <label><input type="checkbox" ng-model="checkbox"></label> <a style="color: black" target="_blank" ui-sref="help.tos">Acepto lo terminos legales</a>
+                </div>
+                -->
+                <div style="padding-top: 20px;padding-bottom: 20px;">
+                    <p>Al hacer click en REGISTRARME, aceptas las condiciones y confirmas que has leido nuestra política de datos incluida las Cookies</p>
+                </div>
+                <div style="text-align: center">
+                    <button style="color:gainsboro;font-weight: bold;" class="btn btn-primary btn-sm" type="submit">REGISTRARME</button>
+
+                </div>
+                <div ng-show="wrong">
+                    <div>Atención:</div>
+                    <div ng-repeat="m in msg">{{m}}</div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+    <div style="margin-top: 20px;">
+        <div class="container caracteristicas" style="border-top: 1px silver solid;padding-top: 30px">
+
+            <div class="col-xs-3">
+                <img src="assets/img/icons/icon_comunidad.png">
+                Comunidad
+                <p>VEOTUTORIALES es una comunidad donde los usuarios pueden bla bla bla</p>
+            </div>
+            <div class="col-xs-3">
+                <img src="assets/img/icons/icon_notification.png">
+                Notificaciones
+                <p>Podrás recibir notificaciones personalizadas en tu correo electrónico</p>
+            </div>
+            <div class="col-xs-3">
+                <img src="assets/img/icons/icon_track.png">
+                Seguimiento
+                <p>Suscribete a tus cursos favoritos</p>
+            </div>
+            <div class="col-xs-3">
+                <img src="assets/img/icons/icon_calendar.png">
+                Calendario
+                <p>El calendario permite conocer cuando saldrán los proximos tutoriales</p>
+            </div>
+            <div class="col-xs-3">
+                <img src="assets/img/icons/icon_view.png">
+                Views
+                <p>Llevarás un control de los tutoriales que ya has visto</p>
+            </div>
+            <div class="col-xs-3" style="text-align: center">
+                <span class="glyphicon glyphicon-plus" style="font-size: 50px;"></span>
+                <p>Y más funcionalidades que estamos desarrollando actualmente</p>
+            </div>
+        </div>
+    </div>
+</div>
