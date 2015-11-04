@@ -43,7 +43,7 @@
 
         </div>
         <div class="col-xs-5 " style="margin-top: 20px;padding: 20px;">
-            <div class=" register-form" style="padding: 10px;">
+            <form ng-submit="send(checkbox)" class=" register-form" style="padding: 10px;">
                 <h1 style="font-size: 36px;font-weight: bold">Registrarte</h1>
                 <p>Participa en la comunidad</p>
                 <input  ng-model="user.name" type="text" class="form-control" placeholder="Nombre de usuario">
@@ -59,14 +59,14 @@
                     <p>Al hacer click en REGISTRARME, aceptas las condiciones y confirmas que has leido nuestra política de datos incluida las Cookies</p>
                 </div>
                 <div style="text-align: center">
-                    <button style="color:gainsboro;font-weight: bold;" ng-click="send(checkbox)" class="btn btn-primary btn-sm" type="submit">REGISTRARME</button>
+                    <button style="color:gainsboro;font-weight: bold;" class="btn btn-primary btn-sm" type="submit">REGISTRARME</button>
 
                 </div>
                 <div ng-show="wrong">
                     <div>Atención:</div>
                     <div ng-repeat="m in msg">{{m}}</div>
                 </div>
-            </div>
+            </form>
         </div>
 
 

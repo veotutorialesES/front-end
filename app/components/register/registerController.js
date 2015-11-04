@@ -11,7 +11,7 @@ app.controller("registerController", function($scope,$api,$state){
 
         if (!check){
             $scope.wrong = true;
-            return false;
+           // return false;
         }
 
 

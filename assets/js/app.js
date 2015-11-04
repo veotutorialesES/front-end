@@ -382,6 +382,12 @@ app.controller("viewController", function($scope,$api,$state){
     };
 
 });;
+app.controller("avisosController", function($scope){
+
+
+
+
+});;
 app.controller("accountController", function($scope,$api,$state,$rootScope){
 
 
@@ -436,12 +442,6 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
 
         });
     }
-
-});;
-app.controller("avisosController", function($scope){
-
-
-
 
 });;
 app.controller("courseController", function($scope,$stateParams,$api,$sce){
@@ -987,7 +987,7 @@ app.controller("registerController", function($scope,$api,$state){
 
         if (!check){
             $scope.wrong = true;
-            return false;
+           // return false;
         }
 
 
