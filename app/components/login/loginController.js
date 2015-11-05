@@ -12,23 +12,22 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         arr["pass"] = pass;
 
         $api.post("user/login",arr,function(res){
-
+            console.info(res);
             if (res.status) {
 
-                $window.sessionStorage.token = res.data.token;
-                $window.sessionStorage.is_premium = res.data.is_premium;
-                $window.sessionStorage.is_user = res.data.is_user;
-                $rootScope.loged = res.data.is_user;
+                $rootScope.user = new $rootScope.userObj();
+                $rootScope.user.fill(res.data);
+
+                $window.sessionStorage.user = JSON.stringify($rootScope.user);
+
+
+                if (!$rootScope.user.activated){
+                    $state.go("activation");
+                }
 
                 $('#myModal').modal('hide');
-            }else if(res.exist && res.activated == 0){
-                console.log("EL USUARIO EXISTE PERO NO ESTA ACTIVADO");
-                $('#myModal').modal('hide');
-                $state.go("activation");
             }else{
                 console.log("EL USUARIO NO EXISTE");
-
-
                 $scope.wrong = true;
             }
         });

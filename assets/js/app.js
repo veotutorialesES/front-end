@@ -1,7 +1,7 @@
 angular.module("app.api", []).service("$api", function($http){
     var self = this;
     var host = "localhost:8000";
-     //host = "veotutoriales.es:8000";
+     //host = "api.veotutoriales.es";
 
     var appID = "asdfalskdjf";
 
@@ -121,29 +121,99 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
 
 });;
 var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
-app.run(function($rootScope,$window) {
-    $rootScope.loading = true;
-    $rootScope.loged = $window.sessionStorage.is_user;
-    $rootScope.is_premium = $window.sessionStorage.is_premium;
+app.run(function($rootScope,$window,$api) {
+
+
+
+    $rootScope.userObj = function() {
+
+        return {
+            is_user: false,
+            is_admin: false,
+            is_premium: false,
+            is_loged: false,
+            activated: false,
+            name:"",
+            token: "",
+            token_renew: "",
+            token_expiration: 0,
+            fill: function(data){
+                this.is_user = data.is_user;
+                this.name = data.name;
+                this.is_admin = data.is_admin;
+                this.is_premium = data.is_premium;
+                this.is_loged = data.is_user;
+                this.activated = data.activated;
+                this.token = data.token;
+                this.token_renew = data.token_renew;
+                this.token_expiration = data.token_expiration;
+
+            },
+            is_expired: function(){
+
+                var now = Math.floor(Date.now() / 1000) - 20;
+                return (this.token_expiration < now);
+            }
+        }
+
+    };
+
 
     $rootScope.imageAsset = function(size,asset){
         var url = "http://localhost:8000/";
         return url + "img/media/" + size + "/" + asset;
     };
 
-    // TODO build user OBJ from session
+
+    $rootScope.user = new $rootScope.userObj();
+
+    if ($window.sessionStorage.user) {
+        $rootScope.user.fill(JSON.parse($window.sessionStorage.user));
+    }
+
+    console.log($window.sessionStorage.user);
+
+    setInterval(function(){
+        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
+
+            $api.post("user/refreshToken",[],function(res){
+                console.info(res);
+                if (res.status) {
+                    $rootScope.user.fill(res.data);
+                    $window.sessionStorage.user = JSON.stringify($rootScope.user);
+                }else{
+                    $rootScope.user = new $rootScope.userObj();
+                }
+
+            });
+        }
+
+
+    },10000);
 
 });
 
 
 
 app.factory('authInterceptor', function ($rootScope, $q, $window) {
+
+
+    //
+
+
+
     return {
         request: function (config) {
-
             config.headers = config.headers || {};
-            if ($window.sessionStorage.token) {
-                config.headers.Authorization = $window.sessionStorage.token;
+            if ($rootScope.user.is_user) {
+
+                config.headers.Authorization = $rootScope.user.token;
+
+                if ($rootScope.user.is_expired()){
+                    config.headers.refreshToken = $rootScope.user.token_renew;
+
+                }
+
             }
 
             return config;
@@ -167,13 +237,12 @@ app.controller("headerController",function($rootScope,$scope,$window,$state){
     $scope.search = function(q){
         console.log(q);
         $state.go('search',{type:'all',q:q});
-    }
+    };
 
     $scope.logout = function(){
-        $rootScope.loged = false;
-        $rootScope.token = null;
-        $window.sessionStorage.removeItem("token");
-    }
+        $rootScope.user = new $rootScope.userObj();
+        $window.sessionStorage.removeItem("user");
+    };
 
 });
 ;
@@ -897,23 +966,22 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
         arr["pass"] = pass;
 
         $api.post("user/login",arr,function(res){
-
+            console.info(res);
             if (res.status) {
 
-                $window.sessionStorage.token = res.data.token;
-                $window.sessionStorage.is_premium = res.data.is_premium;
-                $window.sessionStorage.is_user = res.data.is_user;
-                $rootScope.loged = res.data.is_user;
+                $rootScope.user = new $rootScope.userObj();
+                $rootScope.user.fill(res.data);
+
+                $window.sessionStorage.user = JSON.stringify($rootScope.user);
+
+
+                if (!$rootScope.user.activated){
+                    $state.go("activation");
+                }
 
                 $('#myModal').modal('hide');
-            }else if(res.exist && res.activated == 0){
-                console.log("EL USUARIO EXISTE PERO NO ESTA ACTIVADO");
-                $('#myModal').modal('hide');
-                $state.go("activation");
             }else{
                 console.log("EL USUARIO NO EXISTE");
-
-
                 $scope.wrong = true;
             }
         });

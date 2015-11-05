@@ -48,29 +48,16 @@
                 <li class="hover-default" style="color: gainsboro;"><a  ui-sref="search({type:'all',q:''})">Explorar</a></li>
                 <li ui-sref="activation">ACTIVACION </li>
             </ul>
-            <ul ng-hide="loged" class="float padding-10 hover-default pull-right">
+            <ul ng-hide="user.is_user" class="float padding-10 hover-default pull-right">
                 <li data-toggle="modal" data-target="#myModal" >Iniciar Sesión</li>
                 <li><a  ui-sref="register">Registrarme</a></li>
 
             </ul>
-            <ul ng-show="loged" class="default float padding-10 pull-right hover-default" style="color: gainsboro;">
+            <ul ng-show="user.is_user" class="default float padding-10 pull-right hover-default" style="color: gainsboro;">
 
-                <!--
-                <li class="glyphicon-envelope" ng-init="showAavisos = false" ng-mouseover="showAavisos = true" ng-mouseleave="showAavisos = false"  style="background-color: #f6614b;color: white;cursor: default">
-                    <a style="color: white" ui-sref="avisos">2 Avisos</a>
-
-                    <div ng-show="showAavisos" class="hover-default " style="position: absolute;top: 40px;background-color: inherit;width: 185px;margin-left: -65px;box-shadow: 0 1px 2px rgba(0,0,0,.4);">
-
-                        <div>Aviso1</div>
-                        <div>Aviso2</div>
-
-                    </div>
-
-                </li>
-                -->
                 <li class=""  ng-init="showAccount = false" ng-mouseover="showAccount = true" ng-mouseleave="showAccount = false" style="cursor: pointer;">
-                    Mi cuenta
-                    <ul ng-show="showAccount" class="hover-default" style="position: absolute;top: 40px;background-color: #536378;width: 135px;margin-left: -65px;box-shadow: 0 1px 2px rgba(0,0,0,.4);">
+                <span style="background-color: silver;border: 1px gray solid;padding: 5px 10px 5px 10px;text-align: center;">S</span> {{user.name}}
+                    <ul ng-show="showAccount" class="hover-default" style="position: absolute;top: 40px;background-color: #536378;width: 135px;box-shadow: 0 1px 2px rgba(0,0,0,.4);">
 
                        <li ui-sref="account" style="width: 100%">Configuracion</li>
                        <li ng-click="logout()" style="width: 100%">Cerrar Sesión</li>
@@ -121,6 +108,7 @@
     <div style="border-top: 1px #4a5767 solid;text-align: center;color: #c4c4c4;padding:5px;font-size: 13px;background-color: #536378">
         Las cookies nos ayudan a proporcionar, proteger y mejorar los servicios de Veotutoriales. Si sigues usando nuestro sitio, aceptas nuestra Política de cookies
         <button style="margin-left: 20px;background-color: #6a7c95" class="btn btn-xs">Aceptar</button>
+        {{user}}
     </div>
 </div>
 
@@ -135,12 +123,12 @@
 
             <div class="modal-body">
                 <h2 style="margin: 0;font-size: 27px;font-weight: bold">Iniciar Sesión</h2>
-                <div style="margin-top:10px;height: auto !important;overflow: hidden;padding-bottom: 20px;">
+                <form ng-submit="send(email,pass)" style="margin-top:10px;height: auto !important;overflow: hidden;padding-bottom: 20px;">
 
                     <div class="">
                         <input class="form-control" style="font-size: 20px;margin-top: 10px;padding: 15px;height: 40px;" ng-model="email"  type="text" placeholder="Email">
                         <input class="form-control" style="font-size: 20px;margin-top: 10px;padding: 15px;height: 40px;" ng-model="pass"  type="password" placeholder="Contraseña">
-                        <button style="margin-top: 10px" ng-click="send(email,pass)" class="btn btn-default btn-block" type="submit">INICIAR SESIÓN</button>
+                        <button style="margin-top: 10px" class="btn btn-default btn-block" type="submit">INICIAR SESIÓN</button>
                     </div>
                     <hr>
 
@@ -148,7 +136,7 @@
                         <button class="btn btn-primary btn-block">Facebook</button>
                         <button class="btn btn-block">Google+</button>
                     </div>
-                </div>
+                </form>
                 <hr style="margin-top: 0px;">
 
                 <!--<div ui-sref="register">¿Crearme una cuenta ahora?</div>-->
