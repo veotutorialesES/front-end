@@ -1,13 +1,15 @@
-angular.module("app.api", []).service("$api", function($http){
+angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
     var host = "localhost:8000";
-     host = "api.veotutoriales.es";
+     //host = "api.veotutoriales.es";
 
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
 
     self.get = function(route, params, callback){
+
+
         var dat = "";
         for (var k in params){
             dat += "&"+k+"="+params[k];
@@ -15,11 +17,23 @@ angular.module("app.api", []).service("$api", function($http){
         var url = self.base_url+route+"?app=123123"+dat;
         console.log("HTTP: ApiService->get()"+url);
 
-        $http.get(url).then(function(res){
 
-            callback(res.data);
+        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
 
-        });
+            $rootScope.refreshToken(function(res){
+                console.info("TOKEN REFRESCADO");
+                    $http.get(url).then(function(res){ callback(res.data); });
+
+
+            });
+        }else{
+            $http.get(url).then(function(res){ callback(res.data); });
+        }
+
+
+
+
+
     };
     self.post = function(route, params, callback){
         self.http("POST", route, params, callback);
@@ -41,25 +55,60 @@ angular.module("app.api", []).service("$api", function($http){
         var postData = "?app="+appID+ dat;
         console.log("HTTP: ApiService->"+type+"(): "+self.base_url+route+ postData);
 
-        $http({
-            method: type,
-            url: self.base_url+route,
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("ApiService->"+type+"(): ");
-            console.log(res);
-
-            callback(res);
 
 
-        }).error(function(data){
-            console.error("ApiService->"+type+"(): ");
-            callback(data);
+        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
 
-        });
+            $rootScope.refreshToken(function(res){
+                console.info("TOKEN REFRESCADO");
+                if(res){
+                    $http({
+                        method: type,
+                        url: self.base_url+route,
+                        headers: {
+                            'Content-Type' : 'application/x-www-form-urlencoded'
+                        },
+                        data:postData
+                    }).success(function (res) {
+                        console.log("ApiService->"+type+"(): ");
+                        console.log(res);
+
+                        callback(res);
+
+
+                    }).error(function(data){
+                        console.error("ApiService->"+type+"(): ");
+                        callback(data);
+
+                    });
+                }else{
+                    // No vale el token todo
+
+                }
+            });
+        }else{
+            $http({
+                method: type,
+                url: self.base_url+route,
+                headers: {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                },
+                data:postData
+            }).success(function (res) {
+                console.log("ApiService->"+type+"(): ");
+                console.log(res);
+
+                callback(res);
+
+
+            }).error(function(data){
+                console.error("ApiService->"+type+"(): ");
+                callback(data);
+
+            });        }
+
+
+
 
     }
 

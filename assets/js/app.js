@@ -1,13 +1,15 @@
-angular.module("app.api", []).service("$api", function($http){
+angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
     var host = "localhost:8000";
-     host = "api.veotutoriales.es";
+     //host = "api.veotutoriales.es";
 
     var appID = "asdfalskdjf";
 
     self.base_url = "http://"+host+"/api/v1/";
 
     self.get = function(route, params, callback){
+
+
         var dat = "";
         for (var k in params){
             dat += "&"+k+"="+params[k];
@@ -15,11 +17,23 @@ angular.module("app.api", []).service("$api", function($http){
         var url = self.base_url+route+"?app=123123"+dat;
         console.log("HTTP: ApiService->get()"+url);
 
-        $http.get(url).then(function(res){
 
-            callback(res.data);
+        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
 
-        });
+            $rootScope.refreshToken(function(res){
+                console.info("TOKEN REFRESCADO");
+                    $http.get(url).then(function(res){ callback(res.data); });
+
+
+            });
+        }else{
+            $http.get(url).then(function(res){ callback(res.data); });
+        }
+
+
+
+
+
     };
     self.post = function(route, params, callback){
         self.http("POST", route, params, callback);
@@ -41,25 +55,60 @@ angular.module("app.api", []).service("$api", function($http){
         var postData = "?app="+appID+ dat;
         console.log("HTTP: ApiService->"+type+"(): "+self.base_url+route+ postData);
 
-        $http({
-            method: type,
-            url: self.base_url+route,
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data:postData
-        }).success(function (res) {
-            console.log("ApiService->"+type+"(): ");
-            console.log(res);
-
-            callback(res);
 
 
-        }).error(function(data){
-            console.error("ApiService->"+type+"(): ");
-            callback(data);
+        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
 
-        });
+            $rootScope.refreshToken(function(res){
+                console.info("TOKEN REFRESCADO");
+                if(res){
+                    $http({
+                        method: type,
+                        url: self.base_url+route,
+                        headers: {
+                            'Content-Type' : 'application/x-www-form-urlencoded'
+                        },
+                        data:postData
+                    }).success(function (res) {
+                        console.log("ApiService->"+type+"(): ");
+                        console.log(res);
+
+                        callback(res);
+
+
+                    }).error(function(data){
+                        console.error("ApiService->"+type+"(): ");
+                        callback(data);
+
+                    });
+                }else{
+                    // No vale el token todo
+
+                }
+            });
+        }else{
+            $http({
+                method: type,
+                url: self.base_url+route,
+                headers: {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                },
+                data:postData
+            }).success(function (res) {
+                console.log("ApiService->"+type+"(): ");
+                console.log(res);
+
+                callback(res);
+
+
+            }).error(function(data){
+                console.error("ApiService->"+type+"(): ");
+                callback(data);
+
+            });        }
+
+
+
 
     }
 
@@ -121,8 +170,7 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
 
 });;
 var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
-app.run(function($rootScope,$window,$api) {
-
+app.run(function($rootScope,$window,$http,$api) {
 
 
     $rootScope.userObj = function() {
@@ -151,7 +199,15 @@ app.run(function($rootScope,$window,$api) {
             },
             is_expired: function(){
 
-                var now = Math.floor(Date.now() / 1000) - 20;
+                var d = new Date();
+                console.info(d.getTimezoneOffset());
+                var now = Math.floor(Date.now() / 1000);
+                var offset = parseInt(d.getTimezoneOffset()) * 60;
+                console.info(offset);
+
+                var falta = this.token_expiration - now;
+
+                console.log("Quedan " + falta + " segundos");
                 return (this.token_expiration < now);
             }
         }
@@ -167,29 +223,40 @@ app.run(function($rootScope,$window,$api) {
 
     $rootScope.user = new $rootScope.userObj();
 
-    if ($window.sessionStorage.user) {
-        $rootScope.user.fill(JSON.parse($window.sessionStorage.user));
+    if ($window.localStorage.user) {
+        $rootScope.user.fill(JSON.parse($window.localStorage.user));
     }
 
-    console.log($window.sessionStorage.user);
-
-    setInterval(function(){
-        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
-
-            $api.post("user/refreshToken",[],function(res){
-                console.info(res);
-                if (res.status) {
-                    $rootScope.user.fill(res.data);
-                    $window.sessionStorage.user = JSON.stringify($rootScope.user);
-                }else{
-                    $rootScope.user = new $rootScope.userObj();
-                }
-
-            });
-        }
+    console.log($window.localStorage.user);
 
 
-    },10000);
+
+    $rootScope.refreshToken = function(callback){
+
+
+
+        $http({
+            method: "POST",
+            url: $api.base_url+"user/refreshToken",
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+        }).then(function (res) {
+            console.info("TOKEN reFreSH");
+            console.info(res);
+            res = res.data;
+            if (res.status) {
+                $rootScope.user.fill(res.data);
+                $window.localStorage.user = JSON.stringify($rootScope.user);
+            }else{
+                $rootScope.user = new $rootScope.userObj();
+            }
+            callback(res.data.is_user);
+
+        });
+
+    };
+
 
 });
 
@@ -972,7 +1039,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
                 $rootScope.user = new $rootScope.userObj();
                 $rootScope.user.fill(res.data);
 
-                $window.sessionStorage.user = JSON.stringify($rootScope.user);
+                $window.localStorage.user = JSON.stringify($rootScope.user);
 
 
                 if (!$rootScope.user.activated){

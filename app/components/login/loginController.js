@@ -18,7 +18,7 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
                 $rootScope.user = new $rootScope.userObj();
                 $rootScope.user.fill(res.data);
 
-                $window.sessionStorage.user = JSON.stringify($rootScope.user);
+                $window.localStorage.user = JSON.stringify($rootScope.user);
 
 
                 if (!$rootScope.user.activated){

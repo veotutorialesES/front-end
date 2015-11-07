@@ -43,8 +43,10 @@
         <div class="container">
             <div class="row">
             <ul class="default float padding-10 pull-left">
-                <li class="bree" style="color: gainsboro;cursor: pointer">
-                    <a ui-sref="home">VEOTUTORIALES</a>
+                <li style="cursor: pointer;padding: 0;">
+                    <div class="branch ">
+                        <a ui-sref="home" style="color: #17232f;">VEO<span style="color: white">TUTORIALES</span></a>
+                    </div>
                 </li>
                 <li class="search" style="padding: 2px;">
                     <form ng-submit="search(q)">
@@ -126,10 +128,10 @@
 
 <!-- login modal -->
 <div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginController"  ng-init="email='geodracs@gmail.com';pass='123456'">
-    <div class="modal-dialog modal-sm" role="document" style="background-color: red">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content ">
 
-            <div class="modal-body">
+            <div class="modal-body" style="border: 3px #536378 solid">
                 <h2 style="margin: 0;font-size: 27px;font-weight: bold">Iniciar Sesión</h2>
                 <form ng-submit="send(email,pass)" style="margin-top:10px;height: auto !important;overflow: hidden;padding-bottom: 20px;">
 
@@ -138,17 +140,22 @@
                         <input class="form-control" style="font-size: 20px;margin-top: 10px;padding: 15px;height: 40px;" ng-model="pass"  type="password" placeholder="Contraseña">
                         <button style="margin-top: 10px" class="btn btn-default btn-block" type="submit">INICIAR SESIÓN</button>
                     </div>
-                    <hr>
 
                     <div>
+                        <hr>
+
+                        <p style="color: indianred">Tu cuenta aún no esta activada. Si no has recibido el email para activarla <a>Haz click aquí</a></p>
+                        <!--
                         <button class="btn btn-primary btn-block">Facebook</button>
                         <button class="btn btn-block">Google+</button>
+                        -->
                     </div>
                 </form>
                 <hr style="margin-top: 0px;">
 
-                <!--<div ui-sref="register">¿Crearme una cuenta ahora?</div>-->
+                <div style="text-align: center">
                 <a ui-sref="reminder">He olvidado mi contraseña</a>
+                </div>
             </div>
         </div>
     </div>

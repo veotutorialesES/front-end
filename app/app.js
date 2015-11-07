@@ -1,6 +1,5 @@
 var app = angular.module("vts", ['ui.router','app.api','ngSanitize']);
-app.run(function($rootScope,$window,$api) {
-
+app.run(function($rootScope,$window,$http,$api) {
 
 
     $rootScope.userObj = function() {
@@ -29,7 +28,15 @@ app.run(function($rootScope,$window,$api) {
             },
             is_expired: function(){
 
-                var now = Math.floor(Date.now() / 1000) - 20;
+                var d = new Date();
+                console.info(d.getTimezoneOffset());
+                var now = Math.floor(Date.now() / 1000);
+                var offset = parseInt(d.getTimezoneOffset()) * 60;
+                console.info(offset);
+
+                var falta = this.token_expiration - now;
+
+                console.log("Quedan " + falta + " segundos");
                 return (this.token_expiration < now);
             }
         }
@@ -45,29 +52,40 @@ app.run(function($rootScope,$window,$api) {
 
     $rootScope.user = new $rootScope.userObj();
 
-    if ($window.sessionStorage.user) {
-        $rootScope.user.fill(JSON.parse($window.sessionStorage.user));
+    if ($window.localStorage.user) {
+        $rootScope.user.fill(JSON.parse($window.localStorage.user));
     }
 
-    console.log($window.sessionStorage.user);
-
-    setInterval(function(){
-        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
-
-            $api.post("user/refreshToken",[],function(res){
-                console.info(res);
-                if (res.status) {
-                    $rootScope.user.fill(res.data);
-                    $window.sessionStorage.user = JSON.stringify($rootScope.user);
-                }else{
-                    $rootScope.user = new $rootScope.userObj();
-                }
-
-            });
-        }
+    console.log($window.localStorage.user);
 
 
-    },10000);
+
+    $rootScope.refreshToken = function(callback){
+
+
+
+        $http({
+            method: "POST",
+            url: $api.base_url+"user/refreshToken",
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+        }).then(function (res) {
+            console.info("TOKEN reFreSH");
+            console.info(res);
+            res = res.data;
+            if (res.status) {
+                $rootScope.user.fill(res.data);
+                $window.localStorage.user = JSON.stringify($rootScope.user);
+            }else{
+                $rootScope.user = new $rootScope.userObj();
+            }
+            callback(res.data.is_user);
+
+        });
+
+    };
+
 
 });
 

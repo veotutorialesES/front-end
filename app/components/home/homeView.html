@@ -31,14 +31,14 @@
 
     <!-- calendario -->
 
-    <div class="container"  ng-init="getCalendar('2015-10-28',12)">
+    <div class="container"  ng-init="getCalendar('2015-12-01',12)">
         <div style="padding: 10px;padding-left: 0">
         <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
         </div>
 
         <div class="col-xs-12" style="padding: 0;border-left: 1px silver solid;border-bottom: 1px silver solid">
 
-            <div  ng-repeat="cal in calendar" class="col-xs-12 col-md-2" style="border-right: 1px silver solid;border-top: 1px silver solid;min-height: 120px;padding: 0">
+            <div  ng-repeat="cal in calendar" class="col-xs-12 col-md-3" style="border-right: 1px silver solid;border-top: 1px silver solid;min-height: 120px;padding: 0">
                 <div style="padding: 3px;font-weight: bold;font-size: 13px;background-color: #eaeaea">{{cal.day}}</div>
                 <ul>
                     <li class="box" style="margin-bottom: 2px;" ng-repeat="tutorial in cal.tutorials">
