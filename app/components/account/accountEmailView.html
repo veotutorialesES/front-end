@@ -1,18 +1,18 @@
 
-<div class="" style="background-color: #dfdfdf">
+<form ng-submit="updateEmail(email,pass)">
 
 
-    <div style="border-bottom: 1px silver solid;padding: 5px;font-size: 14pt;font-weight: bold;">Cambiar mi email</div>
+    <h1 style="font-size: 24pt;font-weight: bold;">Cambiar mi email</h1>
     <div style="padding: 5px;">
-        <p>AVISO: No podrás entrar en tu cuanta hasta que confirmes el nuevo email. Asegurate de que introduces correctamente el email y funciona</p>
-        <input ng-model="email" type="email" class="form-control" placeholder="Nuevo email">
-        <input ng-model="pass" type="password" class="form-control" placeholder="Contraseña">
+        <p>No podrás entrar en tu cuanta hasta que confirmes el nuevo email. Asegurate de que introduces correctamente el email y funciona</p>
+        <input ng-model="email" type="email" class="big" placeholder="Nuevo email">
+        <input ng-model="pass" type="password" class="big" placeholder="Contraseña">
 
     </div>
     <div style="text-align: right;padding: 5px;">
         <div class="pull-left" style="background-color: red;padding: 5px;color: white">El email ya existe</div>
-        <button ng-click="updateEmail(email,pass)" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
 
 
-</div>
+</form>
