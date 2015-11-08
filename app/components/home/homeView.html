@@ -1,5 +1,11 @@
 <style type="text/css">
-
+.today > div{
+    background-color: #abc9ed !important;
+}
+    .today > ul{
+        background-color: #abc9ed !important;
+        height: inherit;
+    }
 
 </style>
 <div ng-controller="homeController">
@@ -31,15 +37,15 @@
 
     <!-- calendario -->
 
-    <div class="container"  ng-init="getCalendar('2015-12-01',12)">
+    <div class="container"  ng-init="getCalendar('2015-11-02',13)">
         <div style="padding: 10px;padding-left: 0">
-        <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario</h2>
+        <h2 style=""><span class="glyphicon glyphicon-calendar"></span> Calendario <span class="pull-right" style="font-size: 12pt;color: grey;padding: 5px;">Próximas 2 semanas >></span></h2>
         </div>
 
         <div class="col-xs-12" style="padding: 0;border-left: 1px silver solid;border-bottom: 1px silver solid">
 
-            <div  ng-repeat="cal in calendar" class="col-xs-12 col-md-3" style="border-right: 1px silver solid;border-top: 1px silver solid;min-height: 120px;padding: 0">
-                <div style="padding: 3px;font-weight: bold;font-size: 13px;background-color: #eaeaea">{{cal.day}}</div>
+            <div  ng-repeat="cal in calendar" ng-class="{'today': cal.day.today == true}" class="col-xs-12 col-md-2" style="border-right: 1px silver solid;border-top: 1px silver solid;height: 150px;padding: 0">
+                <div  style="padding: 3px;font-weight: bold;font-size: 13px;background-color: #eaeaea">{{cal.day.name}}</div>
                 <ul>
                     <li class="box" style="margin-bottom: 2px;" ng-repeat="tutorial in cal.tutorials">
                         <div style="color: #536378;padding-left: 5px;padding-top:3px;font-size: 14px;">{{tutorial.title}}</div>

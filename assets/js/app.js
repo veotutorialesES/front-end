@@ -967,12 +967,19 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                 // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
                 //if (tutos.length > 0) {
+                //console.log(dayName(i, inicio));
+                var dayNameObj = dayName(i, inicio);
+
+                console.log(dayNameObj);
+
+                if (dayNameObj.weekday != 0) {
                     tmp.push({
-                        day: dayName(i, inicio),
+                        day: dayNameObj,
                         tutorials: tutos,
                         len: len
                         // courses: calendarCourses(res.courses,t)
                     });
+                }
                 //}
                 inicio.setDate(inicio.getDate()+1);
 
@@ -992,22 +999,52 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
 
     function dayName(i,date){
+        /*
         if (i == 0){
             return "HOY";
         }
         if (i == 1){
             return "MAÑANA";
         }
+        */
         var weekday = new Array(7);
-        weekday[0]=  "DOMINGO";
+        weekday[0]=  "SAB/DOM";
         weekday[1] = "LUNES";
         weekday[2] = "MARTES";
         weekday[3] = "MIERCOLES";
         weekday[4] = "JUEVES";
         weekday[5] = "VIERNES";
-        weekday[6] = "SABADO";
+        weekday[6] = "SAB/DOM";
 
-        return weekday[date.getDay()];
+
+        var month = new Array(12);
+
+        month[0] = "ENE";
+        month[1] = "FEB";
+        month[2] = "MAR";
+        month[3] = "ABR";
+        month[4] = "MAY";
+        month[5] = "JUN";
+        month[6] = "JUL";
+        month[7] = "AGO";
+        month[8] = "SEP";
+        month[9] = "OCT";
+        month[10] = "NOV";
+        month[11] = "DIC";
+
+        var d = new Date();
+
+
+
+        return {
+            name: weekday[date.getDay()] + " " + date.getDate() + " " + month[date.getMonth()],
+            weekday: date.getDay(),
+            day: date.getDate(),
+            today:(date.getDate() == d.getDate())
+        }
+
+
+
 
 
 
