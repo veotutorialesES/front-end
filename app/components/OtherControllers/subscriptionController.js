@@ -1,6 +1,7 @@
 app.controller("subscriptionController", function($scope,$api,$state){
 
 
+    $scope.courseSubscriptions = [];
 
     $scope.add = function(type, type_id){
         $scope.is_subscribed = true;
@@ -37,7 +38,9 @@ app.controller("subscriptionController", function($scope,$api,$state){
         var arr = [];
         arr["type"] = type;
         $api.get("subscription",arr,function(res){
-
+        console.info("Subscripciones");
+        console.info(res);
+            $scope.courseSubscriptions = res.data;
 
         })
     };

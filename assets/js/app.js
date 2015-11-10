@@ -110,7 +110,24 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
 
 
-    }
+    };
+
+
+    self.file = function(route, file, callback){
+                $http.post(self.base_url+route, file, {
+                        withCredentials: true,
+                       headers: {'Content-Type': undefined },
+                   transformRequest: angular.identity
+               }).success(function (res) {
+                   console.log("ApiService->file(): ");
+                  console.log(res);
+                      callback(res);
+                }).error(function(data){console.error("ApiService->file(): ");
+                   callback(data);
+
+                });
+
+            };
 
 });;
 angular.module("app.view", ['app.api']).service("$views", function($api){
@@ -200,10 +217,8 @@ app.run(function($rootScope,$window,$http,$api) {
             is_expired: function(){
 
                 var d = new Date();
-                console.info(d.getTimezoneOffset());
                 var now = Math.floor(Date.now() / 1000);
                 var offset = parseInt(d.getTimezoneOffset()) * 60;
-                console.info(offset);
 
                 var falta = this.token_expiration - now;
 
@@ -308,7 +323,7 @@ app.controller("headerController",function($rootScope,$scope,$window,$state){
 
     $scope.logout = function(){
         $rootScope.user = new $rootScope.userObj();
-        $window.sessionStorage.removeItem("user");
+        $window.localStorage.removeItem("user");
     };
 
 });
@@ -353,6 +368,30 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('help.tos',       {url: '/tos',views: {'help': { templateUrl: 'app/components/help/tosView.html'}}})
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
+});;
+app.controller("commentController", function($scope,$api,$stateParams){
+
+
+
+    $scope.add = function(type,type_id, comment){
+        console.info("commentController: addComment(): ");
+        var arr = [];
+
+        arr["description"] = comment;
+        arr["type_id"] = type_id;
+        arr["type"] = type;
+        console.log(arr);
+
+        $api.post("comment",arr,function(res){
+            console.info("commentController->addComment(): ");
+            console.log(res);
+
+        })
+
+    };
+
+
+
 });;
 app.controller("likeController", function($scope,$api,$state){
 
@@ -415,6 +454,7 @@ app.controller("likeController", function($scope,$api,$state){
 app.controller("subscriptionController", function($scope,$api,$state){
 
 
+    $scope.courseSubscriptions = [];
 
     $scope.add = function(type, type_id){
         $scope.is_subscribed = true;
@@ -451,7 +491,9 @@ app.controller("subscriptionController", function($scope,$api,$state){
         var arr = [];
         arr["type"] = type;
         $api.get("subscription",arr,function(res){
-
+        console.info("Subscripciones");
+        console.info(res);
+            $scope.courseSubscriptions = res.data;
 
         })
     };
@@ -560,7 +602,7 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
 
         var arr = [];
         arr["new_pass"] = new_pass;
-        arr["old_pass"] = old_pass;
+        arr["pass"] = old_pass;
 
         $api.put("user/me",arr,function(res){
 
@@ -795,7 +837,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         arr["description"] = $scope.comment.description;
         arr["type_id"] = answer_id;
-        arr["type"] = 0;
+        arr["type"] = 1;
         console.log(arr);
 
         $api.post("comment",arr,function(res){
@@ -916,7 +958,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
 
     function calendarTutorials(tutorials, day){
-        console.info("calendarTutorials");
+       // console.info("calendarTutorials");
         var arr = [];
         for (var i = 0; i < tutorials.length; i++){
             if (tutorials[i].public_date == day){
@@ -966,11 +1008,10 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
                 // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
-                //if (tutos.length > 0) {
-                //console.log(dayName(i, inicio));
+
                 var dayNameObj = dayName(i, inicio);
 
-                console.log(dayNameObj);
+              //  console.log(dayNameObj);
 
                 if (dayNameObj.weekday != 0) {
                     tmp.push({
@@ -980,7 +1021,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                         // courses: calendarCourses(res.courses,t)
                     });
                 }
-                //}
+
                 inicio.setDate(inicio.getDate()+1);
 
 

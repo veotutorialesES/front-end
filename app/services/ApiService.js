@@ -110,6 +110,23 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
 
 
-    }
+    };
+
+
+    self.file = function(route, file, callback){
+                $http.post(self.base_url+route, file, {
+                        withCredentials: true,
+                       headers: {'Content-Type': undefined },
+                   transformRequest: angular.identity
+               }).success(function (res) {
+                   console.log("ApiService->file(): ");
+                  console.log(res);
+                      callback(res);
+                }).error(function(data){console.error("ApiService->file(): ");
+                   callback(data);
+
+                });
+
+            };
 
 });

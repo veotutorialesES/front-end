@@ -40,7 +40,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
 
     function calendarTutorials(tutorials, day){
-        console.info("calendarTutorials");
+       // console.info("calendarTutorials");
         var arr = [];
         for (var i = 0; i < tutorials.length; i++){
             if (tutorials[i].public_date == day){
@@ -90,11 +90,10 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
                 // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
-                //if (tutos.length > 0) {
-                //console.log(dayName(i, inicio));
+
                 var dayNameObj = dayName(i, inicio);
 
-                console.log(dayNameObj);
+              //  console.log(dayNameObj);
 
                 if (dayNameObj.weekday != 0) {
                     tmp.push({
@@ -104,7 +103,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                         // courses: calendarCourses(res.courses,t)
                     });
                 }
-                //}
+
                 inicio.setDate(inicio.getDate()+1);
 
 

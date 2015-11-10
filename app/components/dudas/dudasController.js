@@ -138,7 +138,7 @@ app.controller("dudasController", function($scope,$api,$stateParams){
 
         arr["description"] = $scope.comment.description;
         arr["type_id"] = answer_id;
-        arr["type"] = 0;
+        arr["type"] = 1;
         console.log(arr);
 
         $api.post("comment",arr,function(res){

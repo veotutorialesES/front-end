@@ -29,10 +29,8 @@ app.run(function($rootScope,$window,$http,$api) {
             is_expired: function(){
 
                 var d = new Date();
-                console.info(d.getTimezoneOffset());
                 var now = Math.floor(Date.now() / 1000);
                 var offset = parseInt(d.getTimezoneOffset()) * 60;
-                console.info(offset);
 
                 var falta = this.token_expiration - now;
 
@@ -137,7 +135,7 @@ app.controller("headerController",function($rootScope,$scope,$window,$state){
 
     $scope.logout = function(){
         $rootScope.user = new $rootScope.userObj();
-        $window.sessionStorage.removeItem("user");
+        $window.localStorage.removeItem("user");
     };
 
 });

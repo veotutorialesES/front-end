@@ -34,7 +34,7 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
 
         var arr = [];
         arr["new_pass"] = new_pass;
-        arr["old_pass"] = old_pass;
+        arr["pass"] = old_pass;
 
         $api.put("user/me",arr,function(res){
 

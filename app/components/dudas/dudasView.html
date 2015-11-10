@@ -9,9 +9,27 @@
     <div class="row" style="margin-top: 10px;">
 
         <div class="col-xs-12 col-sm-9">
-            <div class="box">
-                <div style="padding: 10px;border-bottom: 1px silver solid"><h1>{{doubt.title}}</h1></div>
-                <div ng-bind-html="doubt.description" style="padding: 20px;"></div>
+            <div class="box" style="padding: 10px;">
+                <h1 style="font-size: 38px;font-weight: bold">{{doubt.title}}</h1>
+            </div>
+            <div class="" ng-bind-html="doubt.description" style="margin-top: 20px;padding: 10px;background-color: #e6e6e6"></div>
+            <div  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
+                <div ng-repeat="comment in doubt.comments" style="margin-bottom: 5px;border-top: 1px silver solid">
+                    <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
+                        <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
+                        <div>{{comment.description}}</div>
+                    </div>
+                </div>
+
+                <div ng-controller="commentController" class="" style="padding: 5px;">
+                    <div  style="padding-left: 35px;">
+                         <input type="text" ng-model="doubt_comment" class="form-control">
+                        <div style="padding-top: 5px;text-align: right">
+                            <button ng-click="add(0,doubt.doubt_id,doubt_comment)" class="btn btn-default btn-xs" style="">ENVIAR</button>
+                        </div>
+                    </div>
+                    <div ng-hide="user.is_user">Inicia sesión para responder</div>
+                </div>
             </div>
             <hr>
             <label style="font-size: 17pt;">Respuestas</label>
@@ -52,7 +70,7 @@
                             </div>
                         </div>
 
-                        <div ng-show="answer.showResponse" class="" style="padding: 5px;">
+                        <div  class="" style="padding: 5px;">
                             <div  style="padding-left: 35px;">
                                 <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">{{user.name.charAt(0)}}</div>
 
