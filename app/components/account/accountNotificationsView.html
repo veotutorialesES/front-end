@@ -1,39 +1,30 @@
+<style type="text/css">
+    .noti table td{
+        padding: 5px;
+    }
+</style>
+<div class="noti">
 
-<div class="" style="background-color: #dfdfdf">
-
-    <div style="border-bottom: 1px silver solid;padding: 5px;font-size: 14pt;font-weight: bold;">Configura tus notificaciones</div>
-
+    <h1 style="font-size: 24pt;font-weight: bold;">Configura tus notificaciones</h1>
+    <p>Aqui puedes configurar la forma en la que te notificamos a tu cuenta de correo</p>
     <table style="width: 100%">
-        <thead>
-            <tr>
-                <th>Evento</th>
-                <th>Email</th>
-                <th>Movil</th>
-            </tr>
-        </thead>
+
         <tbody>
             <tr>
-                <td>Nuevo tutorial de tus suscripciones</td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
+                <td>Notificaciones sin leer (1 vez al día)</td>
+                <td><input ng-model="user.notifications.config.stack" class="form-control" type="checkbox"></td>
             </tr>
             <tr>
-                <td>Cuando otro usuario responde a tu duda</td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td>Nuevas dudas en tutoriales vistos</td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
+                <td>Boletin</td>
+                <td><input ng-model="user.notifications.config.boletin" type="checkbox"></td>
             </tr>
 
         </tbody>
     </table>
 
-
     <div style="text-align: right;padding: 5px;">
-        <button class="btn btn-primary">Guardar</button>
+        <button ng-click="updateNotifications()" class="btn btn-primary">Guardar</button>
     </div>
+
 
 </div>

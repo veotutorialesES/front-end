@@ -1,7 +1,7 @@
 angular.module("app.api", []).service("$api", function($http,$rootScope){
     var self = this;
     var host = "localhost:8000";
-     //host = "api.veotutoriales.es";
+    // host = "api.veotutoriales.es";
 
     var appID = "asdfalskdjf";
 
@@ -202,6 +202,13 @@ app.run(function($rootScope,$window,$http,$api) {
             token: "",
             token_renew: "",
             token_expiration: 0,
+            notifications: {
+                list: [],
+                config: {
+                    stack: false,
+                    boletin: false
+                }
+            },
             fill: function(data){
                 this.is_user = data.is_user;
                 this.name = data.name;
@@ -311,7 +318,7 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
 });
 
 
-app.controller("headerController",function($rootScope,$scope,$window,$state){
+app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
 
 
     $rootScope.loged = ($window.sessionStorage.token != null);
@@ -325,6 +332,13 @@ app.controller("headerController",function($rootScope,$scope,$window,$state){
         $rootScope.user = new $rootScope.userObj();
         $window.localStorage.removeItem("user");
     };
+
+    $scope.notifications = [];
+    $scope.getNotifications = function(){
+        $api.get("notifications",[], function(res){
+            $scope.notifications = res.data;
+        });
+    }
 
 });
 ;
@@ -617,6 +631,20 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
             $rootScope.loged = false;
             // TODO comprobar que se ha eliminado antes
             $state.go("home");
+
+        });
+    }
+
+
+    $scope.updateNotifications = function(){
+
+        var arr = [];
+
+        arr["notifications"] = true;
+        arr["boletin"] = $rootScope.user.notifications.config.boletin;
+        arr["stack"] = $rootScope.user.notifications.config.stack;
+        console.info(arr);
+        $api.put("user/me",arr,function(res){
 
         });
     }

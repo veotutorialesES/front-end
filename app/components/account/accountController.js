@@ -53,4 +53,18 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
         });
     }
 
+
+    $scope.updateNotifications = function(){
+
+        var arr = [];
+
+        arr["notifications"] = true;
+        arr["boletin"] = $rootScope.user.notifications.config.boletin;
+        arr["stack"] = $rootScope.user.notifications.config.stack;
+        console.info(arr);
+        $api.put("user/me",arr,function(res){
+
+        });
+    }
+
 });

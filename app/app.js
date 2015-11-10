@@ -14,6 +14,13 @@ app.run(function($rootScope,$window,$http,$api) {
             token: "",
             token_renew: "",
             token_expiration: 0,
+            notifications: {
+                list: [],
+                config: {
+                    stack: false,
+                    boletin: false
+                }
+            },
             fill: function(data){
                 this.is_user = data.is_user;
                 this.name = data.name;
@@ -123,7 +130,7 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
 });
 
 
-app.controller("headerController",function($rootScope,$scope,$window,$state){
+app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
 
 
     $rootScope.loged = ($window.sessionStorage.token != null);
@@ -137,5 +144,12 @@ app.controller("headerController",function($rootScope,$scope,$window,$state){
         $rootScope.user = new $rootScope.userObj();
         $window.localStorage.removeItem("user");
     };
+
+    $scope.notifications = [];
+    $scope.getNotifications = function(){
+        $api.get("notifications",[], function(res){
+            $scope.notifications = res.data;
+        });
+    }
 
 });
