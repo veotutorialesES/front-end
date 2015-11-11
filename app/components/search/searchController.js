@@ -4,13 +4,13 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
     $scope.q = $stateParams.q;
     $scope.filters = [];
     $scope.result = {};
-    $scope.size = 20;
+    $scope.size = 10;
     $scope.from = 0;
     $scope.currentPage = $stateParams.page;
     $scope.pages = [];
 
 
-    $scope.goTo = function(type, page){
+    $scope.filter = function(type, page){
 
         $state.go('search',{type:type,page:page});
 
@@ -77,6 +77,26 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
         });
     }
 
+
+    $scope.getUrl = function(element){
+
+
+        console.info(element);
+            var url = "";
+        if (element._type == "courses"){
+            url = $state.href("course",{course_id:element._id});
+        }
+
+        if (element._type == "tutorials"){
+            url = $state.href("tutorial",{course_id:element._source.course_id,tutorial_id:element._id});
+        }
+
+
+        return url;
+
+        //$state.go(where + "/" + id);
+
+    }
 
 
 

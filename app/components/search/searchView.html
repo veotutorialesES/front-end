@@ -11,9 +11,9 @@
         <div class="container">
             <div class="row">
                 <ul class="pull-left float padding-10">
-                    <li ng-click="goTo('all',0)" ng-class="{'selected': type == 'all'}">Todo</li>
-                    <li ng-click="goTo('courses',0)" ng-class="{'selected': type == 'courses'}">Cursos</li>
-                    <li ng-click="goTo('tutorials',0)" ng-class="{'selected': type == 'tutorials'}">Tutoriales</li>
+                    <li ng-click="filter('all',0)" ng-class="{'selected': type == 'all'}">Todo</li>
+                    <li ng-click="filter('courses',0)" ng-class="{'selected': type == 'courses'}">Cursos</li>
+                    <li ng-click="filter('tutorials',0)" ng-class="{'selected': type == 'tutorials'}">Tutoriales</li>
                     <!--
                     <li ng-click="changeType(3)" ng-class="{'selected': type == 'doubts'}">Dudas</li>
                     -->
@@ -44,15 +44,15 @@
                 <div ng-repeat="hit in result.hits.hits" class="col-xs-12 col-sm-3" style="margin-bottom: 10px;">
 
                     <div style="border:1px #e0e0e0 solid;height: 250px;">
-                        <img style="width: 100%;height: 100%" src="{{hit._source.image}}">
+                        <img style="width: 100%;height: 100%" src="{{imageAsset('sm',hit._source.image)}}">
                         <div style="padding:5px;position: relative;width: 100%;background-color: #6e82a6;bottom:50px;height:50px;opacity: 0.9;font-size: 14pt;line-height: 15pt;color: #262626">
-                            {{hit._source.title}}
+                            <a style="color: black" href="{{getUrl(hit)}}">{{hit._source.title}}</a>
                         </div>
                     </div>
                 </div>
 
-                <div style="padding: 10px;">
-                    <button class="btn btn-default" ng-repeat="p in pages" ng-click="goTo(type,p.num)">{{p.num + 1}}</button>
+                <div class="col-xs-12" style="padding: 10px;">
+                    <button class="btn btn-default" ng-repeat="p in pages" ng-click="filter(type,p.num)">{{p.num + 1}}</button>
                 </div>
             </div>
 
