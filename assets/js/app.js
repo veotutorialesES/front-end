@@ -325,7 +325,7 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
 
     $scope.search = function(q){
         console.log(q);
-        $state.go('search',{type:'all',q:q});
+        $state.go('search',{type:'all',q:q,page:0});
     };
 
     $scope.logout = function(){
@@ -364,7 +364,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('activate', { url: "/activation/:email/:token", templateUrl: "app/components/login/activationView.html"})
 
 
-        .state('search', { url: "/search/:type/:q", templateUrl: "app/components/search/searchView.html"})
+        .state('search', { url: "/search/:type/:q/:page", templateUrl: "app/components/search/searchView.html"})
 
 
         .state('account', { url: "/account", templateUrl: "app/components/account/accountView.html"})
@@ -606,7 +606,8 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
         $api.put("user/me",arr,function(res){
 
         });
-    }
+    };
+
     $scope.updatePassword = function(old_pass,new_pass,new_pass2){
 
         if (new_pass != new_pass2){
@@ -1273,24 +1274,15 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
     $scope.q = $stateParams.q;
     $scope.filters = [];
     $scope.result = {};
-    $scope.size = 10;
+    $scope.size = 20;
     $scope.from = 0;
+    $scope.currentPage = $stateParams.page;
+    $scope.pages = [];
 
-    $scope.changeType = function(type){
-        $scope.filters = [];
-        var arr = [];
-        switch (type){
-            case 0: $scope.type = 'all'; break;
-            case 1: $scope.type = 'courses';
-                break;
-            case 2: $scope.type = 'tutorials';
 
-                break;
-            case 3: $scope.type = 'doubts'; break;
-            default : $scope.type = 'all'; break;
+    $scope.goTo = function(type, page){
 
-        }
-        $state.go('search',{type:$scope.type});
+        $state.go('search',{type:type,page:page});
 
     };
 
@@ -1322,17 +1314,36 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
     $scope.setFilters();
 
 
-
     $scope.search = function(){
+
+        $scope.currentPage = $stateParams.page;
+
         var arr = [];
         arr['q'] = $scope.q;
         arr['type'] = $scope.type;
-        arr['from'] = $scope.from;
+        arr['from'] = $scope.currentPage * $scope.size;
         arr['size'] = $scope.size;
+
+
+
+        console.info(location.href);
+
         //TODO implement this
         $api.get("search",arr,function(res){
-            console.info(res);
             $scope.result = res.data;
+
+            var total = res.data.hits.total;
+            var p = Math.ceil(total / $scope.size);
+            var pages = [];
+            for (var i = 0; i < p; i++){
+                pages.push({
+                    num: i
+                })
+            }
+            $scope.pages = pages;
+
+
+
         });
     }
 

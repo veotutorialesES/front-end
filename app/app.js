@@ -137,7 +137,7 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
 
     $scope.search = function(q){
         console.log(q);
-        $state.go('search',{type:'all',q:q});
+        $state.go('search',{type:'all',q:q,page:0});
     };
 
     $scope.logout = function(){

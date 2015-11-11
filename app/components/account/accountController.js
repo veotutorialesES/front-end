@@ -24,7 +24,8 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
         $api.put("user/me",arr,function(res){
 
         });
-    }
+    };
+
     $scope.updatePassword = function(old_pass,new_pass,new_pass2){
 
         if (new_pass != new_pass2){
