@@ -111,12 +111,14 @@
 
                 <div  ng-controller="dudasController" style="">
                     <h2 style="margin-top: 20px;"><span class="glyphicon glyphicon-question-sign"></span> Dudas</h2>
-                    <div  style="margin-top:10px;">
+                    <div ng-init="quantity = 15"  style="margin-top:10px;">
                         <div ng-hide="tutorial.doubts.length > 0" style="padding:10px;border:1px silver dashed;text-align: center">
                             <p style="margin: 0">Sé el primero en <a ng-click="">publicar una duda</a> para este tutorial</p>
                         </div>
-                        <dudas-card ng-repeat="doubt in tutorial.doubts" info="doubt"></dudas-card>
-
+                        <dudas-card ng-repeat="doubt in tutorial.doubts | limitTo:quantity" info="doubt"></dudas-card>
+                        <div style="text-align: center;padding: 10px;">
+                            <button ng-hide="quantity > tutorial.doubts.length" class="btn btn-default" ng-click="quantity = quantity + 10">Cargar más</button>
+                        </div>
                     </div>
 
 
