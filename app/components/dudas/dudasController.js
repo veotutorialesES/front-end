@@ -86,6 +86,8 @@ app.controller("dudasController", function($scope,$api,$stateParams){
         $api.get(type + "/" + type_id + "/likes",[], function(res){
 
             $scope.answers[index].amount = res.data.value;
+            $scope.answers[index].quantity = 3;
+
         });
     };
 

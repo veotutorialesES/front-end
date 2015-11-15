@@ -13,13 +13,15 @@
                 <h1 style="font-size: 38px;font-weight: bold">{{doubt.title}}</h1>
             </div>
             <div class="" ng-bind-html="doubt.description" style="margin-top: 20px;padding: 10px;background-color: #e6e6e6"></div>
-            <div  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
-                <div ng-repeat="comment in doubt.comments" style="margin-bottom: 5px;border-top: 1px silver solid">
+            <div ng-init="quantity = 3"  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
+
+                <div ng-repeat="comment in doubt.comments | orderBy:'-comment_id' | limitTo:quantity" style="margin-bottom: 5px;border-top: 1px silver solid">
                     <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
                         <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
                         <div>{{comment.description}}</div>
                     </div>
                 </div>
+                <div ng-click="quantity = quantity + 5">Ver más ({{doubt.comments.length}})</div>
 
                 <div ng-controller="commentController" class="" style="padding: 5px;">
                     <div  style="padding-left: 35px;">
@@ -40,7 +42,7 @@
             </div>
 
 
-            <div ng-repeat="(k,answer) in doubt.answers | orderBy:'-amount'" ng-init="answer.showResponse = false" style="margin-top: 20px;padding-left: 100px;">
+            <div ng-repeat="(k,answer) in doubt.answers |  orderBy:'-amount'" ng-init="answer.showResponse = false" style="margin-top: 20px;padding-left: 100px;">
                 <div  class="" style="margin-bottom:50px;">
                     <div style="position: absolute;left: 0px;text-align: center;width: 100px;font-size: 19px;padding:10px;" ng-controller="likeController">
                         <div ng-click="add(1,answer.answer_id,1)"><span class="glyphicon glyphicon-menu-up"></span></div>
@@ -63,7 +65,9 @@
 
                     </div>
                     <div  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
-                        <div ng-repeat="comment in answer.comments" style="margin-bottom: 5px;border-top: 1px silver solid">
+                        <div ng-click="answer.quantity = answer.quantity + 5">Ver más ({{answer.comments.length}})</div>
+
+                        <div ng-repeat="comment in answer.comments | orderBy:'-comment_id' | limitTo:answer.quantity" style="margin-bottom: 5px;border-top: 1px silver solid">
                             <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
                                 <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
                                 <div>{{comment.description}}</div>
@@ -121,11 +125,14 @@
             <div>
                 <img style="width: 100%" src="{{imageAsset('md',doubt.tutorial.image)}}">
                 <div style="margin-top: 20px;">
-                    <div style="padding: 10px;border:1px silver solid">Tutorial: {{doubt.tutorial.title}}</div>
-                    <div style="padding: 10px;border:1px silver solid">Curso: {{doubt.tutorial.course.title}}</div>
+                    <div>
+                        Estas viendo una duda de <span style="font-size: 18px;font-weight: bold"><a>{{doubt.tutorial.title}}</a></span> que pertenece al curso
+                        <span  style="font-weight: bold"><a>{{doubt.tutorial.course.title}}</a></span>
+                    </div>
+
                 </div>
 
-                <div ng-controller="subscriptionController" ng-init="check(0,doubt_id)">
+                <div ng-controller="subscriptionController" ng-init="check(0,doubt_id)" style="margin-top: 20px;">
                     <button ng-hide="is_subscribed" ng-click="add(0,doubt_id)" class="btn btn-block btn-primary">Suscribirme a la duda <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                     <button ng-show="is_subscribed" ng-click="delete(0,doubt_id)" class="btn btn-block btn-danger">Cancelar subscripción <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                 </div>

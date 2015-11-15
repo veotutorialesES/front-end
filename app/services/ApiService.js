@@ -20,7 +20,7 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
         if ($rootScope.user.is_expired() && $rootScope.user.is_user){
 
-            $rootScope.refreshToken(function(res){
+            $rootScope.user.refreshToken(function(res){
                 console.info("TOKEN REFRESCADO");
                     $http.get(url).then(function(res){ callback(res.data); });
 
@@ -59,8 +59,7 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
 
         if ($rootScope.user.is_expired() && $rootScope.user.is_user){
 
-            $rootScope.refreshToken(function(res){
-                console.info("TOKEN REFRESCADO");
+            $rootScope.user.refreshToken(function(res){
                 if(res){
                     $http({
                         method: type,
