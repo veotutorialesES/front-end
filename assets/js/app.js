@@ -129,10 +129,10 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
             };
 
 });;
-angular.module("app.user", ['app.api']).service("$user", function($api,$rootScope,$http){
-    var self = this;
+angular.module("app.user", ['app.api']).service("$user", function($api,$rootScope,$http,$window){
+   // var self = this;
 
-    self.userObj = function() {
+    this.userObj = function() {
 
         return {
             is_user: false,
@@ -176,7 +176,7 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$rootScop
                 // rellena al usuario con la info
             },
             refreshToken: function(callback){
-
+                var self = this;
                 console.info("El token se ha renovado");
 
                 $http({
@@ -188,7 +188,7 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$rootScop
                 }).then(function (res) {
                     res = res.data;
                     if (res.status) {
-                        this.fill(res.data);
+                        self.fill(res.data);
                         $window.localStorage.user = JSON.stringify($rootScope.user);
                     }else{
                         this.is_user = false;
@@ -274,12 +274,11 @@ app.run(function($rootScope,$window,$http,$api,$user) {
     $rootScope.user = new $user.userObj();
 
 
-
     if ($window.localStorage.user) {
-        $rootScope.user.fill(JSON.parse($window.localStorage.user));
+        console.log($window.localStorage.user);
+       $rootScope.user.fill(JSON.parse($window.localStorage.user));
     }
 
-    //console.log($window.localStorage.user);
 
 
 
@@ -1149,7 +1148,6 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
             console.info(res);
             if (res.status) {
 
-                $rootScope.user = new $rootScope.userObj();
                 $rootScope.user.fill(res.data);
 
                 $window.localStorage.user = JSON.stringify($rootScope.user);

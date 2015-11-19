@@ -1,7 +1,7 @@
-angular.module("app.user", ['app.api']).service("$user", function($api,$rootScope,$http){
-    var self = this;
+angular.module("app.user", ['app.api']).service("$user", function($api,$rootScope,$http,$window){
+   // var self = this;
 
-    self.userObj = function() {
+    this.userObj = function() {
 
         return {
             is_user: false,
@@ -45,7 +45,7 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$rootScop
                 // rellena al usuario con la info
             },
             refreshToken: function(callback){
-
+                var self = this;
                 console.info("El token se ha renovado");
 
                 $http({
@@ -57,7 +57,7 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$rootScop
                 }).then(function (res) {
                     res = res.data;
                     if (res.status) {
-                        this.fill(res.data);
+                        self.fill(res.data);
                         $window.localStorage.user = JSON.stringify($rootScope.user);
                     }else{
                         this.is_user = false;

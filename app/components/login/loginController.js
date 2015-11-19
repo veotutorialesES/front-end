@@ -15,7 +15,6 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
             console.info(res);
             if (res.status) {
 
-                $rootScope.user = new $rootScope.userObj();
                 $rootScope.user.fill(res.data);
 
                 $window.localStorage.user = JSON.stringify($rootScope.user);

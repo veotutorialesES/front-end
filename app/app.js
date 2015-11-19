@@ -11,12 +11,11 @@ app.run(function($rootScope,$window,$http,$api,$user) {
     $rootScope.user = new $user.userObj();
 
 
-
     if ($window.localStorage.user) {
-        $rootScope.user.fill(JSON.parse($window.localStorage.user));
+        console.log($window.localStorage.user);
+       $rootScope.user.fill(JSON.parse($window.localStorage.user));
     }
 
-    //console.log($window.localStorage.user);
 
 
 

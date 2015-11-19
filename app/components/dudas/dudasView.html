@@ -12,16 +12,17 @@
             <div class="box" style="padding: 10px;">
                 <h1 style="font-size: 38px;font-weight: bold">{{doubt.title}}</h1>
             </div>
-            <div class="" ng-bind-html="doubt.description" style="margin-top: 20px;padding: 10px;background-color: #e6e6e6"></div>
-            <div ng-init="quantity = 3"  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
+            <div  ng-bind-html="doubt.description" style="margin-top: 20px;padding: 5px;background-color: #e6e6e6"></div>
 
-                <div ng-repeat="comment in doubt.comments | orderBy:'-comment_id' | limitTo:quantity" style="margin-bottom: 5px;border-top: 1px silver solid">
-                    <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
-                        <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
-                        <div>{{comment.description}}</div>
+
+            <div ng-init="quantity = 3"  style="background-color: #f0f0f0;border-bottom: 1px #e8e8e8 solid;color: #6e6e6e">
+
+                <div ng-repeat="comment in doubt.comments | orderBy:'-comment_id' | limitTo:quantity" style="border-top: 1px #ededed solid">
+                    <div style="padding: 3px;">
+                        <div>Salvador - {{comment.description}}</div>
                     </div>
                 </div>
-                <div ng-click="quantity = quantity + 5">Ver más ({{doubt.comments.length}})</div>
+                <div ng-hide="(doubt.comments.length - quantity) < 1" ng-click="quantity = quantity + 5">Ver más ({{doubt.comments.length - quantity}})</div>
 
                 <div ng-controller="commentController" class="" style="padding: 5px;">
                     <div  style="padding-left: 35px;">
@@ -65,7 +66,7 @@
 
                     </div>
                     <div  style="background-color: #e1e1e1;border-bottom: 1px silver solid">
-                        <div ng-click="answer.quantity = answer.quantity + 5">Ver más ({{answer.comments.length}})</div>
+                        <div  ng-hide="(answer.comments.length - answer.quantity) < 1" ng-click="answer.quantity = answer.quantity + 5">Ver más ({{answer.comments.length - answer.quantity}})</div>
 
                         <div ng-repeat="comment in answer.comments | orderBy:'-comment_id' | limitTo:answer.quantity" style="margin-bottom: 5px;border-top: 1px silver solid">
                             <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
@@ -138,7 +139,7 @@
                 </div>
             </div>
             <div>
-                <dudas-card ng-repeat="doubt in doubt.tutorial.doubts" info="doubt"></dudas-card>
+                <dudas-card ng-repeat="doubt in doubt.tutorial.doubts" ng-hide="doubt.doubt_id == doubt_id" info="doubt"></dudas-card>
             </div>
         </div>
     </div>
