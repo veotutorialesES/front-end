@@ -129,6 +129,123 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
             };
 
 });;
+angular.module("app.data", ['app.api']).service("$dataService", function($api,$rootScope,$http,$window){
+    var self = this;
+
+    self.source = {
+        lista: [],
+        add: function(section,route,id, params){
+            var obj = {
+                id: id,
+                section: section,
+                route: route,
+                params: params,
+                response: null,
+                calls: 0,
+                last_call: 0
+            };
+           // this.list.add(obj);
+            this.lista[this.lista.length] = obj;
+        },
+        search: function(id){
+            for (var i = 0; i < this.lista.length;i++){
+                if (this.lista[i].id == id){
+                    return this.lista[i];
+                }
+            }
+
+            return null;
+        },
+        searchBySection: function(section){
+            var arr = [];
+            for (var i = 0; i < this.lista.length;i++){
+                if (this.lista[i].section == section){
+                    arr[arr.length] = i; //this.lista[i];
+                }
+            }
+
+            return arr;
+        },
+        sync: function(){
+            // recuperar toda la información disponible de la base de datos local
+        }
+
+    };
+
+    // TODO deja de funcionar si metes mal algun parametro
+
+    // home
+    self.source.add("home","calendar","0001",{start:"2015-11-02",days:7});
+
+
+    // course
+   //self.source.add("course","course/21","0002",{type:3});
+
+
+
+    self.SourceDownload = function(index, callback){
+        var obj = self.source.lista[index];
+        var arr = [];
+
+        for (var k in obj.params){
+           // alert("Key is " + k + ", value is" + obj.params[k]);
+            arr[k] = obj.params[k];
+        }
+
+
+        console.log(arr);
+        $api.get(obj.route,arr,function(res) {
+            self.source.lista[index].response = res;
+            self.source.lista[index].calls++;
+            console.log("RESPUESTA");
+            console.log(res);
+            callback(true);
+
+        });
+    };
+
+
+
+    self.SectionDownload = function(section, callback){
+
+        var sources = self.source.searchBySection(section);
+        var count = sources.length;
+        for (var i = 0; i < sources.length; i++){
+            self.SourceDownload(sources[i],function(){
+                count--;
+                if (count == 0){
+                    //alert("TODO DESCARGADO");
+                    callback(true);
+                }
+            })
+        }
+
+
+    }
+
+
+    self.IsSectionDownloaded = function(section){
+        var sources = self.source.searchBySection(section);
+        var count = sources.length;
+
+        for (var i = 0; i < sources.length; i++){
+            if (self.source.lista[sources[i]].calls < 1 ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // HOME
+
+
+    // SEARCH
+
+
+    // MEDIA
+
+
+});;
 angular.module("app.user", ['app.api']).service("$user", function($api,$rootScope,$http,$window){
    // var self = this;
 
@@ -261,9 +378,11 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
     };
 
 });;
-var app = angular.module("vts", ['ui.router','app.api','app.user','ngSanitize']);
-app.run(function($rootScope,$window,$http,$api,$user) {
+var app = angular.module("vts", ['ui.router','app.api','app.user','ngSanitize','app.data']);
+app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
 
+
+    $rootScope.pageLoaded = false;
 
     $rootScope.imageAsset = function(size,asset){
         var url = "http://localhost:8000/";
@@ -279,8 +398,47 @@ app.run(function($rootScope,$window,$http,$api,$user) {
        $rootScope.user.fill(JSON.parse($window.localStorage.user));
     }
 
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        console.log(toState.name);
 
+        animateProgress(0,80);
 
+     //   alert("STATE CHANGE to: " + toState.name);
+
+        if (toState.name == "course"){
+            if ($dataService.source.search("C"+toParams.course_id) == null) {
+                $dataService.source.add("course", "course/" + toParams.course_id, "C" + toParams.course_id, {});
+            }
+        }
+        if (toState.name == "tutorial"){
+            if ($dataService.source.search("T"+toParams.tutorial_id) == null) {
+                $dataService.source.add("tutorial", "tutorial/" + toParams.tutorial_id, "T" +toParams.tutorial_id, {});
+            }
+        }
+        if (toState.name == "dudas"){
+           // alert("TENEMOS DUDA" + toParams.doubt_id);
+            if ($dataService.source.search("D"+toParams.doubt_id) == null) {
+               // alert("AÑADIDA DUDA AL SOurCE");
+                $dataService.source.add("dudas", "doubt/" + toParams.doubt_id, "D" +toParams.doubt_id, {});
+            }
+        }
+        if (!$dataService.IsSectionDownloaded(toState.name)) {
+           // alert(toState.name);
+
+            console.log($dataService.source.lista);
+
+            event.preventDefault();
+           // alert("No descargadooo");
+
+            $dataService.SectionDownload(toState.name, function () {
+               // alert("dESCARGADOOO!!");
+                $state.go(toState.name, toParams);
+            });
+        }else{
+            animateProgress(80,100);
+        }
+
+    })
 
 
 });
@@ -321,7 +479,7 @@ app.factory('authInterceptor', function ($rootScope, $q, $window) {
 });
 
 
-app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
+app.controller("headerController",function($rootScope,$scope,$window,$state,$api,$user){
 
 
     $rootScope.loged = ($window.sessionStorage.token != null);
@@ -332,7 +490,7 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
     };
 
     $scope.logout = function(){
-        $rootScope.user = new $rootScope.userObj();
+        $rootScope.user = new $user.userObj();
         $window.localStorage.removeItem("user");
     };
 
@@ -345,7 +503,7 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
 
 });
 ;
-app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$httpProvider,$locationProvider) {
     //
     $httpProvider.interceptors.push('authInterceptor');
 
@@ -357,6 +515,8 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('reminder', { url: "/reminder", templateUrl: "app/components/login/reminderView.html"})
         .state('register', { url: "/register", templateUrl: "app/components/register/registerView.html"})
         .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
+        .state('profile', { url: "/profile", templateUrl: "app/components/profile/profileView.html"})
+        .state('calendar', { url: "/calendar", templateUrl: "app/components/calendar/calendarView.html"})
         .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
         .state('course', { url: "/media/:course_id", templateUrl: "app/components/course/courseFileView.html"})
@@ -385,6 +545,9 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('help.tos',       {url: '/tos',views: {'help': { templateUrl: 'app/components/help/tosView.html'}}})
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
+
+
+   // $locationProvider.html5Mode(true);
 });;
 app.controller("commentController", function($scope,$api,$stateParams){
 
@@ -508,8 +671,8 @@ app.controller("subscriptionController", function($scope,$api,$state){
         var arr = [];
         arr["type"] = type;
         $api.get("subscription",arr,function(res){
-        console.info("Subscripciones");
-        console.info(res);
+            console.info("Subscripciones");
+            console.info(res);
             $scope.courseSubscriptions = res.data;
 
         })
@@ -654,7 +817,16 @@ app.controller("accountController", function($scope,$api,$state,$rootScope){
     }
 
 });;
-app.controller("courseController", function($scope,$stateParams,$api,$sce){
+app.controller("calendarController", function($scope,$api,$state,$rootScope,$dataService){
+
+
+
+
+
+
+
+});;
+app.controller("courseController", function($scope,$stateParams,$api,$sce,$dataService){
 
     $scope.course_id = $stateParams.course_id;
     $scope.tutorial_id = $stateParams.tutorial_id;
@@ -679,9 +851,11 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
         console.log('courseController: getCourse()');
 
 
-        $api.get('course/'+id,[], function(res){
-
-
+        //$api.get('course/'+id,[], function(res){
+            var response = $dataService.source.search("C"+id);
+            var res = response.response;
+        console.log("C"+id);
+            console.log(res);
             $scope.course = res.data;
             $scope.course.description = processCode($scope.course.description);
             $scope.modules =   res.data.modules;
@@ -695,10 +869,10 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
             if (callback) { callback(true);}
 
 
-        });
+       // });
 
     };
-
+/*
     $scope.getModuleTutorials = function(module_id,callback){
         console.info("courseController: getTutorial("+tutorial_id+")");
 
@@ -709,18 +883,21 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
         });
 
     };
-
+*/
     $scope.getTutorial = function(tutorial_id){
         console.info("courseController: getTutorial("+tutorial_id+")");
 
-        $api.get("tutorial/"+tutorial_id,[],function(res){
+       // $api.get("tutorial/"+tutorial_id,[],function(res){
             console.log("courseController->getTutorial(): ");
 
+            var response = $dataService.source.search("T"+tutorial_id);
+            var res = response.response;
+            console.info(res);
             $scope.tutorial = res.data;
             $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
 
             //console.log(res)
-        });
+        //});
 
     };
 
@@ -729,7 +906,7 @@ app.controller("courseController", function($scope,$stateParams,$api,$sce){
 
 
 });;
-app.controller("dudasController", function($scope,$api,$stateParams){
+app.controller("dudasController", function($scope,$api,$stateParams,$dataService){
 
     angular.element(document).ready(function () {
         console.log('Code highlighting');
@@ -793,9 +970,13 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.getDoubt = function(doubt_id){
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
-        $api.get("doubt/"+doubt_id,[],function(res){
+       // $api.get("doubt/"+doubt_id,[],function(res){
+
+            var response = $dataService.source.search("D"+doubt_id);
+            var res = response.response;
+
             $scope.doubt = res.data;
-        })
+       // })
 
     };
 
@@ -950,7 +1131,7 @@ app.controller("helpController", function($scope){
 
 
 });;
-app.controller("homeController", function($scope,$api,$state,$rootScope){
+app.controller("homeController", function($scope,$api,$state,$rootScope,$dataService){
 
     $scope.tutorials = [];
     $scope.calendar = [];
@@ -1003,30 +1184,20 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
         return arr;
 
     }
-    /*
-    function calendarCourses(courses, day){
-        console.info("calendarCourses");
-        var arr = [];
-        for (var i = 0; i < courses.length; i++){
 
-            if (courses[i].public_date == day){
-                arr.push(courses[i]);
-            }
-        }
-
-        return arr;
-
-    }
-    */
     $scope.getCalendar = function(start, dias){
         console.info("homeController: getCalendar("+start+","+dias+")");
         $scope.calendar = [];
         var arr = [];
-        arr["start"] = start;
-        arr["days"] = dias;
+      //  arr["start"] = start;
+      //  arr["days"] = dias;
         var tmp = [];
-        $api.get("calendar",arr,function(res){
 
+        //$api.get("calendar",arr,function(res){
+
+        var res = $dataService.source.search("0001")
+        console.error(res);
+            progress.width("100%");
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);
             var inicio=new Date(dat); // obtener full
 
@@ -1037,22 +1208,19 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                 var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
                 var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
-                var tutos = calendarTutorials(res.tutorials,t);
+                var tutos = calendarTutorials(res.response.tutorials,t);
 
 
-                // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
 
                 var dayNameObj = dayName(i, inicio);
 
-              //  console.log(dayNameObj);
 
                 if (dayNameObj.weekday != 0) {
                     tmp.push({
                         day: dayNameObj,
                         tutorials: tutos,
                         len: len
-                        // courses: calendarCourses(res.courses,t)
                     });
                 }
 
@@ -1066,7 +1234,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                 title: "calendar",
                 status: "true"
             });
-        });
+      //  });
 
 
 
@@ -1124,6 +1292,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
 
     }
+
 
 
 
@@ -1218,6 +1387,15 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
 
         })
     };
+
+});;
+app.controller("profileController", function($scope,$api,$state,$rootScope,$dataService){
+
+
+
+
+
+
 
 });;
 app.controller("registerController", function($scope,$api,$state){

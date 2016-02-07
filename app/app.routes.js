@@ -1,4 +1,4 @@
-app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$httpProvider,$locationProvider) {
     //
     $httpProvider.interceptors.push('authInterceptor');
 
@@ -10,6 +10,8 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('reminder', { url: "/reminder", templateUrl: "app/components/login/reminderView.html"})
         .state('register', { url: "/register", templateUrl: "app/components/register/registerView.html"})
         .state('home', { url: "/", templateUrl: "app/components/home/homeView.html"})
+        .state('profile', { url: "/profile", templateUrl: "app/components/profile/profileView.html"})
+        .state('calendar', { url: "/calendar", templateUrl: "app/components/calendar/calendarView.html"})
         .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
         .state('course', { url: "/media/:course_id", templateUrl: "app/components/course/courseFileView.html"})
@@ -38,4 +40,7 @@ app.config(function($stateProvider, $urlRouterProvider,$httpProvider) {
         .state('help.tos',       {url: '/tos',views: {'help': { templateUrl: 'app/components/help/tosView.html'}}})
         .state('help.cookies',       {url: '/cookies',views: {'help': { templateUrl: 'app/components/help/cookiesView.html'}}})
         .state('help.contact',       {url: '/contact',views: {'help': { templateUrl: 'app/components/help/contactView.html'}}})
+
+
+   // $locationProvider.html5Mode(true);
 });

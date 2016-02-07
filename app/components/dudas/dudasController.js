@@ -1,4 +1,4 @@
-app.controller("dudasController", function($scope,$api,$stateParams){
+app.controller("dudasController", function($scope,$api,$stateParams,$dataService){
 
     angular.element(document).ready(function () {
         console.log('Code highlighting');
@@ -62,9 +62,13 @@ app.controller("dudasController", function($scope,$api,$stateParams){
     $scope.getDoubt = function(doubt_id){
         console.log("dudasController: getDoubt("+doubt_id+"): ");
 
-        $api.get("doubt/"+doubt_id,[],function(res){
+       // $api.get("doubt/"+doubt_id,[],function(res){
+
+            var response = $dataService.source.search("D"+doubt_id);
+            var res = response.response;
+
             $scope.doubt = res.data;
-        })
+       // })
 
     };
 

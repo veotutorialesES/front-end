@@ -2,14 +2,16 @@ header {
   position: fixed;
   left: 0;
   width: 100%;
-  background-color: @c_1;
+  background-color: white;
   z-index: 99;
-  color: @cf_1;
+  color: black;
   box-shadow: 0 1px 2px rgba(83, 99, 120, 0.4);
+  font-size: 13px;
+  font-family: "Arial";
 
 }
 header a{
-  color: gainsboro;
+  color: black;
 
 }
 
@@ -20,12 +22,22 @@ header a:hover{
 
 header .branch {
   
-  font-size: 15pt;
-  padding: 5px 2px 2px;
-  font-weight: bolder;
-  margin-right: 10px;
-  text-shadow:  1px 1px 2px #2d3746;
+  margin-right: 0px;
+  border-right: 1px silver solid;
 
-  font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+header ul.hover-default li:hover a{
+  color: white;
+}
 
+header ul.hover-default li:hover{
+  background-color: #ed1414 !important;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+header ul li.hover-default:hover{
+  background-color: #ed1314 !important;
+  color: #ffffff;
+  cursor: pointer;
 }

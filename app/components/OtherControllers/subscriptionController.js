@@ -38,8 +38,8 @@ app.controller("subscriptionController", function($scope,$api,$state){
         var arr = [];
         arr["type"] = type;
         $api.get("subscription",arr,function(res){
-        console.info("Subscripciones");
-        console.info(res);
+            console.info("Subscripciones");
+            console.info(res);
             $scope.courseSubscriptions = res.data;
 
         })

@@ -11,11 +11,12 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Lato', Calibri, Arial, sans-serif;
+  /* font-family: 'Lato', Calibri, Arial, sans-serif;*/
+  font-family: "Arial ";
   color: #435663;
 }
 .bree {
-  font-family: 'Bree Serif', serif;
+  /* font-family: 'Bree Serif', serif;*/
 }
 a {
   text-decoration: none;
@@ -91,7 +92,7 @@ ul.padding-5 li {
   padding: 5px;
 }
 ul.padding-10 li {
-  padding: 10px;
+  padding: 11px;
 }
 ul.hover-default li:hover {
   background-color: #6a8094;
@@ -108,21 +109,23 @@ ul li.hover-default:hover {
   border: 0;
   padding-top: 6px;
   padding-bottom: 4px;
-  padding-left: 25px;
-  color: gainsboro;
+  padding-left: 15px;
+  padding-right: 25px;
+  color: #464646;
   width: 160px;
   border-bottom: 1px #536378 solid;
   margin-right: 10px;
-  border-bottom: 1px #6a8296 solid;
+  border-bottom: 1px #fa696e solid;
+  font-size: 18px;
 }
 input:focus {
   outline: 0;
 }
 .search span {
   position: absolute;
-  top: 10px;
-  margin-left: 5px;
-  color: gainsboro;
+  top: 13px;
+  margin-left: 138px;
+  color: #525252;
 }
 .search input:focus {
   width: 200px;
@@ -175,25 +178,36 @@ header {
   position: fixed;
   left: 0;
   width: 100%;
-  background-color: #536378;
+  background-color: white;
   z-index: 99;
-  color: gainsboro;
+  color: black;
   box-shadow: 0 1px 2px rgba(83, 99, 120, 0.4);
+  font-size: 13px;
+  font-family: "Arial";
 }
 header a {
-  color: gainsboro;
+  color: black;
 }
 header a:hover {
   color: #d1d1d1;
   text-decoration: none;
 }
 header .branch {
-  font-size: 15pt;
-  padding: 5px 2px 2px;
-  font-weight: bolder;
-  margin-right: 10px;
-  text-shadow: 1px 1px 2px #2d3746;
-  font-family: 'Lato', Calibri, Arial, sans-serif;
+  margin-right: 0px;
+  border-right: 1px silver solid;
+}
+header ul.hover-default li:hover a {
+  color: white;
+}
+header ul.hover-default li:hover {
+  background-color: #ed1414 !important;
+  color: #ffffff;
+  cursor: pointer;
+}
+header ul li.hover-default:hover {
+  background-color: #ed1314 !important;
+  color: #ffffff;
+  cursor: pointer;
 }
 footer {
   color: gray;
@@ -262,7 +276,7 @@ footer > div > div > div {
 .search-head {
   border-bottom: 1px gainsboro solid;
   padding-top: 5px;
-  background-color: #6a8296;
+  background-color: #ef1212;
   color: gainsboro;
 }
 .search-head li {

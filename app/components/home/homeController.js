@@ -1,4 +1,4 @@
-app.controller("homeController", function($scope,$api,$state,$rootScope){
+app.controller("homeController", function($scope,$api,$state,$rootScope,$dataService){
 
     $scope.tutorials = [];
     $scope.calendar = [];
@@ -51,30 +51,20 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
         return arr;
 
     }
-    /*
-    function calendarCourses(courses, day){
-        console.info("calendarCourses");
-        var arr = [];
-        for (var i = 0; i < courses.length; i++){
 
-            if (courses[i].public_date == day){
-                arr.push(courses[i]);
-            }
-        }
-
-        return arr;
-
-    }
-    */
     $scope.getCalendar = function(start, dias){
         console.info("homeController: getCalendar("+start+","+dias+")");
         $scope.calendar = [];
         var arr = [];
-        arr["start"] = start;
-        arr["days"] = dias;
+      //  arr["start"] = start;
+      //  arr["days"] = dias;
         var tmp = [];
-        $api.get("calendar",arr,function(res){
 
+        //$api.get("calendar",arr,function(res){
+
+        var res = $dataService.source.search("0001")
+        console.error(res);
+            progress.width("100%");
             var dat = start.substring(5,7) + "/" + start.substring(8,10) + "/" + start.substring(0,4);
             var inicio=new Date(dat); // obtener full
 
@@ -85,22 +75,19 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                 var d = inicio.getDate() < 10 ? "0" + inicio.getDate() : inicio.getDate();
                 var m = (inicio.getMonth() + 1) < 10 ? "0" + (inicio.getMonth() + 1) : (inicio.getMonth() + 1);
                 var t = inicio.getFullYear() + "-" + m + "-" + d;
-                var tutos = calendarTutorials(res.tutorials,t);
+                var tutos = calendarTutorials(res.response.tutorials,t);
 
 
-                // TODO organizar segun resultados
                 var len = tutos.length > 0 ? 3 : 1;
 
                 var dayNameObj = dayName(i, inicio);
 
-              //  console.log(dayNameObj);
 
                 if (dayNameObj.weekday != 0) {
                     tmp.push({
                         day: dayNameObj,
                         tutorials: tutos,
                         len: len
-                        // courses: calendarCourses(res.courses,t)
                     });
                 }
 
@@ -114,7 +101,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
                 title: "calendar",
                 status: "true"
             });
-        });
+      //  });
 
 
 
@@ -172,6 +159,7 @@ app.controller("homeController", function($scope,$api,$state,$rootScope){
 
 
     }
+
 
 
 
