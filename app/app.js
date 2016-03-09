@@ -1,5 +1,12 @@
-var app = angular.module("vts", ['ui.router','app.api','app.user','ngSanitize','app.data']);
-app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
+var app = angular.module("vts", ['ui.router','ngSanitize']);
+app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService,$course) {
+
+
+    var c = $course.find(1);
+    console.warn(c);
+    var m = c.modules();
+    console.warn(m);
+    var c2 = $course.find(m[0].course_id);
 
 
 

@@ -1,4 +1,4 @@
-angular.module("app.api", []).service("$api", function($http,$rootScope){
+app.service("$api", function($http,$rootScope){
     var self = this;
     var host = "localhost:8000";
     // host = "api.veotutoriales.es";

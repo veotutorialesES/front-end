@@ -6,7 +6,7 @@ module.exports = function(grunt) {
                 separator: ';\n'
             },
             dist: {
-                src: ['app/services/*.js','app/app.js','app/app.routes.js','app/components/**/*.js', 'app/shared/**/*.js'],
+                src: ['app/app.js','app/orm/*.js','app/services/*.js','app/app.routes.js','app/components/**/*.js', 'app/shared/**/*.js'],
                 dest: 'assets/js/app.js'
             }
         },

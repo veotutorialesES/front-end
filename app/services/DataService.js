@@ -1,4 +1,4 @@
-angular.module("app.data", ['app.api']).service("$dataService", function($api,$rootScope,$http,$window){
+app.service("$dataService", function($api,$rootScope,$http,$window){
     var self = this;
 
     self.source = {

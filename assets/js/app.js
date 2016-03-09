@@ -1,4 +1,642 @@
-angular.module("app.api", []).service("$api", function($http,$rootScope){
+var app = angular.module("vts", ['ui.router','ngSanitize']);
+app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService,$course) {
+
+
+    var c = $course.find(1);
+    console.warn(c);
+    var m = c.modules();
+    console.warn(m);
+    var c2 = $course.find(m[0].course_id);
+
+
+
+    $rootScope.pageLoaded = false;
+    $rootScope.user = new $user.user();
+
+    // temporal
+    $rootScope.user.refresh_token();
+
+
+
+    $rootScope.imageAsset = function(size,asset){
+        var url = "http://localhost:8000/";
+        return url + "img/media/" + size + "/" + asset;
+    };
+
+
+
+
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        console.log(toState.name);
+
+        animateProgress(0,80);
+
+     //   alert("STATE CHANGE to: " + toState.name);
+
+        if (toState.name == "course"){
+            if ($dataService.source.search("C"+toParams.course_id) == null) {
+                $dataService.source.add("course", "course/" + toParams.course_id, "C" + toParams.course_id, {});
+            }
+        }
+        if (toState.name == "tutorial"){
+            if ($dataService.source.search("T"+toParams.tutorial_id) == null) {
+                $dataService.source.add("tutorial", "tutorial/" + toParams.tutorial_id, "T" +toParams.tutorial_id, {});
+            }
+        }
+        if (toState.name == "dudas"){
+           // alert("TENEMOS DUDA" + toParams.doubt_id);
+            if ($dataService.source.search("D"+toParams.doubt_id) == null) {
+               // alert("AÑADIDA DUDA AL SOurCE");
+                $dataService.source.add("dudas", "doubt/" + toParams.doubt_id, "D" +toParams.doubt_id, {});
+            }
+        }
+        if (!$dataService.IsSectionDownloaded(toState.name)) {
+           // alert(toState.name);
+
+            console.log($dataService.source.lista);
+
+            event.preventDefault();
+           // alert("No descargadooo");
+
+            $dataService.SectionDownload(toState.name, function () {
+               // alert("dESCARGADOOO!!");
+                $state.go(toState.name, toParams);
+            });
+        }else{
+            animateProgress(80,100);
+        }
+
+    })
+
+
+});
+
+
+
+
+app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
+
+    $scope.notifications = [];
+
+
+
+    $scope.search = function(q){
+        console.log(q);
+        $state.go('search',{type:'all',q:q,page:0});
+    };
+
+    $scope.logout = function(){
+        $rootScope.user.clear();
+    };
+
+    $scope.getNotifications = function(){
+
+        $api.get("notifications",[], function(res){
+            $scope.notifications = res.data;
+        });
+    }
+
+});
+;
+app.service("$answer", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$comment", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$course", function($api,$rootScope,$http,$window,$module){
+   // var self = this;
+
+
+    this.find = function(id){
+
+
+        return {
+            modules: function(){
+                return $module.index(3);
+            }
+        }
+    };
+
+
+
+
+
+
+    this.course = {
+        modules: [],
+        find: function(id){
+
+        }
+
+    }
+
+    // course.find(ID)
+
+
+
+
+});;
+app.service("$doubt", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$like", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$module", function($api,$tutorial){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$notification", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$subscription", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$tutorial", function($api){
+   // var self = this;
+
+
+    this.module = {
+
+        title: null,
+        module_id: null,
+
+        init: function(){
+
+        },
+        setTitle: function(){
+            // validar titulo
+        },
+        save: function(){
+            if (this.module_id != null){
+                // update
+            }else{
+                // insert
+            }
+        },
+        delete: function(){
+
+        }
+
+
+
+    };
+
+
+    this.find = function(id){
+
+
+        return {
+            tutorials: function(){
+
+            }
+        }
+    };
+
+
+    this.index = function(id){
+
+        var arr = [];
+        arr[0] = {
+            module_id: 99,
+            course_id: id,
+            tutorials: function(){
+               // return  $course.find(1)
+            }
+        };
+
+        return arr;
+
+    };
+
+
+
+
+
+
+});;
+app.service("$api", function($http,$rootScope){
     var self = this;
     var host = "localhost:8000";
     // host = "api.veotutoriales.es";
@@ -78,28 +716,7 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
             };
 
 });;
-angular.module("app.course", ['app.api']).service("$course", function($api,$rootScope,$http,$window){
-   // var self = this;
-
-
-
-
-
-    this.course = {
-        modules: [],
-        find: function(id){
-
-        }
-
-    }
-
-    // course.find(ID)
-
-
-
-
-});;
-angular.module("app.data", ['app.api']).service("$dataService", function($api,$rootScope,$http,$window){
+app.service("$dataService", function($api,$rootScope,$http,$window){
     var self = this;
 
     self.source = {
@@ -216,80 +833,8 @@ angular.module("app.data", ['app.api']).service("$dataService", function($api,$r
 
 
 });;
-angular.module("app.user", ['app.api']).service("$user", function($api,$window,$http){
-   // var self = this;
+app.service("$user", function($api,$window,$http){
 
-    /*
-    this.userObj = function() {
-
-        return {
-            is_user: false,
-            is_admin: false,
-            is_premium: false,
-            activated: false,
-            name:"",
-            token: "",
-            token_renew: "",
-            token_expiration: 0,
-            notifications: {
-                list: [],
-                config: {
-                    stack: false,
-                    boletin: false
-                }
-            },
-            fill: function(data){
-                this.is_user = data.is_user;
-                this.name = data.name;
-                this.is_admin = data.is_admin;
-                this.is_premium = data.is_premium;
-                this.activated = data.activated;
-                this.token = data.token;
-                this.token_renew = data.token_renew;
-                this.token_expiration = data.token_expiration;
-
-            },
-            is_expired: function(){
-
-                var now = Math.floor(Date.now() / 1000);
-                return (this.token_expiration < now);
-            },
-            getData: function () {
-                // TODO descarga la info del usuario
-                // Subscripciones
-                // Configuraciones: notifications
-            },
-            login: function(email, pass){
-                // TODO implement this
-                // rellena al usuario con la info
-            },
-            refreshToken: function(callback){
-                var self = this;
-                console.info("El token se ha renovado");
-
-                $http({
-                    method: "POST",
-                    url: $api.base_url+"user/refreshToken",
-                    headers: {
-                        'Content-Type' : 'application/x-www-form-urlencoded'
-                    }
-                }).then(function (res) {
-                    res = res.data;
-                    if (res.status) {
-                        self.fill(res.data);
-                        $window.localStorage.user = JSON.stringify($rootScope.user);
-                    }else{
-                        this.is_user = false;
-                    }
-                   if (callback){ callback(res.data.is_user); }
-
-                });
-
-            }
-        }
-
-    };
-*/
 
     this.user = function() {
 
@@ -299,7 +844,7 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$window,$
         var email1 = $window.localStorage.user ?obj.email : null;
         var token1 = $window.localStorage.user ?obj.token : null;
         var user_id1 = $window.localStorage.user ? obj.user_id : null;
-        // try to recover user from localstorage
+
 
         return {
             user_id: user_id1,
@@ -309,6 +854,12 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$window,$
             is_user: function(){
                 // TODo mejor forma
               return (this.user_id > 0)
+            },
+            is_admin: function(){
+              return false;
+            },
+            is_premium: function(){
+                return false;
             },
             login: function(email, pass, callback){
                 // http connection
@@ -343,18 +894,28 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$window,$
                 $window.localStorage.removeItem("user");
             },
             token_expiration: function(){
+                // var now = Math.floor(Date.now() / 1000);
+                // TODO: Devuelve el tiempo que falta para que expire el token en segundos
 
+                return 500;
             },
             refresh_token: function(callback){
+
+                var self = this;
+
+                if (this.token_expiration() < 300){
+                    if(callback) callback();
+                    return false;
+                }
+
 
                 if (!this.is_user()){
                     if(callback) callback();
                     return false;
                 }
 
-                var self = this;
-                // return callback if not expired
-               // var now = Math.floor(Date.now() / 1000);
+
+
                 var postData = "&refresh_token=" + self.token.refresh_token;
                 $http({
                     method: "POST",
@@ -442,100 +1003,6 @@ angular.module("app.view", ['app.api']).service("$views", function($api){
     };
 
 });;
-var app = angular.module("vts", ['ui.router','app.api','app.user','ngSanitize','app.data']);
-app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
-
-
-
-    $rootScope.pageLoaded = false;
-    $rootScope.user = new $user.user();
-
-    // temporal
-    $rootScope.user.refresh_token();
-
-
-
-    $rootScope.imageAsset = function(size,asset){
-        var url = "http://localhost:8000/";
-        return url + "img/media/" + size + "/" + asset;
-    };
-
-
-
-
-
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-        console.log(toState.name);
-
-        animateProgress(0,80);
-
-     //   alert("STATE CHANGE to: " + toState.name);
-
-        if (toState.name == "course"){
-            if ($dataService.source.search("C"+toParams.course_id) == null) {
-                $dataService.source.add("course", "course/" + toParams.course_id, "C" + toParams.course_id, {});
-            }
-        }
-        if (toState.name == "tutorial"){
-            if ($dataService.source.search("T"+toParams.tutorial_id) == null) {
-                $dataService.source.add("tutorial", "tutorial/" + toParams.tutorial_id, "T" +toParams.tutorial_id, {});
-            }
-        }
-        if (toState.name == "dudas"){
-           // alert("TENEMOS DUDA" + toParams.doubt_id);
-            if ($dataService.source.search("D"+toParams.doubt_id) == null) {
-               // alert("AÑADIDA DUDA AL SOurCE");
-                $dataService.source.add("dudas", "doubt/" + toParams.doubt_id, "D" +toParams.doubt_id, {});
-            }
-        }
-        if (!$dataService.IsSectionDownloaded(toState.name)) {
-           // alert(toState.name);
-
-            console.log($dataService.source.lista);
-
-            event.preventDefault();
-           // alert("No descargadooo");
-
-            $dataService.SectionDownload(toState.name, function () {
-               // alert("dESCARGADOOO!!");
-                $state.go(toState.name, toParams);
-            });
-        }else{
-            animateProgress(80,100);
-        }
-
-    })
-
-
-});
-
-
-
-
-app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
-
-    $scope.notifications = [];
-
-
-
-    $scope.search = function(q){
-        console.log(q);
-        $state.go('search',{type:'all',q:q,page:0});
-    };
-
-    $scope.logout = function(){
-        $rootScope.user.clear();
-    };
-
-    $scope.getNotifications = function(){
-
-        $api.get("notifications",[], function(res){
-            $scope.notifications = res.data;
-        });
-    }
-
-});
-;
 app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     //
 
