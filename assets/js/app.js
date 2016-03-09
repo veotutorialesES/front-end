@@ -978,8 +978,8 @@ app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
         .state('calendar', { url: "/calendar", templateUrl: "app/components/calendar/calendarView.html"})
         .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
-        .state('course', { url: "/media/:course_id", templateUrl: "app/components/course/courseFileView.html"})
-        .state('tutorial', { url: "/media/:course_id/:tutorial_id", templateUrl: "app/components/tutorial/tutorialView.html"})
+        .state('course', { url: "/course/:course_id", templateUrl: "app/components/course/courseView.html"})
+        .state('tutorial', { url: "/tutorial/:tutorial_id", templateUrl: "app/components/tutorial/tutorialView.html"})
 
 
         .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
@@ -1317,6 +1317,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$dataService
         prettyPrint();
     });
 
+    /*
 
     tinymce.init({
         selector: "textarea",
@@ -1331,7 +1332,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$dataService
         statusbar: false,
         toolbar_items_size: 'small'
     });
-
+*/
 
     $scope.doubt_id = $stateParams.doubt_id;
     $scope.auxDoubt = {};

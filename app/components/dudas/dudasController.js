@@ -5,6 +5,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$dataService
         prettyPrint();
     });
 
+    /*
 
     tinymce.init({
         selector: "textarea",
@@ -19,7 +20,7 @@ app.controller("dudasController", function($scope,$api,$stateParams,$dataService
         statusbar: false,
         toolbar_items_size: 'small'
     });
-
+*/
 
     $scope.doubt_id = $stateParams.doubt_id;
     $scope.auxDoubt = {};

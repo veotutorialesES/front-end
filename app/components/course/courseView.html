@@ -90,7 +90,7 @@
                                 <tr ng-repeat="tutorial in mod.tutorials" ng-class="{'selected': tutorial.tutorial_id == tutorial_id}" >
 
                                     <td style="width: 20px;"><span style="color: green;font-size: 18px;" class="glyphicon glyphicon-film"></span> </td>
-                                    <td><a style="color: #3e4a5a" ui-sref="tutorial({course_id:course_id,tutorial_id:tutorial.tutorial_id})">{{tutorial.title}}</a> <span class="pull-right">{{tutorial.public_date}}</span></td>
+                                    <td><a style="color: #3e4a5a" ui-sref="tutorial({tutorial_id:tutorial.tutorial_id})">{{tutorial.title}}</a> <span class="pull-right">{{tutorial.public_date}}</span></td>
                                     <td style="text-align: right"><span ng-click="unsetView(tutorial.tutorial_id);tutorial.is_view = false;" class="glyphicon glyphicon-eye-open"></span> </td>
 
                                 </tr>
