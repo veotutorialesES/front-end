@@ -3,113 +3,62 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
     var host = "localhost:8000";
     // host = "api.veotutoriales.es";
 
-    var appID = "asdfalskdjf";
+    self.app_id = "123456";
 
     self.base_url = "http://"+host+"/api/v1/";
 
-    self.get = function(route, params, callback){
-
-
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-        var url = self.base_url+route+"?app=123123"+dat;
-        console.log("HTTP: ApiService->get()"+url);
-
-
-        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
-
-            $rootScope.user.refreshToken(function(res){
-                console.info("TOKEN REFRESCADO");
-                    $http.get(url).then(function(res){ callback(res.data); });
-
-
-            });
-        }else{
-            $http.get(url).then(function(res){ callback(res.data); });
-        }
-
-
-
-
-
-    };
-    self.post = function(route, params, callback){
-        self.http("POST", route, params, callback);
-    };
-    self.put = function(route, params, callback){
-        self.http("PUT", route, params, callback);
-    };
-    self.delete = function(route, params, callback){
-        self.http("DELETE", route, params, callback);
-    };
+    self.get = function(route, params, callback){ self.http("GET", route, params, callback); };
+    self.post = function(route, params, callback){ self.http("POST", route, params, callback); };
+    self.put = function(route, params, callback){ self.http("PUT", route, params, callback); };
+    self.delete = function(route, params, callback){ self.http("DELETE", route, params, callback); };
 
     self.http = function(type, route, params, callback){
 
-        var dat = "";
+        var postData = "";
         for (var k in params){
-            dat += "&"+k+"="+params[k];
+            postData += "&"+k+"="+params[k];
         }
 
-        var postData = "?app="+appID+ dat;
-        console.log("HTTP: ApiService->"+type+"(): "+self.base_url+route+ postData);
+        // check if token need refresh
+        /**
+         *  Primero con este metodo comprobamos que el token es valido, sino intentamos renovarlo
+         */
+        var token = $rootScope.user.token ? $rootScope.user.token.token : null;
 
+        $rootScope.user.refresh_token(function(res){
 
-
-        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
-
-            $rootScope.user.refreshToken(function(res){
-                if(res){
-                    $http({
-                        method: type,
-                        url: self.base_url+route,
-                        headers: {
-                            'Content-Type' : 'application/x-www-form-urlencoded'
-                        },
-                        data:postData
-                    }).success(function (res) {
-                        console.log("ApiService->"+type+"(): ");
-                        console.log(res);
-
-                        callback(res);
-
-
-                    }).error(function(data){
-                        console.error("ApiService->"+type+"(): ");
-                        callback(data);
-
-                    });
-                }else{
-                    // No vale el token todo
-
-                }
-            });
-        }else{
             $http({
                 method: type,
                 url: self.base_url+route,
                 headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
+                    'Content-Type' : 'application/x-www-form-urlencoded',
+                    'app_id': self.app_id,
+                    'authorization': "Bearer "+token
                 },
                 data:postData
             }).success(function (res) {
-                console.log("ApiService->"+type+"(): ");
+                console.log("(success) HTTP: ApiService->"+type+"("+params+"): "+self.base_url+route+ postData);
                 console.log(res);
 
                 callback(res);
 
 
             }).error(function(data){
-                console.error("ApiService->"+type+"(): ");
+                console.log("(error) HTTP: ApiService->"+type+"("+params+"): "+self.base_url+route+ postData);
+                console.log(data);
+
                 callback(data);
 
-            });        }
+            });
+
+        });
+
+    }
 
 
 
 
-    };
+
 
 
     self.file = function(route, file, callback){

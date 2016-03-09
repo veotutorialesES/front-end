@@ -1,6 +1,5 @@
-app.config(function($stateProvider, $urlRouterProvider,$httpProvider,$locationProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     //
-    $httpProvider.interceptors.push('authInterceptor');
 
     $urlRouterProvider.otherwise("/");
     //

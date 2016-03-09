@@ -9,26 +9,17 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
 
         var arr = [];
         arr["email"] = email;
-        arr["pass"] = pass;
+        arr["password"] = pass;
 
-        $api.post("user/login",arr,function(res){
-            console.info(res);
-            if (res.status) {
-
-                $rootScope.user.fill(res.data);
-
-                $window.localStorage.user = JSON.stringify($rootScope.user);
-
-
-                if (!$rootScope.user.activated){
-                    $state.go("activation");
-                }
-
-                $('#myModal').modal('hide');
-            }else{
-                console.log("EL USUARIO NO EXISTE");
+        $rootScope.user.login(email,pass,function(status){
+            console.warn(status);
+            if (!status){
                 $scope.wrong = true;
+            }else{
+                $rootScope.user.cache();
             }
+            console.log($rootScope.user);
+
         });
 
     };

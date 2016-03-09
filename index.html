@@ -61,13 +61,13 @@
                 <li class="hover-default" style="color: gainsboro;"><a  ui-sref="profile">Mis Cursos</a></li>
 
             </ul>
-            <ul ng-hide="user.is_user" class="float padding-10 hover-default pull-right">
+            <ul ng-hide="user.is_user()" class="float padding-10 hover-default pull-right">
                 <li data-toggle="modal" data-target="#myModal" >Iniciar Sesión</li>
                 <li><a  ui-sref="register">Registrarme</a></li>
 
             </ul>
-            <ul ng-show="user.is_user" class="default float padding-10 pull-right hover-default" style="color: gainsboro;">
-                <li ng-init="showNoti = false;getNotifications()">
+            <ul ng-show="user.is_user()" class="default float padding-10 pull-right hover-default" style="color: gainsboro;">
+                <li ng-init="showNoti = false;">
                     <div ng-click="showNoti = !showNoti;" style="font-size:13px;width: 30px;text-align: center;font-weight: bold">
                         {{notifications.length}}
                         <span class="glyphicon glyphicon-flag"></span>

@@ -3,113 +3,62 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
     var host = "localhost:8000";
     // host = "api.veotutoriales.es";
 
-    var appID = "asdfalskdjf";
+    self.app_id = "123456";
 
     self.base_url = "http://"+host+"/api/v1/";
 
-    self.get = function(route, params, callback){
-
-
-        var dat = "";
-        for (var k in params){
-            dat += "&"+k+"="+params[k];
-        }
-        var url = self.base_url+route+"?app=123123"+dat;
-        console.log("HTTP: ApiService->get()"+url);
-
-
-        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
-
-            $rootScope.user.refreshToken(function(res){
-                console.info("TOKEN REFRESCADO");
-                    $http.get(url).then(function(res){ callback(res.data); });
-
-
-            });
-        }else{
-            $http.get(url).then(function(res){ callback(res.data); });
-        }
-
-
-
-
-
-    };
-    self.post = function(route, params, callback){
-        self.http("POST", route, params, callback);
-    };
-    self.put = function(route, params, callback){
-        self.http("PUT", route, params, callback);
-    };
-    self.delete = function(route, params, callback){
-        self.http("DELETE", route, params, callback);
-    };
+    self.get = function(route, params, callback){ self.http("GET", route, params, callback); };
+    self.post = function(route, params, callback){ self.http("POST", route, params, callback); };
+    self.put = function(route, params, callback){ self.http("PUT", route, params, callback); };
+    self.delete = function(route, params, callback){ self.http("DELETE", route, params, callback); };
 
     self.http = function(type, route, params, callback){
 
-        var dat = "";
+        var postData = "";
         for (var k in params){
-            dat += "&"+k+"="+params[k];
+            postData += "&"+k+"="+params[k];
         }
 
-        var postData = "?app="+appID+ dat;
-        console.log("HTTP: ApiService->"+type+"(): "+self.base_url+route+ postData);
+        // check if token need refresh
+        /**
+         *  Primero con este metodo comprobamos que el token es valido, sino intentamos renovarlo
+         */
+        var token = $rootScope.user.token ? $rootScope.user.token.token : null;
 
+        $rootScope.user.refresh_token(function(res){
 
-
-        if ($rootScope.user.is_expired() && $rootScope.user.is_user){
-
-            $rootScope.user.refreshToken(function(res){
-                if(res){
-                    $http({
-                        method: type,
-                        url: self.base_url+route,
-                        headers: {
-                            'Content-Type' : 'application/x-www-form-urlencoded'
-                        },
-                        data:postData
-                    }).success(function (res) {
-                        console.log("ApiService->"+type+"(): ");
-                        console.log(res);
-
-                        callback(res);
-
-
-                    }).error(function(data){
-                        console.error("ApiService->"+type+"(): ");
-                        callback(data);
-
-                    });
-                }else{
-                    // No vale el token todo
-
-                }
-            });
-        }else{
             $http({
                 method: type,
                 url: self.base_url+route,
                 headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
+                    'Content-Type' : 'application/x-www-form-urlencoded',
+                    'app_id': self.app_id,
+                    'authorization': "Bearer "+token
                 },
                 data:postData
             }).success(function (res) {
-                console.log("ApiService->"+type+"(): ");
+                console.log("(success) HTTP: ApiService->"+type+"("+params+"): "+self.base_url+route+ postData);
                 console.log(res);
 
                 callback(res);
 
 
             }).error(function(data){
-                console.error("ApiService->"+type+"(): ");
+                console.log("(error) HTTP: ApiService->"+type+"("+params+"): "+self.base_url+route+ postData);
+                console.log(data);
+
                 callback(data);
 
-            });        }
+            });
+
+        });
+
+    }
 
 
 
 
-    };
+
 
 
     self.file = function(route, file, callback){
@@ -127,6 +76,27 @@ angular.module("app.api", []).service("$api", function($http,$rootScope){
                 });
 
             };
+
+});;
+angular.module("app.course", ['app.api']).service("$course", function($api,$rootScope,$http,$window){
+   // var self = this;
+
+
+
+
+
+    this.course = {
+        modules: [],
+        find: function(id){
+
+        }
+
+    }
+
+    // course.find(ID)
+
+
+
 
 });;
 angular.module("app.data", ['app.api']).service("$dataService", function($api,$rootScope,$http,$window){
@@ -246,9 +216,10 @@ angular.module("app.data", ['app.api']).service("$dataService", function($api,$r
 
 
 });;
-angular.module("app.user", ['app.api']).service("$user", function($api,$rootScope,$http,$window){
+angular.module("app.user", ['app.api']).service("$user", function($api,$window,$http){
    // var self = this;
 
+    /*
     this.userObj = function() {
 
         return {
@@ -318,6 +289,99 @@ angular.module("app.user", ['app.api']).service("$user", function($api,$rootScop
         }
 
     };
+*/
+
+    this.user = function() {
+
+        var obj = $window.localStorage.user ? JSON.parse($window.localStorage.user) : null;
+
+        var name1 = $window.localStorage.user ? obj.name : null;
+        var email1 = $window.localStorage.user ?obj.email : null;
+        var token1 = $window.localStorage.user ?obj.token : null;
+        var user_id1 = $window.localStorage.user ? obj.user_id : null;
+        // try to recover user from localstorage
+
+        return {
+            user_id: user_id1,
+            name:name1,
+            email: email1,
+            token: token1,
+            is_user: function(){
+                // TODo mejor forma
+              return (this.user_id > 0)
+            },
+            login: function(email, pass, callback){
+                // http connection
+
+                var params = [];
+                params["email"] = email;
+                params["password"] = pass;
+
+                var self = this;
+                $api.post("auth/login",params,function(res){
+                    console.log("Login response: ");
+                    console.log(res);
+
+                    self.name = res.name;
+                    self.user_id = res.user_id;
+                    self.email = res.email;
+                    self.token = res.token;
+                    self.params = [];
+
+                    callback(res.name != null)
+
+                })
+            },
+            cache: function(){
+                $window.localStorage.setItem("user",JSON.stringify(this));
+            },
+            clear: function(){
+                this.name = null;
+                this.user_id = null;
+                this.email = null;
+                this.token = null;
+                $window.localStorage.removeItem("user");
+            },
+            token_expiration: function(){
+
+            },
+            refresh_token: function(callback){
+
+                if (!this.is_user()){
+                    if(callback) callback();
+                    return false;
+                }
+
+                var self = this;
+                // return callback if not expired
+               // var now = Math.floor(Date.now() / 1000);
+                var postData = "&refresh_token=" + self.token.refresh_token;
+                $http({
+                    method: "POST",
+                    url: $api.base_url+"auth/refresh_token",
+                    headers: {
+                        'Content-Type' : 'application/x-www-form-urlencoded',
+                        'app_id': $api.app_id,
+                        'authorization': "Bearer "+ self.token.token
+                    },
+                    data:postData
+                }).success(function (res) {
+                    console.warn(res);
+
+                    callback(res);
+
+
+                }).error(function(res){
+                    console.warn(res);
+
+                    callback(res);
+
+                });
+
+
+            }
+        }
+    };
 
 
 
@@ -382,7 +446,14 @@ var app = angular.module("vts", ['ui.router','app.api','app.user','ngSanitize','
 app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
 
 
+
     $rootScope.pageLoaded = false;
+    $rootScope.user = new $user.user();
+
+    // temporal
+    $rootScope.user.refresh_token();
+
+
 
     $rootScope.imageAsset = function(size,asset){
         var url = "http://localhost:8000/";
@@ -390,13 +461,8 @@ app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
     };
 
 
-    $rootScope.user = new $user.userObj();
 
 
-    if ($window.localStorage.user) {
-        console.log($window.localStorage.user);
-       $rootScope.user.fill(JSON.parse($window.localStorage.user));
-    }
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
         console.log(toState.name);
@@ -445,44 +511,12 @@ app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
 
 
 
-app.factory('authInterceptor', function ($rootScope, $q, $window) {
+
+app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
+
+    $scope.notifications = [];
 
 
-    //
-
-
-
-    return {
-        request: function (config) {
-            config.headers = config.headers || {};
-            if ($rootScope.user.is_user) {
-
-                config.headers.Authorization = $rootScope.user.token;
-
-                if ($rootScope.user.is_expired()){
-                    config.headers.refreshToken = $rootScope.user.token_renew;
-
-                }
-
-            }
-
-            return config;
-
-        },
-        response: function (response) {
-            if (response.status === 401) {
-                // TODO handle the case where the user is not authenticated
-            }
-            return response || $q.when(response);
-        }
-    };
-});
-
-
-app.controller("headerController",function($rootScope,$scope,$window,$state,$api,$user){
-
-
-    $rootScope.loged = ($window.sessionStorage.token != null);
 
     $scope.search = function(q){
         console.log(q);
@@ -490,12 +524,11 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
     };
 
     $scope.logout = function(){
-        $rootScope.user = new $user.userObj();
-        $window.localStorage.removeItem("user");
+        $rootScope.user.clear();
     };
 
-    $scope.notifications = [];
     $scope.getNotifications = function(){
+
         $api.get("notifications",[], function(res){
             $scope.notifications = res.data;
         });
@@ -503,9 +536,8 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
 
 });
 ;
-app.config(function($stateProvider, $urlRouterProvider,$httpProvider,$locationProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     //
-    $httpProvider.interceptors.push('authInterceptor');
 
     $urlRouterProvider.otherwise("/");
     //
@@ -1311,26 +1343,17 @@ app.controller("loginController", function($scope,$api,$state,$rootScope,$window
 
         var arr = [];
         arr["email"] = email;
-        arr["pass"] = pass;
+        arr["password"] = pass;
 
-        $api.post("user/login",arr,function(res){
-            console.info(res);
-            if (res.status) {
-
-                $rootScope.user.fill(res.data);
-
-                $window.localStorage.user = JSON.stringify($rootScope.user);
-
-
-                if (!$rootScope.user.activated){
-                    $state.go("activation");
-                }
-
-                $('#myModal').modal('hide');
-            }else{
-                console.log("EL USUARIO NO EXISTE");
+        $rootScope.user.login(email,pass,function(status){
+            console.warn(status);
+            if (!status){
                 $scope.wrong = true;
+            }else{
+                $rootScope.user.cache();
             }
+            console.log($rootScope.user);
+
         });
 
     };

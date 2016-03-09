@@ -2,7 +2,14 @@ var app = angular.module("vts", ['ui.router','app.api','app.user','ngSanitize','
 app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
 
 
+
     $rootScope.pageLoaded = false;
+    $rootScope.user = new $user.user();
+
+    // temporal
+    $rootScope.user.refresh_token();
+
+
 
     $rootScope.imageAsset = function(size,asset){
         var url = "http://localhost:8000/";
@@ -10,13 +17,8 @@ app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
     };
 
 
-    $rootScope.user = new $user.userObj();
 
 
-    if ($window.localStorage.user) {
-        console.log($window.localStorage.user);
-       $rootScope.user.fill(JSON.parse($window.localStorage.user));
-    }
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
         console.log(toState.name);
@@ -65,44 +67,12 @@ app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService) {
 
 
 
-app.factory('authInterceptor', function ($rootScope, $q, $window) {
+
+app.controller("headerController",function($rootScope,$scope,$window,$state,$api){
+
+    $scope.notifications = [];
 
 
-    //
-
-
-
-    return {
-        request: function (config) {
-            config.headers = config.headers || {};
-            if ($rootScope.user.is_user) {
-
-                config.headers.Authorization = $rootScope.user.token;
-
-                if ($rootScope.user.is_expired()){
-                    config.headers.refreshToken = $rootScope.user.token_renew;
-
-                }
-
-            }
-
-            return config;
-
-        },
-        response: function (response) {
-            if (response.status === 401) {
-                // TODO handle the case where the user is not authenticated
-            }
-            return response || $q.when(response);
-        }
-    };
-});
-
-
-app.controller("headerController",function($rootScope,$scope,$window,$state,$api,$user){
-
-
-    $rootScope.loged = ($window.sessionStorage.token != null);
 
     $scope.search = function(q){
         console.log(q);
@@ -110,12 +80,11 @@ app.controller("headerController",function($rootScope,$scope,$window,$state,$api
     };
 
     $scope.logout = function(){
-        $rootScope.user = new $user.userObj();
-        $window.localStorage.removeItem("user");
+        $rootScope.user.clear();
     };
 
-    $scope.notifications = [];
     $scope.getNotifications = function(){
+
         $api.get("notifications",[], function(res){
             $scope.notifications = res.data;
         });
