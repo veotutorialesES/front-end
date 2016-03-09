@@ -41,7 +41,7 @@
     }
 </style>
 
-<div  ng-controller="courseController" style="padding-bottom: 20px;" ng-init="getCourse(course_id);">
+<div  ng-controller="courseController" style="padding-bottom: 20px;">
 
 
     <div class="container" style="padding-top:30px;">
@@ -54,7 +54,7 @@
                 </div>
 
 
-                <div ng-controller="subscriptionController" ng-init="check(3,course_id)">
+                <div ng-controller="subscriptionController" ng-init="">
                     <button ng-hide="is_subscribed" ng-click="add(3,course_id)" class="btn btn-block btn-primary">Unirme al curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                     <button ng-show="is_subscribed" ng-click="delete(3,course_id)" class="btn btn-block btn-danger">Salirme del curso <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
                 </div>
@@ -64,7 +64,7 @@
                         <img style="width: 40px;height: 40px;" src="https://scontent-mad1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10603617_10204174851405769_121819781742518100_n.jpg?oh=f6a89491e9d94ad49768e45622059608&oe=56FA6EFE">
                     </div>
                     <div class="pull-left" style="padding: 5px;padding-left:15px;font-size: 20px;">
-                   {{course.name}}
+                   {{course.user.name}}
                     </div>
                 </div>
 
@@ -73,36 +73,16 @@
 
             <div class="col-xs-8" style="">
                 <h1 style="font-size: 36px;font-weight: bold;">{{course.title}}</h1>
-                <div ng-bind-html="course.description" class="" style="padding: 10px;background-color: #e8e8e8;margin-top: 20px;"></div>
+                <div style="padding: 10px;background-color: #e8e8e8;margin-top: 20px;">
+                    {{course.description}}
 
-                <!--
-                <div ng-controller="homeController">
-
-
-                    <div class="" style="margin-top: 20px;margin-bottom: 20px;height: auto !important;overflow: hidden" ng-init="getCalendar('2015-11-30',4)">
-
-                        <div class="col-xs-12" style="padding: 0;border-left: 1px silver solid;border-bottom: 1px silver solid">
-
-                            <div  ng-repeat="cal in calendar" ng-class="{'today': cal.day.today == true}" class="col-xs-12 col-md-3" style="border-right: 1px silver solid;border-top: 1px silver solid;height: 150px;padding: 0">
-                                <div  style="padding: 3px;font-weight: bold;font-size: 13px;background-color: #eaeaea">{{cal.day.name}}</div>
-                                <ul>
-                                    <li class="box" style="margin-bottom: 2px;" ng-repeat="tutorial in cal.tutorials">
-                                        <div style="color: #536378;padding-left: 5px;padding-top:3px;font-size: 14px;">{{tutorial.title}}</div>
-                                        <div style="padding-left: 5px;font-size: 10pt;">
-                                            <a ui-sref="course({course_id:tutorial.course_id})">{{tutorial.course_title}}</a>
-                                        </div>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            -->
-                <div style="margin-top: 20px;">
-                    <ul ng-show="modules.length > 0" style="width: 100%;" class="player">
 
-                        <li ng-repeat="mod in modules" style="margin-top: 20px;">
+
+                <div style="margin-top: 20px;">
+                    <ul style="width: 100%;" class="player">
+
+                        <li ng-repeat="mod in course.modules" style="margin-top: 20px;">
                             <div style="padding:5px;font-weight: bold;font-size: 24px;">
                                 {{mod.title}}
                             </div>

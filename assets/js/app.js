@@ -2,19 +2,13 @@ var app = angular.module("vts", ['ui.router','ngSanitize']);
 app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService,$course) {
 
 
-    var c = $course.find(1);
-    console.warn(c);
-    var m = c.modules();
-    console.warn(m);
-    var c2 = $course.find(m[0].course_id);
+
 
 
 
     $rootScope.pageLoaded = false;
     $rootScope.user = new $user.user();
 
-    // temporal
-    $rootScope.user.refresh_token();
 
 
 
@@ -225,18 +219,31 @@ app.service("$comment", function($api){
 
 
 });;
-app.service("$course", function($api,$rootScope,$http,$window,$module){
+app.service("$course", function($api,$module){
    // var self = this;
 
 
-    this.find = function(id){
+    this.find = function(id, callback){
+
+            // Comprobar si está en la base de datos
 
 
-        return {
-            modules: function(){
-                return $module.index(3);
-            }
-        }
+        $api.get("course/"+id,[],function(res){
+
+
+            // Almacenar en la BD
+/*
+            res.modules = function (callback){
+                 $module.index(res.course_id, function(res){
+                     callback(res);
+                 });
+            };
+*/
+            callback(res);
+
+        });
+
+
     };
 
 
@@ -415,31 +422,40 @@ app.service("$module", function($api,$tutorial){
     };
 
 
-    this.find = function(id){
+
+    this.find = function(id,callback){
 
 
-        return {
-            tutorials: function(){
+        $api.get("module/"+id,[],function(res){
 
-            }
-        }
+
+            res.tutorials = function (){
+                //$module.find(res.module_id);
+            };
+
+            callback(res);
+
+        });
+
+
     };
 
 
-    this.index = function(id){
+    this.index = function(id,callback){
 
-        var arr = [];
-        arr[0] = {
-            module_id: 99,
-            course_id: id,
-            tutorials: function(){
-               // return  $course.find(1)
-            }
-        };
 
-        return arr;
+        $api.get("module/?course_id="+id,[],function(res){
+
+            //res.tutorials = function (){//$module.find(res.module_id);};
+
+            callback(res);
+
+        });
+
 
     };
+
+
 
 
 
@@ -947,62 +963,6 @@ app.service("$user", function($api,$window,$http){
 
 
 });;
-angular.module("app.view", ['app.api']).service("$views", function($api){
-    var self = this;
-
-
-    self.add = function(type, type_id,callback){
-        var arr = [];
-        arr["type"] = type;
-        arr["type_id"] = type_id;
-        console.info("app.view->add("+type+","+type_id+")");
-        $api.post("view/",arr,function(res){
-            console.info("app.view->add(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.delete = function(type, type_id,callback){
-        console.info("app.view->delete("+type+","+type_id+")");
-        $api.post("view/"+type+"/"+type_id,[],function(res){
-            console.info("app.view->delete(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.list = function(type,callback){
-        console.info("app.view->list("+type+")");
-
-        $api.get("view/"+type,[],function(res){
-            console.info("app.view->list(): ");
-            console.log(res);
-            callback(res);
-
-        })
-    };
-
-    self.check = function(type,type_id,callback){
-        console.info("app.view->check("+type+","+type_id+")");
-
-        $api.get("view/"+type+"/"+type_id,[],function(res){
-            console.info("app.view->check(): ");
-            console.log(res);
-            if (res != "null"){
-
-                callback(true);
-
-            }else{
-                callback(false);
-
-            }
-        })
-    };
-
-});;
 app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     //
 
@@ -1019,7 +979,7 @@ app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
         .state('dudas', { url: "/dudas/:doubt_id", templateUrl: "app/components/dudas/dudasView.html"})
         .state('avisos', { url: "/avisos", templateUrl: "app/components/avisos/avisosView.html"})
         .state('course', { url: "/media/:course_id", templateUrl: "app/components/course/courseFileView.html"})
-        .state('tutorial', { url: "/media/:course_id/:tutorial_id", templateUrl: "app/components/course/courseView.html"})
+        .state('tutorial', { url: "/media/:course_id/:tutorial_id", templateUrl: "app/components/tutorial/tutorialView.html"})
 
 
         .state('activation', { url: "/activation", templateUrl: "app/components/login/activationView.html"})
@@ -1325,82 +1285,27 @@ app.controller("calendarController", function($scope,$api,$state,$rootScope,$dat
 
 
 });;
-app.controller("courseController", function($scope,$stateParams,$api,$sce,$dataService){
+app.controller("courseController", function($scope,$stateParams,$course){
 
     $scope.course_id = $stateParams.course_id;
-    $scope.tutorial_id = $stateParams.tutorial_id;
-    $scope.is_subscribed = false;
+    $scope.course = {};
 
-    $scope.video_url = "";
-
-    $scope.course = [];
-    $scope.modules = [];
-    $scope.tutorial = {};
-
-
-    function processCode(string){
-
-        string = string.replace("[code]","<pre>");
-        string = string.replace("[/code]","</pre>");
-
-        return string;
-    }
 
     $scope.getCourse = function(id, callback){
         console.log('courseController: getCourse()');
 
 
-        //$api.get('course/'+id,[], function(res){
-            var response = $dataService.source.search("C"+id);
-            var res = response.response;
-        console.log("C"+id);
-            console.log(res);
-            $scope.course = res.data;
-            $scope.course.description = processCode($scope.course.description);
-            $scope.modules =   res.data.modules;
-            console.log('Code highlighting');
-
-            setTimeout(function(){
-                $('pre').each(function(i, block) {hljs.highlightBlock(block);});
-
-            },1000);
-
-            if (callback) { callback(true);}
-
-
-       // });
-
-    };
-/*
-    $scope.getModuleTutorials = function(module_id,callback){
-        console.info("courseController: getTutorial("+tutorial_id+")");
-
-        $api.get("module/"+module_id,[],function(res){
-            console.log("courseController->getTutorial(): ");
-
-            callback(res.data);
+        $course.find(id, function(res){
+            $scope.course = res;
+            callback(true);
         });
 
     };
-*/
-    $scope.getTutorial = function(tutorial_id){
-        console.info("courseController: getTutorial("+tutorial_id+")");
-
-       // $api.get("tutorial/"+tutorial_id,[],function(res){
-            console.log("courseController->getTutorial(): ");
-
-            var response = $dataService.source.search("T"+tutorial_id);
-            var res = response.response;
-            console.info(res);
-            $scope.tutorial = res.data;
-            $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
-
-            //console.log(res)
-        //});
-
-    };
 
 
+
+
+    $scope.getCourse($stateParams.course_id);
 
 
 
@@ -2039,6 +1944,35 @@ app.controller("searchController", function($scope,$stateParams,$state,$api){
         //$state.go(where + "/" + id);
 
     }
+
+
+
+
+});;
+app.controller("tutorialController", function($scope,$stateParams){
+
+    $scope.tutorial_id = $stateParams.tutorial_id;
+
+    $scope.course = [];
+
+    $scope.getTutorial = function(tutorial_id){
+        /*
+        console.info("courseController: getTutorial("+tutorial_id+")");
+
+       // $api.get("tutorial/"+tutorial_id,[],function(res){
+            console.log("courseController->getTutorial(): ");
+
+            var response = $dataService.source.search("T"+tutorial_id);
+            var res = response.response;
+            console.info(res);
+            $scope.tutorial = res.data;
+            $scope.video_url = $sce.trustAsResourceUrl($scope.tutorial.video_url);
+
+            //console.log(res)
+        //});
+*/
+    };
+
 
 
 

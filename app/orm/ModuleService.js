@@ -29,31 +29,40 @@ app.service("$module", function($api,$tutorial){
     };
 
 
-    this.find = function(id){
+
+    this.find = function(id,callback){
 
 
-        return {
-            tutorials: function(){
+        $api.get("module/"+id,[],function(res){
 
-            }
-        }
+
+            res.tutorials = function (){
+                //$module.find(res.module_id);
+            };
+
+            callback(res);
+
+        });
+
+
     };
 
 
-    this.index = function(id){
+    this.index = function(id,callback){
 
-        var arr = [];
-        arr[0] = {
-            module_id: 99,
-            course_id: id,
-            tutorials: function(){
-               // return  $course.find(1)
-            }
-        };
 
-        return arr;
+        $api.get("module/?course_id="+id,[],function(res){
+
+            //res.tutorials = function (){//$module.find(res.module_id);};
+
+            callback(res);
+
+        });
+
 
     };
+
+
 
 
 

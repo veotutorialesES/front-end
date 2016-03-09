@@ -1,15 +1,28 @@
-app.service("$course", function($api,$rootScope,$http,$window,$module){
+app.service("$course", function($api,$module){
    // var self = this;
 
 
-    this.find = function(id){
+    this.find = function(id, callback){
+
+            // Comprobar si está en la base de datos
 
 
-        return {
-            modules: function(){
-                return $module.index(3);
-            }
-        }
+        $api.get("course/"+id,[],function(res){
+
+
+            // Almacenar en la BD
+/*
+            res.modules = function (callback){
+                 $module.index(res.course_id, function(res){
+                     callback(res);
+                 });
+            };
+*/
+            callback(res);
+
+        });
+
+
     };
 
 
