@@ -1,5 +1,11 @@
 app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     //
+/*
+    $databaseProvider.name = 'vts';
+    $databaseProvider.description = 'VTS database';
+    $databaseProvider.version = '1.0.0';
+    $databaseProvider.size = 4 * 1024 * 1024;
+*/
 
     $urlRouterProvider.otherwise("/");
     //

@@ -1,5 +1,5 @@
-var app = angular.module("vts", ['ui.router','ngSanitize']);
-app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService,$course) {
+var app = angular.module("vts", ['ui.router','ngSanitize','angular-websql','breeze.angular']);
+app.run(function($rootScope,$window,$http,$api,$user,$state,$preloader) {
 
 
 
@@ -20,17 +20,40 @@ app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService,$course
 
 
 
-
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-        console.log(toState.name);
 
+
+        console.log("-------");
+        console.log(toState.name);
+        console.log(toParams);
+
+
+        // Recibido evento de cambiow
         animateProgress(0,80);
 
+        if (!toParams.loaded){
+           // event.preventDefault();
+
+        }
+
+       $preloader.to(toState.name, function(res){
+           //toParams.loaded = true;
+           console.log(toParams);
+          // $state.go(toState.name, toParams);
+
+       });
+
+
+
+
+
+
      //   alert("STATE CHANGE to: " + toState.name);
+/*
 
         if (toState.name == "course"){
             if ($dataService.source.search("C"+toParams.course_id) == null) {
-                $dataService.source.add("course", "course/" + toParams.course_id, "C" + toParams.course_id, {});
+               // $dataService.source.add("course", "course/" + toParams.course_id, "C" + toParams.course_id, {});
             }
         }
         if (toState.name == "tutorial"){
@@ -60,8 +83,49 @@ app.run(function($rootScope,$window,$http,$api,$user,$state,$dataService,$course
         }else{
             animateProgress(80,100);
         }
+ */
+        animateProgress(80,100);
 
     })
+
+
+
+
+
+/*
+    $ngData.model('Course', {
+        tableName: 'courses',
+        properties: {
+            course_id: null,
+            name: String,
+            user: Object,
+            isbn: {
+                type: String,
+                required: true,
+                unique: true
+            }
+        },
+        methods:{//instance methods
+            getCodedName: function(){
+                return [this.code, this.name].join('-');
+            }
+        },
+        statics:{//static methods
+            findByCode: function(code){
+                return this.findOne({code:code});
+            }
+        }
+    });
+
+    //initialize
+    $ngData.initialize().then(function(results) {
+        console.log(results);
+    }).catch(function(error) {
+        console.log(error);
+    });
+
+*/
+
 
 
 });
@@ -219,45 +283,90 @@ app.service("$comment", function($api){
 
 
 });;
-app.service("$course", function($api,$module){
+app.service("$course", function($api,$module,$window,$webSql){
    // var self = this;
 
+    // 1: Instanciar la BD
+    var db = $webSql.openDatabase($api.db_name, '1.0', 'Test DB', 2 * 1024 * 1024);
 
+
+    // borrar base de datos si ha pasado más de X tiempo
+
+    // 2: Crear la tabla
+    db.createTable("courses",
+        {
+            "course_id": {
+                "type": "INTEGER",
+                "null": "NOT NULL",
+                "primary": true
+            },
+            "title": {
+                "type": "TEXT",
+                "null": "NOT NULL"
+            },
+            "description": {
+                "type": "TEXT"
+            },
+            "image": {
+                "type": "TEXT"
+            },
+            "created_at": {
+                "type": "TIMESTAMP"
+            },
+            "updated_at": {
+                "type": "TIMESTAMP"
+            },
+            "user_id": {
+                "type": "INTEGER"
+            }
+
+        }
+    );
+
+
+    // 3: find method
     this.find = function(id, callback){
 
-            // Comprobar si está en la base de datos
+
+        db.select("courses",{
+            "course_id": id
+        }).then(function(results){
+
+            if (results.rows.length > 0){
+                var r = results.rows[0];
+
+                $module.index(r.course_id,function(modulos){
+
+                    r.modules = modulos;
+
+                    console.warn(r);
+                    if (callback) callback(r)
+
+                });
 
 
-        $api.get("course/"+id,[],function(res){
 
+            }else{
+                $api.get("course/"+id,[],function(res){
+                    callback(res);
+                    //res.modules;
+                    delete res.user;
+                    db.insert("courses",res);
 
-            // Almacenar en la BD
-/*
-            res.modules = function (callback){
-                 $module.index(res.course_id, function(res){
-                     callback(res);
-                 });
-            };
-*/
-            callback(res);
+                });
+            }
 
         });
-
 
     };
 
 
 
 
+    // 4: save   $course.save(COURSE_OBJ) //pero los usuario sno pueden
 
 
-    this.course = {
-        modules: [],
-        find: function(id){
-
-        }
-
-    }
+    // 4: index method if needed
 
     // course.find(ID)
 
@@ -391,38 +500,101 @@ app.service("$like", function($api){
 
 
 });;
-app.service("$module", function($api,$tutorial){
+app.service("$module", function($api,$webSql,$tutorial){
    // var self = this;
 
+    var db = $webSql.openDatabase($api.db_name, '1.0', 'Test DB', 2 * 1024 * 1024);
 
-    this.module = {
+    db.createTable("modules",
+        {
+            "module_id": {
+                "type": "INTEGER",
+                "null": "NOT NULL",
+                "primary": true
+            },
+            "title": {
+                "type": "TEXT",
+                "null": "NOT NULL"
+            },
 
-        title: null,
-        module_id: null,
-
-        init: function(){
-
-        },
-        setTitle: function(){
-            // validar titulo
-        },
-        save: function(){
-            if (this.module_id != null){
-                // update
-            }else{
-                // insert
+            "created_at": {
+                "type": "TIMESTAMP"
+            },
+            "updated_at": {
+                "type": "TIMESTAMP"
+            },
+            "user_id": {
+                "type": "INTEGER"
+            },
+            "course_id": {
+                "type": "INTEGER"
             }
-        },
-        delete: function(){
 
         }
+    );
 
 
+    this.insert = function(obj){
+        db.insert("modules",obj);
+
+    }
+
+
+    // 3: find method
+    this.index = function(id, callback){
+
+
+        db.select("modules",{
+            "course_id": id
+        }).then(function(results){
+
+            if (results.rows.length > 0){
+
+                var r = [];
+                for (var i = 0; i < results.rows.length; i++){
+
+
+
+                    r.push(results.rows[i]);
+                }
+
+
+                $tutorial.index(r[0].module_id,function(res){
+                        r[0].tutorials = res;
+                    if (callback) callback(r)
+                })
+
+
+
+            }else{
+                $api.get("module/?course_id="+id,[],function(res){
+
+                    for (var i = 0; i < res.length; i++){
+                        var r = res[i];
+
+                        for (var u = 0; u < r.tutorials.length; u++){
+                            $tutorial.insert(r.tutorials[u]);
+
+                        }
+
+                        delete r.tutorials;
+
+                        db.insert("modules",r);
+                    }
+                    console.warn(res);
+
+                   //
+                    callback(res);
+                });
+            }
+
+        });
 
     };
 
 
 
+    // by ID
     this.find = function(id,callback){
 
 
@@ -440,7 +612,8 @@ app.service("$module", function($api,$tutorial){
 
     };
 
-
+/*
+    // by parent_id
     this.index = function(id,callback){
 
 
@@ -456,7 +629,7 @@ app.service("$module", function($api,$tutorial){
     };
 
 
-
+*/
 
 
 
@@ -589,36 +762,56 @@ app.service("$subscription", function($api){
 
 
 });;
-app.service("$tutorial", function($api){
-   // var self = this;
+app.service("$tutorial", function($api,$webSql){
+    var self = this;
+    var db = $webSql.openDatabase($api.db_name, '1.0', 'Test DB', 2 * 1024 * 1024);
 
 
-    this.module = {
-
-        title: null,
-        module_id: null,
-
-        init: function(){
-
-        },
-        setTitle: function(){
-            // validar titulo
-        },
-        save: function(){
-            if (this.module_id != null){
-                // update
-            }else{
-                // insert
+    db.createTable("tutorials",
+        {
+            "tutorial_id": {
+                "type": "INTEGER",
+                "null": "NOT NULL",
+                "primary": true
+            },
+            "module_id": {
+                "type": "INTEGER"
+            },
+            "course_id": {
+                "type": "INTEGER"
+            },
+            "title": {
+                "type": "TEXT",
+                "null": "NOT NULL"
+            },
+            "description": {
+                "type": "TEXT"
+            },
+            "video_url": {
+                "type": "TEXT"
+            },
+            "created_at": {
+                "type": "TIMESTAMP"
+            },
+            "updated_at": {
+                "type": "TIMESTAMP"
+            },
+            "user_id": {
+                "type": "INTEGER"
+            },
+            "image": {
+                "type": "TEXT"
             }
-        },
-        delete: function(){
+
 
         }
+    );
 
 
+    this.insert = function(obj){
+        db.insert("tutorials",obj);
 
-    };
-
+    }
 
     this.find = function(id){
 
@@ -630,22 +823,39 @@ app.service("$tutorial", function($api){
         }
     };
 
+    // 3: find method
+    this.index = function(id, callback){
 
-    this.index = function(id){
 
-        var arr = [];
-        arr[0] = {
-            module_id: 99,
-            course_id: id,
-            tutorials: function(){
-               // return  $course.find(1)
+        db.select("tutorials",{
+            "module_id": id
+        }).then(function(results){
+
+            if (results.rows.length > 0){
+                var r = [];
+                for (var i = 0; i < results.rows.length; i++){
+                    r.push(results.rows[i]);
+                }
+                if (callback) callback(r)
+            }else{
+                $api.get("tutorial/?module_id="+id,[],function(res){
+
+                    for (var i = 0; i < res.length; i++){
+                        var r = res[i];
+                       // delete r.tutorials;
+                        console.log(r);
+                        self.insert(r);
+                    }
+                    console.warn(res);
+
+                    //
+                    callback(res);
+                });
             }
-        };
 
-        return arr;
+        });
 
     };
-
 
 
 
@@ -658,6 +868,7 @@ app.service("$api", function($http,$rootScope){
     // host = "api.veotutoriales.es";
 
     self.app_id = "123456";
+    self.db_name = "midb5";
 
     self.base_url = "http://"+host+"/api/v1/";
 
@@ -730,6 +941,13 @@ app.service("$api", function($http,$rootScope){
                 });
 
             };
+
+});;
+app.service("$db", function($http,$rootScope){
+
+    var db = openDatabase("vts","1.0",'VTS Database', 20 * 1024);
+
+
 
 });;
 app.service("$dataService", function($api,$rootScope,$http,$window){
@@ -849,6 +1067,41 @@ app.service("$dataService", function($api,$rootScope,$http,$window){
 
 
 });;
+app.service("$preloader", function($course,$module){
+
+    this.to = function(state, callback){
+
+
+
+        switch (state){
+
+            case 'course':
+
+                break;
+
+            case 'module':
+
+                break;
+
+            default:
+
+        }
+
+
+
+        callback(false);
+
+
+
+
+
+
+
+
+    }
+
+
+});;
 app.service("$user", function($api,$window,$http){
 
 
@@ -965,6 +1218,12 @@ app.service("$user", function($api,$window,$http){
 });;
 app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
     //
+/*
+    $databaseProvider.name = 'vts';
+    $databaseProvider.description = 'VTS database';
+    $databaseProvider.version = '1.0.0';
+    $databaseProvider.size = 4 * 1024 * 1024;
+*/
 
     $urlRouterProvider.otherwise("/");
     //
@@ -1285,27 +1544,43 @@ app.controller("calendarController", function($scope,$api,$state,$rootScope,$dat
 
 
 });;
-app.controller("courseController", function($scope,$stateParams,$course){
+app.controller("courseController", function($scope,$stateParams,$course,$module,$tutorial){
+
 
     $scope.course_id = $stateParams.course_id;
     $scope.course = {};
+    $scope.modules = {};
 
 
-    $scope.getCourse = function(id, callback){
+    $scope.getCourse = function(id){
         console.log('courseController: getCourse()');
-
-
         $course.find(id, function(res){
             $scope.course = res;
-            callback(true);
         });
 
     };
 
+    $scope.getModules = function(id){
+        console.log('courseController: getModules()');
+        $module.index(id, function(res){
 
+            $scope.modules = res;
+
+
+        });
+
+    };
+
+    $scope.getTutorials = function(id, callback){
+        $scope.modules.tutorials = $tutorial.index(id,function(r){
+            console.log(r);
+            callback(r)
+        })
+    };
 
 
     $scope.getCourse($stateParams.course_id);
+    $scope.getModules($stateParams.course_id);
 
 
 

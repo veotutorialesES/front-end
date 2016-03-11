@@ -1,154 +1,154 @@
-<style type="text/css">
+    <style type="text/css">
 
-</style>
+    </style>
 
-<div ng-controller="dudasController" ng-init="getDoubt(doubt_id);" style="padding-bottom: 20px;margin-top: 20px;">
-
-
-<div class="container">
-    <div class="row" style="margin-top: 10px;">
-
-        <div class="col-xs-12 col-sm-9">
-            <div class="box" style="padding: 10px;">
-                <h1 style="font-size: 38px;font-weight: bold">{{doubt.title}}</h1>
-            </div>
-            <div  ng-bind-html="doubt.description" style="margin-top: 20px;padding: 5px;background-color: #e6e6e6"></div>
+    <div ng-controller="dudasController" ng-init="getDoubt(doubt_id);" style="padding-bottom: 20px;margin-top: 20px;">
 
 
-            <div ng-init="quantity = 3"  style="background-color: #f0f0f0;border-bottom: 1px #e8e8e8 solid;color: #6e6e6e">
+    <div class="container">
+        <div class="row" style="margin-top: 10px;">
 
-                <div ng-repeat="comment in doubt.comments | orderBy:'-comment_id' | limitTo:quantity" style="border-top: 1px #ededed solid">
-                    <div style="padding: 3px;">
-                        <div>Salvador - {{comment.description}}</div>
-                    </div>
+            <div class="col-xs-12 col-sm-9">
+                <div class="box" style="padding: 10px;">
+                    <h1 style="font-size: 38px;font-weight: bold">{{doubt.title}}</h1>
                 </div>
-                <div ng-hide="(doubt.comments.length - quantity) < 1" ng-click="quantity = quantity + 5">Ver más ({{doubt.comments.length - quantity}})</div>
+                <div  ng-bind-html="doubt.description" style="margin-top: 20px;padding: 5px;background-color: #e6e6e6"></div>
 
-                <div ng-controller="commentController" class="" style="padding: 5px;">
-                    <div  style="padding-left: 35px;">
-                         <input type="text" ng-model="doubt_comment" class="form-control">
-                        <div style="padding-top: 5px;text-align: right">
-                            <button ng-click="add(0,doubt.doubt_id,doubt_comment)" class="btn btn-default btn-xs" style="">ENVIAR</button>
+
+                <div ng-init="quantity = 3"  style="background-color: #f0f0f0;border-bottom: 1px #e8e8e8 solid;color: #6e6e6e">
+
+                    <div ng-repeat="comment in doubt.comments | orderBy:'-comment_id' | limitTo:quantity" style="border-top: 1px #ededed solid">
+                        <div style="padding: 3px;">
+                            <div>Salvador - {{comment.description}}</div>
                         </div>
                     </div>
-                    <div ng-hide="user.is_user">Inicia sesión para responder</div>
-                </div>
-            </div>
-            <hr>
-            <label style="font-size: 17pt;">Respuestas</label>
+                    <div ng-hide="(doubt.comments.length - quantity) < 1" ng-click="quantity = quantity + 5">Ver más ({{doubt.comments.length - quantity}})</div>
 
-
-            <div ng-hide="doubt.answers.length > 0" style="padding:10px;border:1px silver dashed;text-align: center">
-                <p style="margin: 0">Sé el primero en responder a esta duda</p>
-            </div>
-
-
-            <div ng-repeat="(k,answer) in doubt.answers |  orderBy:'-amount'" ng-init="answer.showResponse = false" style="margin-top: 20px;padding-left: 100px;">
-                <div  class="" style="margin-bottom:50px;">
-                    <div style="position: absolute;left: 0px;text-align: center;width: 100px;font-size: 19px;padding:10px;" ng-controller="likeController">
-                        <div ng-click="add(1,answer.answer_id,1)"><span class="glyphicon glyphicon-thumbs-up"></span></div>
-                        <div>{{answer.amount}}</div>
-                        <!--
-                        <div ng-click="add(1,answer.answer_id,0)"><span class="glyphicon glyphicon-menu-down"></span></div>
-                        -->
-
-                    </div>
-
-                    <div ng-bind-html="answer.description" style="padding: 20px;color: black"></div>
-
-                    <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;">
-
-                        <div class="pull-left">
-                            hace {{answer.created_at}} minutos por {{answer.user_id}}
-                        </div>
-
-                        <div class="pull-right" ng-click="toogleCommentResponse(k)">
-                            <span class="glyphicon glyphicon-comment"></span> RESPONDER
-                        </div>
-
-                    </div>
-                    <div  style="border-top: 1px silver solid">
-                        <!--
-                        <div  ng-hide="(answer.comments.length - answer.quantity) < 1" ng-click="answer.quantity = answer.quantity + 5">Ver más ({{answer.comments.length - answer.quantity}})</div>
-
-                        <div ng-repeat="comment in answer.comments | orderBy:'-comment_id' | limitTo:answer.quantity" style="margin-bottom: 5px;border-top: 1px silver solid">
-                            <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
-                                <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
-                                <div>{{comment.description}}</div>
+                    <div ng-controller="commentController" class="" style="padding: 5px;">
+                        <div  style="padding-left: 35px;">
+                             <input type="text" ng-model="doubt_comment" class="form-control">
+                            <div style="padding-top: 5px;text-align: right">
+                                <button ng-click="add(0,doubt.doubt_id,doubt_comment)" class="btn btn-default btn-xs" style="">ENVIAR</button>
                             </div>
                         </div>
+                        <div ng-hide="user.is_user">Inicia sesión para responder</div>
+                    </div>
+                </div>
+                <hr>
+                <label style="font-size: 17pt;">Respuestas</label>
 
-                        <div  class="" style="padding: 5px;">
-                            <div  style="padding-left: 35px;">
-                                <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">{{user.name.charAt(0)}}</div>
 
-                                <textarea ng-model="comment.description" class="form-control" style="height: 45px;resize: none"></textarea>
-                                <div style="padding-top: 5px;text-align: right">
-                                    <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
+                <div ng-hide="doubt.answers.length > 0" style="padding:10px;border:1px silver dashed;text-align: center">
+                    <p style="margin: 0">Sé el primero en responder a esta duda</p>
+                </div>
+
+
+                <div ng-repeat="(k,answer) in doubt.answers |  orderBy:'-amount'" ng-init="answer.showResponse = false" style="margin-top: 20px;padding-left: 100px;">
+                    <div  class="" style="margin-bottom:50px;">
+                        <div style="position: absolute;left: 0px;text-align: center;width: 100px;font-size: 19px;padding:10px;" ng-controller="likeController">
+                            <div ng-click="add(1,answer.answer_id,1)"><span class="glyphicon glyphicon-thumbs-up"></span></div>
+                            <div>{{answer.amount}}</div>
+                            <!--
+                            <div ng-click="add(1,answer.answer_id,0)"><span class="glyphicon glyphicon-menu-down"></span></div>
+                            -->
+
+                        </div>
+
+                        <div ng-bind-html="answer.description" style="padding: 20px;color: black"></div>
+
+                        <div style="padding: 3px;height: auto !important;overflow: hidden;font-size: 9pt;">
+
+                            <div class="pull-left">
+                                hace {{answer.created_at}} minutos por {{answer.user_id}}
+                            </div>
+
+                            <div class="pull-right" ng-click="toogleCommentResponse(k)">
+                                <span class="glyphicon glyphicon-comment"></span> RESPONDER
+                            </div>
+
+                        </div>
+                        <div  style="border-top: 1px silver solid">
+                            <!--
+                            <div  ng-hide="(answer.comments.length - answer.quantity) < 1" ng-click="answer.quantity = answer.quantity + 5">Ver más ({{answer.comments.length - answer.quantity}})</div>
+
+                            <div ng-repeat="comment in answer.comments | orderBy:'-comment_id' | limitTo:answer.quantity" style="margin-bottom: 5px;border-top: 1px silver solid">
+                                <div style="padding: 5px;padding-left: 40px;min-height: 40px;">
+                                    <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">S</div>
+                                    <div>{{comment.description}}</div>
                                 </div>
                             </div>
-                            <div ng-hide="user.is_user">Inicia sesión para responder</div>
+
+                            <div  class="" style="padding: 5px;">
+                                <div  style="padding-left: 35px;">
+                                    <div style="border: 1px #6e82a6 solid;position: absolute;margin-left: -35px;width: 30px;text-align: center;background-color: #7a8eb1;color: white;font-weight: bold;font-size: 17px;;">{{user.name.charAt(0)}}</div>
+
+                                    <textarea ng-model="comment.description" class="form-control" style="height: 45px;resize: none"></textarea>
+                                    <div style="padding-top: 5px;text-align: right">
+                                        <button ng-click="addComment(answer.answer_id)" class="btn btn-default btn-xs" style="">ENVIAR</button>
+                                    </div>
+                                </div>
+                                <div ng-hide="user.is_user">Inicia sesión para responder</div>
+                            </div>
+                            -->
                         </div>
-                        -->
-                    </div>
-                </div>
-
-
-
-
-
-        </div>
-
-
-
-
-
-
-
-
-            <form ng-submit="addAnswer(doubt_id)" class="" style="margin-top: 70px;padding:10px;background-color: #e8e8e8">
-                <div ng-show="user.is_user">
-                    <h2 style=""><span class="glyphicon glyphicon-pencil"></span> Responde ha esta duda</h2>
-
-
-                <textarea class="form-control"></textarea>
-                <div style="padding-top: 5px;text-align: right">
-                    <button type="submit" class="btn btn-default" style="">ENVIAR</button>
-                </div>
-                </div>
-                <div ng-hide="user.is_user">Inicia sesión para responder</div>
-
-
-
-            </form>
-
-
-
-
-        </div>
-        <div class="col-xs-12 col-sm-3" style="">
-            <div>
-                <img style="width: 100%" src="{{imageAsset('md',doubt.tutorial.image)}}">
-                <div style="margin-top: 20px;">
-                    <div>
-                        Estas viendo una duda de <span style="font-size: 18px;font-weight: bold"><a>{{doubt.tutorial.title}}</a></span> que pertenece al curso
-                        <span  style="font-weight: bold"><a>{{doubt.tutorial.course.title}}</a></span>
                     </div>
 
-                </div>
 
-                <div ng-controller="subscriptionController" ng-init="check(0,doubt_id)" style="margin-top: 20px;">
-                    <button ng-hide="is_subscribed" ng-click="add(0,doubt_id)" class="btn btn-block btn-primary">Suscribirme a la duda <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
-                    <button ng-show="is_subscribed" ng-click="delete(0,doubt_id)" class="btn btn-block btn-danger">Cancelar subscripción <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
-                </div>
+
+
+
             </div>
-            <div>
-                <dudas-card ng-repeat="doubt in doubt.tutorial.doubts" ng-hide="doubt.doubt_id == doubt_id" info="doubt"></dudas-card>
+
+
+
+
+
+
+
+
+                <form ng-submit="addAnswer(doubt_id)" class="" style="margin-top: 70px;padding:10px;background-color: #e8e8e8">
+                    <div ng-show="user.is_user">
+                        <h2 style=""><span class="glyphicon glyphicon-pencil"></span> Responde ha esta duda</h2>
+
+
+                    <textarea class="form-control"></textarea>
+                    <div style="padding-top: 5px;text-align: right">
+                        <button type="submit" class="btn btn-default" style="">ENVIAR</button>
+                    </div>
+                    </div>
+                    <div ng-hide="user.is_user">Inicia sesión para responder</div>
+
+
+
+                </form>
+
+
+
+
+            </div>
+            <div class="col-xs-12 col-sm-3" style="">
+                <div>
+                    <img style="width: 100%" src="{{imageAsset('md',doubt.tutorial.image)}}">
+                    <div style="margin-top: 20px;">
+                        <div>
+                            Estas viendo una duda de <span style="font-size: 18px;font-weight: bold"><a>{{doubt.tutorial.title}}</a></span> que pertenece al curso
+                            <span  style="font-weight: bold"><a>{{doubt.tutorial.course.title}}</a></span>
+                        </div>
+
+                    </div>
+
+                    <div ng-controller="subscriptionController" ng-init="check(0,doubt_id)" style="margin-top: 20px;">
+                        <button ng-hide="is_subscribed" ng-click="add(0,doubt_id)" class="btn btn-block btn-primary">Suscribirme a la duda <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
+                        <button ng-show="is_subscribed" ng-click="delete(0,doubt_id)" class="btn btn-block btn-danger">Cancelar subscripción <span style="font-size: 18px;" class="glyphicon glyphicon-star pull-right" ></span></button>
+                    </div>
+                </div>
+                <div>
+                    <dudas-card ng-repeat="doubt in doubt.tutorial.doubts" ng-hide="doubt.doubt_id == doubt_id" info="doubt"></dudas-card>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
-</div>
+    </div>

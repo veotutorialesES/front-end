@@ -4,6 +4,7 @@ app.service("$api", function($http,$rootScope){
     // host = "api.veotutoriales.es";
 
     self.app_id = "123456";
+    self.db_name = "midb5";
 
     self.base_url = "http://"+host+"/api/v1/";
 

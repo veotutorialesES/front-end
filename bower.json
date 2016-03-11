@@ -1,0 +1,23 @@
+{
+  "name": "front-end",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Salvador Silva"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/veotutorialesES/front-end",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-websql": "^1.0.2",
+    "ngData": "^0.2.0",
+    "breeze-client": "^1.5.4"
+  }
+}
